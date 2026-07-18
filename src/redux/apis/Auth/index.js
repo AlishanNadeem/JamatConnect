@@ -27,19 +27,6 @@ export const authApi = createApi({
                 } catch { }
             }
         }),
-        socialLogin: builder.mutation({
-            query: (body) => ({
-                url: 'social-login',
-                method: 'POST',
-                body,
-            }),
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    await queryFulfilled
-                    dispatch(generalApi.endpoints.getData.initiate())
-                } catch { }
-            }
-        }),
         signup: builder.mutation({
             query: (body) => ({
                 url: 'signup',
@@ -78,7 +65,6 @@ export const authApi = createApi({
 
 export const {
     useLoginMutation,
-    useSocialLoginMutation,
     useSignupMutation,
     useForgetPasswordMutation,
     useVerifyCodeMutation,

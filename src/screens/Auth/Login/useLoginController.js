@@ -1,13 +1,11 @@
 import { useFormik } from "formik"
-import { useCallback } from "react"
 import { useDispatch } from "react-redux"
 import * as Yup from "yup"
 import { IS_BETA } from "../../../config/env"
 import { navigate, replace } from "../../../helpers/navigation"
 import { ROUTES } from "../../../helpers/routes"
 import useKeychain from "../../../hooks/useKeychain"
-import { useSocialLogin } from "../../../hooks/useSocialLogin"
-import { useLoginMutation, useSocialLoginMutation } from "../../../redux/apis/Auth"
+import { useLoginMutation } from "../../../redux/apis/Auth"
 import { setCredentials } from "../../../redux/slices/auth.slice"
 
 const login_schema = Yup.object().shape({
@@ -23,10 +21,8 @@ const useLoginController = () => {
 
     const dispatch = useDispatch()
     const { credentials, saveCredentials, clearCredentials } = useKeychain()
-    const { signInWithGoogle } = useSocialLogin()
 
     const [submit, { isLoading }] = useLoginMutation()
-    const [submitSocialLogin, { isLoading: isSocialLoginLoading }] = useSocialLoginMutation()
 
     const initial = {
         email: credentials?.email ?? "",
@@ -58,33 +54,14 @@ const useLoginController = () => {
     const onSignup = () => replace(ROUTES.SIGNUP)
     const onForgotPassword = () => navigate(ROUTES.FORGET_PASSWORD)
 
-    const onGoogle = useCallback(async () => {
-
-        const response = await signInWithGoogle()
-
-        if (response?.success && response.token) {
-            submitSocialLogin({
-                type: response.provider,
-                access_token: response.token
-            })
-        }
-
-    }, [])
-
-    const onApple = useCallback(async () => {
-        onGoogle()
-    }, [])
-
     return {
         values: {
             formik,
-            isLoading: isLoading || isSocialLoginLoading,
+            isLoading,
         },
         functions: {
             onSignup,
             onForgotPassword,
-            onGoogle,
-            onApple
         },
     }
 }

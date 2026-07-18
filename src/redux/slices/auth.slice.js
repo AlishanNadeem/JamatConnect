@@ -52,15 +52,6 @@ const authSlice = createSlice({
             )
         builder
             .addMatcher(
-                authApi.endpoints.socialLogin.matchFulfilled,
-                (state, action) => {
-                    state.user = action.payload.data.user
-                    state.token = action.payload.data.token
-                    state.is_authenticated = true
-                }
-            )
-        builder
-            .addMatcher(
                 userApi.endpoints.editProfile.matchFulfilled,
                 (state, action) => {
                     state.user = action.payload.data.user
