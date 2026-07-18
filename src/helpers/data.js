@@ -11,7 +11,7 @@ export const USER = {
     country_code: "US",
     dialing_code: "+1",
     phone: "6468980885",
-    image: images.avatar_one
+    image_url: "https://i.pravatar.cc/150?img=3"
 }
 
 export const NOTIFICATIONS = [
