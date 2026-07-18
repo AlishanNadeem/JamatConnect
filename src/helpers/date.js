@@ -7,41 +7,47 @@ dayjs.extend(isToday)
 dayjs.extend(isYesterday)
 dayjs.extend(relativeTime)
 
-const GLOBAL_DATE_FORMAT = "MM-DD-YYYY"
+const GLOBAL_DATE_FORMAT = "MMM DD, YYYY"
+const GLOBAL_TIME_FORMAT_12 = "hh:mm A"
+const GLOBAL_TIME_FORMAT_24 = "HH:mm"
 
 export const formatDate = (timestamp, options = {}) => {
 
     const {
-        relative = true,
-        as_object = true,
-        hour24 = false,
-        date_format = GLOBAL_DATE_FORMAT,
-        separator = "-",
+        relative = false,
+        format = GLOBAL_DATE_FORMAT,
         show_time_ago = false,
         fallback = "",
     } = options
 
-    if (!timestamp) return as_object ? { date: fallback, time: fallback } : fallback
+    if (!timestamp) return fallback
 
     const date = dayjs(timestamp)
 
-    if (!date.isValid()) return as_object ? { date: fallback, time: fallback } : fallback
+    if (!date.isValid()) return fallback
 
-    if (show_time_ago) {
-        const time_ago = date.fromNow()
-        return as_object ? { date: time_ago, time: "" } : time_ago
-    }
+    if (show_time_ago) return date.fromNow()
 
-    const time = date.format(hour24 ? "HH:mm" : "hh:mm A")
+    if (relative && date.isToday()) return "Today"
+    if (relative && date.isYesterday()) return "Yesterday"
 
-    let label
+    return date.format(format)
 
-    if (relative && date.isToday()) label = "Today"
-    else if (relative && date.isYesterday()) label = "Yesterday"
-    else label = date.format(date_format)
+}
 
-    if (as_object) return { date: label, time }
+export const formatTime = (timestamp, options = {}) => {
 
-    return `${label} ${separator} ${time}`
+    const {
+        hour24 = false,
+        fallback = "",
+    } = options
+
+    if (!timestamp) return fallback
+
+    const date = dayjs(timestamp)
+
+    if (!date.isValid()) return fallback
+
+    return date.format(hour24 ? GLOBAL_TIME_FORMAT_24 : GLOBAL_TIME_FORMAT_12)
 
 }

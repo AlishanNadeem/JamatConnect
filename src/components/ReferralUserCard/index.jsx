@@ -1,6 +1,7 @@
 import { memo } from "react"
 import { StyleSheet, View } from "react-native"
 import colors from "../../helpers/colors"
+import { formatDate } from "../../helpers/date"
 import { heightPixel, widthPixel } from "../../helpers/metrics"
 import Icon from "../Icon"
 import Row from "../Row"
@@ -32,7 +33,7 @@ const ReferralUserCard = ({ data }) => {
                     {email}
                 </Text>
                 <Text size={12} color={colors.gray}>
-                    Joined {joined_at}
+                    Joined on {formatDate(joined_at)}
                 </Text>
             </View>
         </Row>
