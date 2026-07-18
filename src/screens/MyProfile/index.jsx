@@ -45,7 +45,7 @@ export default MyProfile
 
 const styles = StyleSheet.create({
     container: {
-        gap: heightPixel(12),
+        gap: heightPixel(20),
     },
     card: {
         borderRadius: heightPixel(16),
