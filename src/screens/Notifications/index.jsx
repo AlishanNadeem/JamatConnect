@@ -10,7 +10,7 @@ const Notifications = () => {
     const { values, functions } = useNotificationController()
 
     return (
-        <PrimaryLayout background header>
+        <PrimaryLayout header>
             <FlatList
                 data={values.data}
                 refreshing={values.refreshing}

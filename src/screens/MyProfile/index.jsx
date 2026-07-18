@@ -13,7 +13,7 @@ const MyProfile = () => {
     const { values, functions } = useMyProfileController()
 
     return (
-        <PrimaryLayout scrollable bottom_tab header background>
+        <PrimaryLayout scrollable bottom_tab header>
             <View style={styles.container}>
                 <View style={styles.icon_wrapper}>
                     <Icon rounded={"full"} source={{ uri: values.user.image_url }} size={88} resize="cover" />

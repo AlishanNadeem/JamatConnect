@@ -6,7 +6,7 @@ import PrimaryLayout from "../../layouts/PrimaryLayout"
 
 const PrivacyPolicy = () => {
     return (
-        <PrimaryLayout scrollable background header>
+        <PrimaryLayout scrollable header>
             <View style={styles.container}>
                 <Text size={16}>{LOREM}</Text>
                 <Text size={16}>{LOREM}</Text>

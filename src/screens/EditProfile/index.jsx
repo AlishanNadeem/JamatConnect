@@ -16,7 +16,7 @@ const EditProfile = () => {
     const { values, functions } = useEditProfileController()
 
     return (
-        <PrimaryLayout header background>
+        <PrimaryLayout header>
             <KeyboardAvoidingWrapper>
                 <View style={styles.container}>
                     <View style={styles.fields}>

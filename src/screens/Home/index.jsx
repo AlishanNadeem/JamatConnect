@@ -4,7 +4,7 @@ import PrimaryLayout from "../../layouts/PrimaryLayout"
 
 const Home = () => {
     return (
-        <PrimaryLayout bottom_tab scrollable background>
+        <PrimaryLayout bottom_tab scrollable>
             <View style={styles.container} />
         </PrimaryLayout>
     )

@@ -11,7 +11,7 @@ const ChangePassword = () => {
     const { values } = useChangePasswordController()
 
     return (
-        <PrimaryLayout background header>
+        <PrimaryLayout header>
             <KeyboardAvoidingWrapper>
                 <View style={styles.container}>
 

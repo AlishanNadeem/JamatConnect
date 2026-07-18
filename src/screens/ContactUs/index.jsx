@@ -12,7 +12,7 @@ const ContactUs = () => {
     const { values } = useContactUsController()
 
     return (
-        <PrimaryLayout background header>
+        <PrimaryLayout header>
             <KeyboardAvoidingWrapper>
                 <View style={styles.container}>
                     <Text size={18}>

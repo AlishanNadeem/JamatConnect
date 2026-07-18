@@ -10,7 +10,7 @@ import PrimaryLayout from "../PrimaryLayout"
 
 const AuthLayout = ({ children, title, subtitle }) => {
     return (
-        <PrimaryLayout background>
+        <PrimaryLayout>
             <KeyboardAvoidingWrapper>
                 <View style={styles.inner}>
                     <View style={styles.logo_container}>

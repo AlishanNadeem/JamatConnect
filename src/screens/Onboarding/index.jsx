@@ -1,14 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Animated, Image, StyleSheet, View } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Animated, StyleSheet, View } from "react-native";
 import images from "../../assets/images";
 import Button from "../../components/Button";
 import Text from "../../components/Text";
 import colors from "../../helpers/colors";
 import { GLOBAL_HORIZONTAL_PADDING, heightPixel, SCREEN_WIDTH, widthPixel } from "../../helpers/metrics";
 import PrimaryLayout from "../../layouts/PrimaryLayout";
-import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { completeOnboarding } from "../../redux/slices/general.slice";
 
@@ -23,15 +20,12 @@ const AUTO_SCROLL_INTERVAL = 3000;
 const Onboarding = () => {
 
     const dispatch = useDispatch()
-    const navigation = useNavigation()
 
     const flatlist_ref = useRef(null);
     const scroll_x = useRef(new Animated.Value(0)).current;
 
     const logo_height = useRef(new Animated.Value(heightPixel(336))).current;
     const logo_top = useRef(new Animated.Value(heightPixel(570))).current;
-    const primary_opacity = useRef(new Animated.Value(1)).current;
-    const secondary_opacity = useRef(new Animated.Value(0)).current;
     const slider_opacity = useRef(new Animated.Value(0)).current;
 
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -49,8 +43,6 @@ const Onboarding = () => {
             Animated.parallel([
                 Animated.timing(logo_height, { toValue: heightPixel(336), duration: 500, useNativeDriver: false }),
                 Animated.timing(logo_top, { toValue: heightPixel(215), duration: 500, useNativeDriver: false }),
-                Animated.timing(primary_opacity, { toValue: 0, duration: 500, useNativeDriver: true }),
-                Animated.timing(secondary_opacity, { toValue: 1, duration: 500, useNativeDriver: true }),
             ]).start(() => {
                 Animated.timing(slider_opacity, { toValue: 1, duration: 200, useNativeDriver: true }).start();
             });
@@ -75,7 +67,7 @@ const Onboarding = () => {
 
     const onContinue = useCallback(() => {
         dispatch(completeOnboarding())
-    }, [])
+    }, [dispatch])
 
     const renderItem = ({ item }) => (
         <View style={styles.item}>
@@ -90,65 +82,87 @@ const Onboarding = () => {
     );
 
     return (
-        <View style={styles.container}>
-            <Animated.View style={[styles.layout, { opacity: primary_opacity }]}><PrimaryLayout background /></Animated.View>
-            <Animated.View style={[styles.layout, { opacity: secondary_opacity }]}>
-                <PrimaryLayout padding_horizontal={false} top={false} background />
-            </Animated.View>
-            <Animated.Image source={images.full_logo} style={[styles.logo, { height: logo_height, width: logo_height, top: logo_top }]} />
-            <Animated.View style={[styles.slider, { opacity: slider_opacity }]}>
-                <View style={styles.pagination}>
-                    {
-                        DATA.map((_, i) => {
+        <PrimaryLayout padding_horizontal={false} top={false}>
+            <View style={styles.content}>
+                <Animated.Image source={images.full_logo} style={[styles.logo, { height: logo_height, width: logo_height, top: logo_top }]} />
+                <Animated.View style={[styles.slider, { opacity: slider_opacity }]}>
+                    <View style={styles.pagination}>
+                        {
+                            DATA.map((_, i) => {
 
-                            const input_range = [
-                                (i - 1) * (SCREEN_WIDTH - GLOBAL_HORIZONTAL_PADDING * 4),
-                                i * (SCREEN_WIDTH - GLOBAL_HORIZONTAL_PADDING * 4),
-                                (i + 1) * (SCREEN_WIDTH - GLOBAL_HORIZONTAL_PADDING * 4),
-                            ];
+                                const input_range = [
+                                    (i - 1) * (SCREEN_WIDTH - GLOBAL_HORIZONTAL_PADDING * 4),
+                                    i * (SCREEN_WIDTH - GLOBAL_HORIZONTAL_PADDING * 4),
+                                    (i + 1) * (SCREEN_WIDTH - GLOBAL_HORIZONTAL_PADDING * 4),
+                                ];
 
-                            const width = scroll_x.interpolate({ inputRange: input_range, outputRange: [heightPixel(6), widthPixel(24), heightPixel(6)], extrapolate: "clamp" });
+                                const width = scroll_x.interpolate({ inputRange: input_range, outputRange: [heightPixel(6), widthPixel(24), heightPixel(6)], extrapolate: "clamp" });
 
-                            const backgroundColor = scroll_x.interpolate({ inputRange: input_range, outputRange: [colors.lightest_white, colors.light_primary, colors.lightest_white], extrapolate: "clamp" });
+                                const backgroundColor = scroll_x.interpolate({ inputRange: input_range, outputRange: [colors.lightest_white, colors.light_primary, colors.lightest_white], extrapolate: "clamp" });
 
-                            return <Animated.View key={i} style={[styles.dot, { width, backgroundColor }]} />;
+                                return <Animated.View key={i} style={[styles.dot, { width, backgroundColor }]} />;
 
-                        })
-                    }
-                </View>
-                <Animated.FlatList
-                    ref={flatlist_ref}
-                    data={DATA}
-                    renderItem={renderItem}
-                    horizontal
-                    pagingEnabled
-                    scrollEnabled
-                    showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item) => item.id}
-                    onViewableItemsChanged={onViewRef}
-                    viewabilityConfig={view_config}
-                    onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scroll_x } } }], { useNativeDriver: false })}
-                    scrollEventThrottle={16}
-                    contentContainerStyle={styles.list}
-                />
-                <Button onPress={onContinue}>Let's Start</Button>
-            </Animated.View>
-        </View>
+                            })
+                        }
+                    </View>
+                    <Animated.FlatList
+                        ref={flatlist_ref}
+                        data={DATA}
+                        renderItem={renderItem}
+                        horizontal
+                        pagingEnabled
+                        scrollEnabled
+                        showsHorizontalScrollIndicator={false}
+                        keyExtractor={(item) => item.id}
+                        onViewableItemsChanged={onViewRef}
+                        viewabilityConfig={view_config}
+                        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scroll_x } } }], { useNativeDriver: false })}
+                        scrollEventThrottle={16}
+                        contentContainerStyle={styles.list}
+                    />
+                    <Button onPress={onContinue}>Let's Start</Button>
+                </Animated.View>
+            </View>
+        </PrimaryLayout>
     );
 };
 
 export default Onboarding;
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: colors.primary },
-    layout: { ...StyleSheet.absoluteFill },
-    bg_image_container: { height: "70%", width: "100%" },
-    gradient: { ...StyleSheet.absoluteFill, zIndex: 1 },
-    bg_image: { resizeMode: "cover", height: "100%", width: "100%", opacity: 0.06 },
-    logo: { position: "absolute", alignSelf: "center", resizeMode: "contain" },
-    slider: { position: "absolute", bottom: heightPixel(80), left: 0, right: 0, paddingHorizontal: GLOBAL_HORIZONTAL_PADDING * 2, gap: heightPixel(25) },
-    list: { alignItems: "center", marginBottom: heightPixel(20) },
-    item: { alignItems: "center", width: SCREEN_WIDTH - GLOBAL_HORIZONTAL_PADDING * 4, gap: heightPixel(20) },
-    pagination: { flexDirection: "row", justifyContent: "center", alignItems: "center", gap: widthPixel(6) },
-    dot: { height: heightPixel(6), borderRadius: heightPixel(20) },
+    content: {
+        flex: 1,
+    },
+    logo: {
+        position: "absolute",
+        alignSelf: "center",
+        resizeMode: "contain",
+    },
+    slider: {
+        position: "absolute",
+        bottom: heightPixel(80),
+        left: 0,
+        right: 0,
+        paddingHorizontal: GLOBAL_HORIZONTAL_PADDING * 2,
+        gap: heightPixel(25),
+    },
+    list: {
+        alignItems: "center",
+        marginBottom: heightPixel(20),
+    },
+    item: {
+        alignItems: "center",
+        width: SCREEN_WIDTH - GLOBAL_HORIZONTAL_PADDING * 4,
+        gap: heightPixel(20),
+    },
+    pagination: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: widthPixel(6),
+    },
+    dot: {
+        height: heightPixel(6),
+        borderRadius: heightPixel(20),
+    },
 });
