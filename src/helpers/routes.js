@@ -47,6 +47,7 @@ export const ROUTES = {
     PRIVACY_POLICY: "PrivacyPolicy",
     CONTACT_US: "ContactUs",
     REFERRALS: "Referrals",
+    REFERRAL_USERS: "ReferralUsers",
 }
 
 export const ROUTES_OPTIONS = {
@@ -133,6 +134,11 @@ export const ROUTES_OPTIONS = {
 
     [ROUTES.REFERRALS]: {
         ...screenOptionsWithTitle("Referrals"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.REFERRAL_USERS]: {
+        ...screenOptionsWithTitle("Referred Users"),
         headerLeft: HEADER_LEFT.back,
     },
 }

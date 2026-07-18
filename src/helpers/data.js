@@ -12,6 +12,30 @@ export const USER = {
     image_url: "https://i.pravatar.cc/150?img=3",
 }
 
+export const REFERRAL_USERS = [
+    {
+        id: 1,
+        name: "Sarah Mitchell",
+        email: "sarah.mitchell@gmail.com",
+        image_url: "https://i.pravatar.cc/150?img=5",
+        joined_at: "2026-03-15",
+    },
+    {
+        id: 2,
+        name: "James Porter",
+        email: "james.porter@gmail.com",
+        image_url: "https://i.pravatar.cc/150?img=12",
+        joined_at: "2026-02-28",
+    },
+    {
+        id: 3,
+        name: "Amelia Brooks",
+        email: "amelia.brooks@gmail.com",
+        image_url: "https://i.pravatar.cc/150?img=47",
+        joined_at: "2026-01-10",
+    },
+]
+
 export const NOTIFICATIONS = [
     {
         id: 1,

@@ -1,6 +1,9 @@
 import { useCallback } from "react"
 import { Share } from "react-native"
 import { APP_NAME } from "../../config/env"
+import { REFERRAL_USERS } from "../../helpers/data"
+import { navigate } from "../../helpers/navigation"
+import { ROUTES } from "../../helpers/routes"
 
 const REFERRAL_LINK = "https://jamatconnect.com/invite/lewis-hilton"
 
@@ -13,12 +16,17 @@ const useReferralsController = () => {
         })
     }, [])
 
+    const onViewReferrals = useCallback(() => {
+        navigate(ROUTES.REFERRAL_USERS)
+    }, [])
+
     return {
         values: {
-            total_referrals: 0,
+            total_referrals: REFERRAL_USERS.length,
         },
         functions: {
             onShare,
+            onViewReferrals,
         },
     }
 }

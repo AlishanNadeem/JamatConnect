@@ -9,6 +9,7 @@ import colors from "../../helpers/colors"
 import { heightPixel, widthPixel } from "../../helpers/metrics"
 import PrimaryLayout from "../../layouts/PrimaryLayout"
 import useReferralsController from "./useReferralsController"
+import { global_styles } from "../../helpers/styles"
 
 const STEPS = [
     {
@@ -28,7 +29,7 @@ const STEPS = [
     },
 ]
 
-const InviteCard = ({ total_referrals }) => (
+const InviteCard = ({ total_referrals, onPress }) => (
     <View style={styles.invite_card}>
         <LinearGradient
             colors={[colors.light_primary, colors.dark_primary]}
@@ -54,7 +55,7 @@ const InviteCard = ({ total_referrals }) => (
             </Text>
         </LinearGradient>
 
-        <Row align="center" justify="space-between" gap={16} style={styles.stats_row}>
+        <Row align="center" justify="space-between" gap={16} onPress={onPress} style={styles.stats_row}>
             <View style={styles.stats_details}>
                 <Text size={16} weight="semibold">
                     Total Referrals
@@ -63,9 +64,12 @@ const InviteCard = ({ total_referrals }) => (
                     Based on users who successfully joined the platform.
                 </Text>
             </View>
-            <Text size={36} weight="bold" align="right" color={colors.primary}>
-                {total_referrals}
-            </Text>
+            <Row align="center" gap={8} style={global_styles.auto_width}>
+                <Text size={36} weight="bold" align="right" color={colors.primary}>
+                    {total_referrals}
+                </Text>
+                <Icon name="chevron-right" size={20} color={colors.gray} />
+            </Row>
         </Row>
     </View>
 )
@@ -139,7 +143,10 @@ const Referrals = () => {
     return (
         <PrimaryLayout scrollable header>
             <View style={styles.content}>
-                <InviteCard total_referrals={values.total_referrals} />
+                <InviteCard
+                    total_referrals={values.total_referrals}
+                    onPress={functions.onViewReferrals}
+                />
                 <ShareCard onShare={functions.onShare} />
                 <StepsSection />
             </View>

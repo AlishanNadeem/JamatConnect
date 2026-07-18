@@ -1,6 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack"
 import { GLOBAL_HEADER_OPTIONS, NAVIGATORS, ROUTES, ROUTES_OPTIONS } from "../../helpers/routes"
 import Referrals from "../../screens/Referrals"
+import ReferralUsers from "../../screens/ReferralUsers"
 import AboutUs from "../../screens/AboutUs"
 import ChangePassword from "../../screens/ChangePassword"
 import ContactUs from "../../screens/ContactUs"
@@ -22,6 +23,7 @@ const AppStackNavigator = () => {
 
             <Stack.Screen name={ROUTES.NOTIFICATIONS} component={Notifications} options={ROUTES_OPTIONS[ROUTES.NOTIFICATIONS]} />
             <Stack.Screen name={ROUTES.REFERRALS} component={Referrals} options={ROUTES_OPTIONS[ROUTES.REFERRALS]} />
+            <Stack.Screen name={ROUTES.REFERRAL_USERS} component={ReferralUsers} options={ROUTES_OPTIONS[ROUTES.REFERRAL_USERS]} />
             <Stack.Screen name={ROUTES.ABOUT_US} component={AboutUs} options={ROUTES_OPTIONS[ROUTES.ABOUT_US]} />
             <Stack.Screen name={ROUTES.TERMS_AND_CONDITIONS} component={TermsAndConditions} options={ROUTES_OPTIONS[ROUTES.TERMS_AND_CONDITIONS]} />
             <Stack.Screen name={ROUTES.PRIVACY_POLICY} component={PrivacyPolicy} options={ROUTES_OPTIONS[ROUTES.PRIVACY_POLICY]} />
