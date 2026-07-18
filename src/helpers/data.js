@@ -1,5 +1,3 @@
-import images from "../assets/images"
-
 export const DEFAULT_COUNTRY = {
     code: "US",
     calling_code: "+1",
@@ -11,7 +9,7 @@ export const USER = {
     country_code: "US",
     dialing_code: "+1",
     phone: "6468980885",
-    image_url: "https://i.pravatar.cc/150?img=3"
+    image_url: "https://i.pravatar.cc/150?img=3",
 }
 
 export const NOTIFICATIONS = [
