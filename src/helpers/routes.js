@@ -46,6 +46,7 @@ export const ROUTES = {
     TERMS_AND_CONDITIONS: "TermsAndConditions",
     PRIVACY_POLICY: "PrivacyPolicy",
     CONTACT_US: "ContactUs",
+    REFERRALS: "Referrals",
 }
 
 export const ROUTES_OPTIONS = {
@@ -128,6 +129,11 @@ export const ROUTES_OPTIONS = {
         ...screenOptionsWithTitle("Contact Us"),
         headerLeft: HEADER_LEFT.back,
         headerRight: HEADER_RIGHT.notifications,
+    },
+
+    [ROUTES.REFERRALS]: {
+        ...screenOptionsWithTitle("Referrals"),
+        headerLeft: HEADER_LEFT.back,
     },
 }
 

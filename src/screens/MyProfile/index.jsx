@@ -1,76 +1,62 @@
 import { StyleSheet, View } from "react-native"
-import Button from "../../components/Button"
-import DateTimeInput from "../../components/DateTimeInput"
-import Icon from "../../components/Icon"
-import Input from "../../components/Input"
-import { heightPixel } from "../../helpers/metrics"
+import ProfileHeader from "../../components/ProfileHeader"
+import ProfileMenuItem from "../../components/ProfileMenuItem"
+import colors from "../../helpers/colors"
+import { heightPixel, widthPixel } from "../../helpers/metrics"
 import PrimaryLayout from "../../layouts/PrimaryLayout"
 import useMyProfileController from "./useMyProfileController"
-import PhoneInput from "../../components/PhoneInput"
 
 const MyProfile = () => {
 
-    const { values, functions } = useMyProfileController()
+    const { functions } = useMyProfileController()
 
     return (
         <PrimaryLayout scrollable bottom_tab header>
             <View style={styles.container}>
-                <View style={styles.icon_wrapper}>
-                    <Icon rounded={"full"} source={{ uri: values.user.image_url }} size={88} resize="cover" />
+                <ProfileHeader />
+                <View style={styles.card}>
+                    <ProfileMenuItem
+                        icon="gift"
+                        label="Referrals"
+                        onPress={functions.onReferrals}
+                    />
+                    <View style={styles.divider} />
+                    <ProfileMenuItem
+                        icon="info"
+                        label="About Us"
+                        onPress={functions.onAboutUs}
+                    />
                 </View>
-                <Input
-                    label={"Name"}
-                    placeholder={"Enter Name"}
-                    value={values.user.name}
-                    disabled
-                />
-                <PhoneInput
-                    label="Phone Number"
-                    value={values.user.phone}
-                    default_country={{ code: values.user.country_code, calling_code: values.user.dialing_code }}
-                    disabled
-                />
-                <Input
-                    label={"Email"}
-                    placeholder={"Enter Email"}
-                    value={values.user.email}
-                    disabled
-                />
-                {
-                    values.user?.date_of_birth &&
-                    <DateTimeInput
-                        label="Date of Birth"
-                        placeholder={"Enter date of birth"}
-                        value={values.user?.date_of_birth}
-                        disabled
+                <View style={styles.card}>
+                    <ProfileMenuItem
+                        icon="log-out"
+                        label="Log Out"
+                        onPress={functions.onLogout}
+                        color="danger"
+                        arrow={false}
                     />
-                }
-                {
-                    values.user?.emergency_notes &&
-                    <Input
-                        type="textarea"
-                        label={"Emergency Notes"}
-                        placeholder="Enter here"
-                        value={values.user.emergency_notes}
-                        disabled
-                    />
-                }
-                <Button onPress={functions.onEditProfile}>Edit Profile</Button>
-                <Button type="secondary" onPress={functions.onChangePassword}>Change Password</Button>
-                <Button type="danger" onPress={functions.onLogout}>Log Out</Button>
+                </View>
             </View>
         </PrimaryLayout>
     )
 }
 
+export default MyProfile
+
 const styles = StyleSheet.create({
     container: {
-        gap: heightPixel(20)
+        gap: heightPixel(12),
     },
-    icon_wrapper: {
-        marginBottom: heightPixel(20),
-        alignItems: "center"
-    }
+    card: {
+        borderRadius: heightPixel(16),
+        backgroundColor: colors.white,
+        borderWidth: heightPixel(1),
+        borderColor: colors.light_gray,
+        overflow: "hidden",
+    },
+    divider: {
+        height: heightPixel(1),
+        backgroundColor: colors.light_gray,
+        marginHorizontal: widthPixel(16),
+    },
 })
-
-export default MyProfile

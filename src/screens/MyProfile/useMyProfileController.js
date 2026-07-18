@@ -1,27 +1,24 @@
 import { useCallback } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useModal } from "../../contexts/ModalContext"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
-import { selectUser } from "../../redux/selectors"
 import { clearCredentials } from "../../redux/slices/auth.slice"
 
 const useMyProfileController = () => {
 
     const dispatch = useDispatch()
-    const user = useSelector(selectUser)
     const { showConfirmModal } = useModal()
 
-    const onChangePassword = useCallback(() => {
-        navigate(ROUTES.CHANGE_PASSWORD)
+    const onReferrals = useCallback(() => {
+        navigate(ROUTES.REFERRALS)
     }, [])
 
-    const onEditProfile = useCallback(() => {
-        navigate(ROUTES.EDIT_PROFILE)
+    const onAboutUs = useCallback(() => {
+        navigate(ROUTES.ABOUT_US)
     }, [])
 
     const onLogout = useCallback(async () => {
-
         const confirmed = await showConfirmModal({
             title: "Logout",
             message: "Are you sure you want to logout?"
@@ -30,16 +27,12 @@ const useMyProfileController = () => {
         if (confirmed) {
             dispatch(clearCredentials())
         }
-
-    }, [])
+    }, [dispatch, showConfirmModal])
 
     return {
-        values: {
-            user: user ?? {}
-        },
         functions: {
-            onChangePassword,
-            onEditProfile,
+            onReferrals,
+            onAboutUs,
             onLogout,
         }
     }
