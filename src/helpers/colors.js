@@ -1,0 +1,29 @@
+const colors = {
+    transparent: "transparent",
+    black: "#282B36",
+    pure_black: "#000000",
+    white: "#ffffff",
+    lightest_white: "rgba(255, 255, 255, 0.1)",
+    primary: "#1c6f38",
+    primary_opacity: "#01161045",
+    light_primary: "#47D043",
+    dark_primary: "#246A22",
+    lime_primary: "#CDFC76",
+    lightest_primary: "#DFFFE3",
+    yellowish_primary: "#EEFFCE",
+    leafy_blue: "#90BCBD",
+    leafy_green: "#C4FFCC",
+    grayish_primary: "#1F1D33",
+    gray: "#9CA3AF",
+    light_gray: "#DFDFDF",
+    dark_gray: "#585858",
+    overlay: "rgba(0, 0, 0, 0.9)",
+    input_background: "#071B15",
+    orange: "#FFA46B",
+    pinkish_red: "#FFCCD0",
+    danger: "#F20026",
+    red: "#FF1744",
+    shine: ["transparent", "rgba(255,255,255,0.3)", "rgba(255,255,255,0.6)", "rgba(255,255,255,0.3)", "transparent"]
+}
+
+export default colors
