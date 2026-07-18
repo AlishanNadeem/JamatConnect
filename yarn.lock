@@ -1870,11 +1870,6 @@
     metro-config "^0.84.0"
     metro-runtime "^0.84.0"
 
-"@react-native/new-app-screen@0.85.1":
-  version "0.85.1"
-  resolved "https://registry.yarnpkg.com/@react-native/new-app-screen/-/new-app-screen-0.85.1.tgz#23208538ce630e4344d95919d6b6ae7b10e17ba9"
-  integrity sha512-wZhWa9cy3GVmJf/YbNtIho65t7I39fsgUrHoxk0GGWB5InpZVYTS3wDRsUXhwsW/TCceJUFkvI0PTciAA8Ww5g==
-
 "@react-native/normalize-colors@0.85.1":
   version "0.85.1"
   resolved "https://registry.yarnpkg.com/@react-native/normalize-colors/-/normalize-colors-0.85.1.tgz#3de2e00632bcb6bb895ec8d0348fd33a7290174e"
@@ -1915,16 +1910,6 @@
     react-is "^19.1.0"
     use-latest-callback "^0.2.4"
     use-sync-external-store "^1.5.0"
-
-"@react-navigation/drawer@^7.9.8":
-  version "7.12.8"
-  resolved "https://registry.yarnpkg.com/@react-navigation/drawer/-/drawer-7.12.8.tgz#aa321d5959a31db661c5c24ec5f544f5d0899d65"
-  integrity sha512-EY4ItjflOGxY2d73L6+LZe4sMQSJGrqbU/pBBR32unR7KP9Crb39m0tpBdtnGHMV18XGh/I6nPVYS3+y/7LaNw==
-  dependencies:
-    "@react-navigation/elements" "^2.9.30"
-    color "^4.2.3"
-    react-native-drawer-layout "^4.2.7"
-    use-latest-callback "^0.2.4"
 
 "@react-navigation/elements@^2.9.30":
   version "2.9.30"
@@ -2053,11 +2038,6 @@
   integrity sha512-8PvcXf70gTDZBgt9ptxJ8elBeBjcLOAcOtoO/mPJjtji1+CdGbHgm77om1GrsPxsiE+uXIpNSK64UYaIwQXd4Q==
   dependencies:
     "@babel/types" "^7.28.2"
-
-"@types/geojson@^7946.0.13":
-  version "7946.0.16"
-  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.16.tgz#8ebe53d69efada7044454e3305c19017d97ced2a"
-  integrity sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==
 
 "@types/graceful-fs@^4.1.3":
   version "4.1.9"
@@ -6285,11 +6265,6 @@ react-native-bootsplash@6.3.11:
     ts-dedent "^2.2.0"
     xml-formatter "^3.6.5"
 
-react-native-circular-progress-indicator@4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/react-native-circular-progress-indicator/-/react-native-circular-progress-indicator-4.1.0.tgz#7acc417f4d368d74e9542de479b837f293a3ef60"
-  integrity sha512-xTMlic71wEZ4XBLLRdpFSik0waslKTNOIa19SE0LqKvmq0DpQKbHHivrlqE/XHJUTADki9tJ+OObq3VGji0IsA==
-
 react-native-date-picker@^5.0.13:
   version "5.0.13"
   resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-5.0.13.tgz#fe05f58652aaeee9e67f73cf7436c32a623ff3a4"
@@ -6299,14 +6274,6 @@ react-native-device-info@^15.0.2:
   version "15.0.2"
   resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-15.0.2.tgz#c7de1bb6baeb07e1bab70159ad540c5705cb8dc0"
   integrity sha512-dd71eXG2l3Cwp66IvKNadMTB8fhU3PEjyVddI97sYan+D4bgIAUmgGDhbSOFvHcGavksb2U17kiQYaDiK2WK2g==
-
-react-native-drawer-layout@^4.2.7:
-  version "4.2.7"
-  resolved "https://registry.yarnpkg.com/react-native-drawer-layout/-/react-native-drawer-layout-4.2.7.tgz#46a7a3ec3b0c05f6bea763751bc27a6ce9e5b650"
-  integrity sha512-hhD+E0QmUPkP2Sj1MsUdrvU7GeOiHChPAFPtKahroTwlBGnpgJsUVSL0GWOy5cG3oCZfnu4Pb+gIzOa4ItGNuA==
-  dependencies:
-    color "^4.2.3"
-    use-latest-callback "^0.2.4"
 
 react-native-fast-image@^8.6.3:
   version "8.6.3"
@@ -6356,22 +6323,10 @@ react-native-linear-gradient@^2.8.3:
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"
   integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
 
-react-native-maps@^1.27.2:
-  version "1.29.0"
-  resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-1.29.0.tgz#7ba5b9f70c9dcedeb53d31847809c56661341742"
-  integrity sha512-tXyYyyeZgiThHQvr/d22V7MMOxUfxdkXujFkGEuGP6FwBvVew/QmTS8VNiPbPce95uBIqE/SaOjai3Zwndpadg==
-  dependencies:
-    "@types/geojson" "^7946.0.13"
-
 react-native-permissions@^5.5.1:
   version "5.6.0"
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-5.6.0.tgz#de5df5576c7762bc14da5b418bea025d300dacf6"
   integrity sha512-iKq7rgAg9cQSy9e/7A6wCj0GYhw+o29Ob4OKC793fniDdwraDNu7D67X4holGJLChUDNzFZH1Qj+YWgrPNsGLw==
-
-react-native-reanimated-carousel@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated-carousel/-/react-native-reanimated-carousel-4.0.3.tgz#975f4ff3f5da5bb3790fe60850a46ad8119612bc"
-  integrity sha512-YZXlvZNghR5shFcI9hTA7h7bEhh97pfUSLZvLBAshpbkuYwJDKmQXejO/199T6hqGq0wCRwR0CWf2P4Vs6A4Fw==
 
 react-native-reanimated@4.3.0:
   version "4.3.0"
@@ -6942,9 +6897,6 @@ source-map-support@~0.5.20:
   version "0.5.21"
   resolved "https://registry.yarnpkg.com/source-map-support/-/source-map-support-0.5.21.tgz#04fe7c7f9e1ed2d662233c28cb2b35b9f63f6e4f"
   integrity sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==
-  dependencies:
-    buffer-from "^1.0.0"
-    source-map "^0.6.0"
 
 source-map@^0.5.6:
   version "0.5.7"
