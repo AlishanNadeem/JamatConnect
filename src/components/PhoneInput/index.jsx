@@ -1,14 +1,15 @@
 import { AsYouType, getExampleNumber } from "libphonenumber-js"
 import examples from "libphonenumber-js/mobile/examples"
-import { memo, useCallback, useEffect, useRef, useState } from "react"
-import { Animated, StyleSheet, TextInput, View } from "react-native"
+import { memo, useCallback, useEffect, useState } from "react"
+import { StyleSheet, TextInput, View } from "react-native"
 import fonts from "../../assets/fonts"
 import colors from "../../helpers/colors"
+import { DEFAULT_COUNTRY } from "../../helpers/data"
 import { font, heightPixel, widthPixel } from "../../helpers/metrics"
+import InputLayout from "../../layouts/InputLayout"
 import CountryPickerModal from "../CountryPickerModal"
 import Text from "../Text"
 import Touchable from "../Touchable"
-import { DEFAULT_COUNTRY } from "../../helpers/data"
 
 const getFlag = (code) => {
     return code
@@ -42,10 +43,8 @@ const PhoneInput = ({
     const [country, setCountry] = useState(default_country)
     const [modal_visible, setModalVisible] = useState(false)
     const [displayValue, setDisplayValue] = useState("")
-    const error_opacity = useRef(new Animated.Value(0)).current
 
     useEffect(() => {
-
         if (value) {
             const formatter = new AsYouType(country.code)
             const formatted = formatter.input(value)
@@ -53,49 +52,29 @@ const PhoneInput = ({
         } else {
             setDisplayValue("")
         }
-
     }, [value, country])
-
-    useEffect(() => {
-        Animated.timing(error_opacity, {
-            toValue: error ? 1 : 0,
-            duration: 200,
-            useNativeDriver: true,
-        }).start()
-    }, [error])
 
     const handleChangeText = useCallback((text) => {
 
         const digits = text.replace(/\D/g, "")
-
         const formatter = new AsYouType(country.code)
         const formatted = formatter.input(digits)
 
         setDisplayValue(formatted)
         onChangeText(digits)
 
-    }, [country, onChangeText])
+    }, [country])
 
     const handleSelectCountry = useCallback((selected) => {
         setCountry(selected)
         setDisplayValue("")
         onChangeText("")
-        if (onChangeCountry) {
-            onChangeCountry(selected)
-        }
-    }, [onChangeText, onChangeCountry])
+        onChangeCountry?.(selected)
+    }, [])
 
     return (
-        <View style={styles.container}>
-            {label && (
-                <View style={styles.label}>
-                    <Text weight="semibold">
-                        {label} {required && <Text color="red">*</Text>}
-                    </Text>
-                </View>
-            )}
-
-            <View style={styles.input_wrapper}>
+        <>
+            <InputLayout label={label} required={required} error={error}>
                 <Touchable
                     style={styles.country_picker}
                     onPress={() => setModalVisible(true)}
@@ -104,7 +83,7 @@ const PhoneInput = ({
                     <View style={styles.flag_container}>
                         <Text size={18}>{getFlag(country.code)}</Text>
                     </View>
-                    <Text color={colors.white} size={14} weight="semibold">{country.calling_code}</Text>
+                    <Text size={14} weight="semibold">{country.calling_code}</Text>
                 </Touchable>
 
                 <View style={styles.divider} />
@@ -113,7 +92,7 @@ const PhoneInput = ({
                     value={displayValue}
                     onChangeText={handleChangeText}
                     placeholder="Enter phone number"
-                    placeholderTextColor={colors.white}
+                    placeholderTextColor={colors.gray}
                     keyboardType="phone-pad"
                     allowFontScaling={false}
                     cursorColor={colors.light_primary}
@@ -122,43 +101,20 @@ const PhoneInput = ({
                     onBlur={onBlur}
                     maxLength={getMaxLength(country.code)}
                 />
-            </View>
-
-            {error ? (
-                <Animated.Text style={[styles.error_text, { opacity: error_opacity }]}>
-                    {error}
-                </Animated.Text>
-            ) : null}
+            </InputLayout>
 
             <CountryPickerModal
                 visible={modal_visible}
                 onSelect={handleSelectCountry}
                 onClose={() => setModalVisible(false)}
             />
-        </View>
+        </>
     )
 }
 
 export default memo(PhoneInput)
 
 const styles = StyleSheet.create({
-    container: {
-        width: "100%",
-    },
-    label: {
-        marginBottom: heightPixel(10),
-        paddingHorizontal: widthPixel(2),
-    },
-    input_wrapper: {
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: widthPixel(16),
-        height: heightPixel(56),
-        borderWidth: heightPixel(1.5),
-        borderColor: colors.light_primary,
-        borderRadius: heightPixel(100),
-        backgroundColor: colors.input_background,
-    },
     country_picker: {
         flexDirection: "row",
         alignItems: "center",
@@ -167,8 +123,6 @@ const styles = StyleSheet.create({
     flag_container: {
         width: widthPixel(32),
         height: widthPixel(32),
-        borderRadius: widthPixel(16),
-        backgroundColor: colors.input_background,
         alignItems: "center",
         justifyContent: "center",
         overflow: "hidden",
@@ -176,20 +130,13 @@ const styles = StyleSheet.create({
     divider: {
         width: heightPixel(1),
         height: "50%",
-        backgroundColor: colors.lightest_white,
+        backgroundColor: colors.light_gray,
         marginHorizontal: widthPixel(12),
     },
     input: {
         flex: 1,
         fontFamily: fonts.primary.regular,
-        color: colors.white,
+        color: colors.black,
         fontSize: font(14),
-    },
-    error_text: {
-        color: "#FF4D4F",
-        fontSize: font(12),
-        fontFamily: fonts.primary.regular,
-        marginTop: heightPixel(5),
-        marginLeft: widthPixel(10),
     },
 })
