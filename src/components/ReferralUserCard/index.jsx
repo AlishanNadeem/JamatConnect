@@ -13,7 +13,7 @@ const ReferralUserCard = ({ data }) => {
         name,
         email,
         image_url,
-        joined_at,
+        joining_date,
     } = data
 
     return (
@@ -33,7 +33,7 @@ const ReferralUserCard = ({ data }) => {
                     {email}
                 </Text>
                 <Text size={12} color={colors.gray}>
-                    Joined on {formatDate(joined_at)}
+                    Joined on {formatDate(joining_date)}
                 </Text>
             </View>
         </Row>
