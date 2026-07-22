@@ -1,13 +1,15 @@
 import { useCallback } from "react"
 import { Share } from "react-native"
 import { APP_NAME } from "../../config/env"
-import { REFERRAL_USERS } from "../../helpers/data"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
+import { useGetReferredUsersQuery } from "../../redux/apis/Referral"
 
 const REFERRAL_LINK = "https://jamatconnect.com/invite/lewis-hilton"
 
 const useReferralsController = () => {
+
+    const { data, isLoading } = useGetReferredUsersQuery()
 
     const onShare = useCallback(async () => {
         await Share.share({
@@ -22,7 +24,8 @@ const useReferralsController = () => {
 
     return {
         values: {
-            total_referrals: REFERRAL_USERS.length,
+            total_referrals: data?.pagination?.total ?? 0,
+            is_loading: isLoading,
         },
         functions: {
             onShare,
