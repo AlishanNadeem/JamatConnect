@@ -1,11 +1,24 @@
-import PrimaryLayout from "../../layouts/PrimaryLayout"
+import { ActivityIndicator, StyleSheet, View } from "react-native"
 import FlatList from "../../components/FlatList"
 import ReferralUserCard from "../../components/ReferralUserCard"
+import colors from "../../helpers/colors"
+import { heightPixel } from "../../helpers/metrics"
+import PrimaryLayout from "../../layouts/PrimaryLayout"
 import useReferralUsersController from "./useReferralUsersController"
 
 const ReferralUsers = () => {
 
     const { values, functions } = useReferralUsersController()
+
+    if (values.is_loading) {
+        return (
+            <PrimaryLayout header>
+                <View style={styles.loader}>
+                    <ActivityIndicator color={colors.primary} size="large" />
+                </View>
+            </PrimaryLayout>
+        )
+    }
 
     return (
         <PrimaryLayout header>
@@ -16,13 +29,19 @@ const ReferralUsers = () => {
                 onRefresh={functions.onRefresh}
                 onEndReached={functions.onLoadMore}
                 renderItem={({ item }) => <ReferralUserCard data={item} />}
-                empty={{
-                    title: "No Referrals Yet",
-                    description: "Users who join through your link will appear here.",
-                }}
+                empty={values.empty}
             />
         </PrimaryLayout>
     )
 }
 
 export default ReferralUsers
+
+const styles = StyleSheet.create({
+    loader: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: heightPixel(80),
+    },
+})

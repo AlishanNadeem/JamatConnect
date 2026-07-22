@@ -1,22 +1,39 @@
-import { REFERRAL_USERS } from "../../helpers/data"
-import usePagination from "../../hooks/usePagination"
+import { useCallback } from "react"
+import { useGetReferredUsersQuery } from "../../redux/apis/Referral"
 
 const useReferralUsersController = () => {
 
-    const { data, refreshing, loading_more, resetPage, nextPage } = usePagination({
-        source: REFERRAL_USERS,
-        page_size: 10,
-    })
+    const {
+        data,
+        isLoading,
+        isFetching,
+        isError,
+        refetch,
+    } = useGetReferredUsersQuery()
+
+    const onRefresh = useCallback(() => {
+        refetch()
+    }, [refetch])
 
     return {
         values: {
-            data,
-            refreshing,
-            loading_more,
+            data: data?.data ?? [],
+            is_loading: isLoading,
+            refreshing: isFetching,
+            loading_more: false,
+            empty: isError
+                ? {
+                    title: "Something Went Wrong",
+                    description: "Pull to refresh and try again.",
+                }
+                : {
+                    title: "No Referrals Yet",
+                    description: "Users who join through your link will appear here.",
+                },
         },
         functions: {
-            onRefresh: resetPage,
-            onLoadMore: nextPage,
+            onRefresh,
+            onLoadMore: () => {},
         },
     }
 }
