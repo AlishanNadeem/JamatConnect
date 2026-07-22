@@ -8,6 +8,7 @@ export const referralApi = baseApi.injectEndpoints({
                 method: "GET",
                 params,
             }),
+            providesTags: ["ReferralUsers"],
         }),
     }),
 })
