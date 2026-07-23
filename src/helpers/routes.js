@@ -48,6 +48,8 @@ export const ROUTES = {
     CONTACT_US: "ContactUs",
     REFERRALS: "Referrals",
     REFERRAL_USERS: "ReferralUsers",
+    MY_BUSINESSES: "MyBusinesses",
+    CREATE_BUSINESS: "CreateBusiness",
 }
 
 export const ROUTES_OPTIONS = {
@@ -139,6 +141,16 @@ export const ROUTES_OPTIONS = {
 
     [ROUTES.REFERRAL_USERS]: {
         ...screenOptionsWithTitle("Referred Users"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.MY_BUSINESSES]: {
+        ...screenOptionsWithTitle("My Business"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.CREATE_BUSINESS]: {
+        ...screenOptionsWithTitle("Add Business"),
         headerLeft: HEADER_LEFT.back,
     },
 }
