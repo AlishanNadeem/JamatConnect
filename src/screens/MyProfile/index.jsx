@@ -16,6 +16,12 @@ const MyProfile = () => {
                 <ProfileHeader />
                 <View style={styles.card}>
                     <ProfileMenuItem
+                        icon="store"
+                        label="My Businesses"
+                        onPress={functions.onMyBusiness}
+                    />
+                    <View style={styles.divider} />
+                    <ProfileMenuItem
                         icon="gift"
                         label="Referrals"
                         onPress={functions.onReferrals}

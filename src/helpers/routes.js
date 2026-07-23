@@ -145,7 +145,7 @@ export const ROUTES_OPTIONS = {
     },
 
     [ROUTES.MY_BUSINESSES]: {
-        ...screenOptionsWithTitle("My Business"),
+        ...screenOptionsWithTitle("My Businesses"),
         headerLeft: HEADER_LEFT.back,
     },
 

@@ -10,6 +10,10 @@ const useMyProfileController = () => {
     const dispatch = useDispatch()
     const { showConfirmModal } = useModal()
 
+    const onMyBusiness = useCallback(() => {
+        navigate(ROUTES.MY_BUSINESSES)
+    }, [])
+
     const onReferrals = useCallback(() => {
         navigate(ROUTES.REFERRALS)
     }, [])
@@ -31,6 +35,7 @@ const useMyProfileController = () => {
 
     return {
         functions: {
+            onMyBusiness,
             onReferrals,
             onAboutUs,
             onLogout,
