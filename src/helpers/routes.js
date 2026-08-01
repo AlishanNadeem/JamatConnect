@@ -54,9 +54,10 @@ export const ROUTES = {
 
 export const ROUTES_OPTIONS = {
     [NAVIGATORS.BOTTOM]: {
-        ...screenOptionsWithTitle(undefined, "secondary"),
-        headerLeft: HEADER_LEFT.none,
-        headerRight: HEADER_RIGHT.notifications,
+        // ...screenOptionsWithTitle(undefined, "secondary"),
+        // headerLeft: HEADER_LEFT.none,
+        // headerRight: HEADER_RIGHT.notifications,
+        headerShown: false,
     },
 
     [NAVIGATORS.APP_STACK]: {
@@ -92,7 +93,7 @@ export const ROUTES_OPTIONS = {
     },
 
     [ROUTES.MY_PROFILE]: {
-        headerShown: false,
+        ...screenOptionsWithTitle("More Options"),
     },
 
     [ROUTES.EDIT_PROFILE]: {
