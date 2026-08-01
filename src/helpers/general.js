@@ -11,38 +11,61 @@ export const getGreeting = () => {
 
 }
 
+export const formatWebsite = (url) => {
+    if (!url) return null
+    return url.replace(/^https?:\/\//, "").replace(/\/$/, "")
+}
+
+export const formatPhone = (dialing_code, phone) => {
+    if (!phone) return null
+    return `${dialing_code ?? ""} ${phone}`.trim()
+}
+
+const appendFormDataValue = (form_data, key, value) => {
+
+    if (value === undefined || value === null) return
+
+    if (typeof value === "object" && value.uri) {
+        form_data.append(key, {
+            uri:
+                Platform.OS === "ios"
+                    ? value.uri.replace("file://", "")
+                    : value.uri,
+            name: value.name || `photo_${Date.now()}.jpg`,
+            type: value.type || "image/jpeg",
+        })
+        return
+    }
+
+    if (value instanceof Date) {
+        form_data.append(key, value.toLocaleString())
+        return
+    }
+
+    if (Array.isArray(value)) {
+        value.forEach((item, index) => {
+            appendFormDataValue(form_data, `${key}[${index}]`, item)
+        })
+        return
+    }
+
+    if (typeof value === "object") {
+        Object.entries(value).forEach(([nested_key, nested_value]) => {
+            appendFormDataValue(form_data, `${key}[${nested_key}]`, nested_value)
+        })
+        return
+    }
+
+    form_data.append(key, value)
+
+}
+
 export const convertToFormData = (values) => {
 
     const form_data = new FormData()
 
     Object.entries(values).forEach(([key, value]) => {
-
-        if (value === undefined || value === null) return
-
-        if (
-            typeof value === "object" &&
-            value.uri
-        ) {
-
-            form_data.append(key, {
-                uri:
-                    Platform.OS === "ios"
-                        ? value.uri.replace("file://", "")
-                        : value.uri,
-                name: value.name || `photo_${Date.now()}.jpg`,
-                type: value.type || "image/jpeg",
-            })
-
-            return
-        }
-
-        if (value instanceof Date) {
-            form_data.append(key, value.toLocaleString())
-            return
-        }
-
-        form_data.append(key, value)
-
+        appendFormDataValue(form_data, key, value)
     })
 
     return form_data
