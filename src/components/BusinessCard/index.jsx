@@ -2,7 +2,9 @@ import { memo } from "react"
 import { StyleSheet, View } from "react-native"
 import LinearGradient from "react-native-linear-gradient"
 import colors from "../../helpers/colors"
+import { formatPhone, formatWebsite } from "../../helpers/general"
 import { heightPixel, widthPixel } from "../../helpers/metrics"
+import Badge from "../Badge"
 import Icon from "../Icon"
 import Image from "../Image"
 import Row from "../Row"
@@ -10,40 +12,18 @@ import Text from "../Text"
 
 const STATUS_THEME = {
     approved: {
-        dot: "#1c6f38",
-        color: "#1c6f38",
+        color: colors.success,
         label: "Approved",
     },
     pending: {
-        dot: "#B45309",
-        color: "#92400E",
+        color: colors.warning,
         label: "Pending",
     },
     rejected: {
-        dot: "#F20026",
-        color: "#BE123C",
+        color: colors.danger,
         label: "Rejected",
     },
 }
-
-const formatWebsite = (website) => {
-    if (!website) return null
-    return website.replace(/^https?:\/\//, "").replace(/\/$/, "")
-}
-
-const formatPhone = (dialing_code, phone) => {
-    if (!phone) return null
-    return `${dialing_code ?? ""} ${phone}`.trim()
-}
-
-const StatusBadge = ({ theme }) => (
-    <View style={styles.status_badge}>
-        <View style={[styles.status_dot, { backgroundColor: theme.dot }]} />
-        <Text size={11} weight="semibold" color={theme.color}>
-            {theme.label}
-        </Text>
-    </View>
-)
 
 const DetailChip = ({ icon, label }) => (
     <View style={styles.detail_chip}>
@@ -79,6 +59,7 @@ const BusinessCard = ({ data }) => {
         active,
     } = data
 
+
     const status_theme = STATUS_THEME[status] ?? STATUS_THEME.pending
     const phone_label = formatPhone(dialing_code, phone)
     const website_label = formatWebsite(website)
@@ -104,13 +85,17 @@ const BusinessCard = ({ data }) => {
 
                 <Row align="center" gap={8} style={styles.badges_row}>
                     {!active ? (
-                        <View style={styles.inactive_badge}>
-                            <Text size={11} weight="semibold" color={colors.dark_gray}>
-                                Inactive
-                            </Text>
-                        </View>
+                        <Badge
+                            type="secondary"
+                            label="Inactive"
+                            background="rgba(255, 255, 255, 0.94)"
+                        />
                     ) : null}
-                    <StatusBadge theme={status_theme} />
+                    <Badge
+                        type="dot"
+                        label={status_theme.label}
+                        color={status_theme.color}
+                    />
                 </Row>
             </View>
 
@@ -204,26 +189,6 @@ const styles = StyleSheet.create({
         right: widthPixel(12),
         width: "auto",
     },
-    status_badge: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: widthPixel(6),
-        paddingHorizontal: widthPixel(12),
-        paddingVertical: heightPixel(6),
-        borderRadius: heightPixel(20),
-        backgroundColor: "rgba(255, 255, 255, 0.94)",
-    },
-    status_dot: {
-        width: widthPixel(7),
-        height: widthPixel(7),
-        borderRadius: heightPixel(4),
-    },
-    inactive_badge: {
-        paddingHorizontal: widthPixel(12),
-        paddingVertical: heightPixel(6),
-        borderRadius: heightPixel(20),
-        backgroundColor: "rgba(255, 255, 255, 0.94)",
-    },
     content: {
         gap: heightPixel(14),
         paddingHorizontal: widthPixel(18),
@@ -258,10 +223,6 @@ const styles = StyleSheet.create({
         paddingVertical: heightPixel(5),
         borderRadius: heightPixel(8),
         backgroundColor: colors.lightest_primary,
-    },
-    divider: {
-        height: heightPixel(1),
-        backgroundColor: colors.light_gray,
     },
     details_grid: {
         flexDirection: "row",
