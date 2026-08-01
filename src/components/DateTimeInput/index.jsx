@@ -38,11 +38,7 @@ const DateTimeInput = ({
             onPress={disabled ? undefined : toggleOpen}
         >
             <View style={styles.input}>
-                <Text
-                    color={colors.white}
-                >
-                    {getDisplayValue() || placeholder}
-                </Text>
+                <Text>{getDisplayValue() || placeholder}</Text>
             </View>
             <Icon name={icon_name} size={24} color={colors.white} onPress={toggleOpen} />
 
