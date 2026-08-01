@@ -1,15 +1,20 @@
-import { useCallback, useState } from "react"
-import { MY_BUSINESSES } from "../../helpers/data"
+import { useCallback } from "react"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
+import { useGetBusinessesQuery } from "../../redux/apis/Business"
 
 const useMyBusinessesController = () => {
 
-    const [refreshing, setRefreshing] = useState(false)
+    const {
+        data,
+        isLoading,
+        isFetching,
+        isError,
+        refetch,
+    } = useGetBusinessesQuery()
 
     const onRefresh = useCallback(() => {
-        setRefreshing(true)
-        setTimeout(() => setRefreshing(false), 600)
+        refetch()
     }, [])
 
     const onAddBusiness = useCallback(() => {
@@ -18,14 +23,19 @@ const useMyBusinessesController = () => {
 
     return {
         values: {
-            data: MY_BUSINESSES,
-            is_loading: false,
-            refreshing,
+            data: data?.data ?? [],
+            is_loading: isLoading,
+            refreshing: isFetching,
             loading_more: false,
-            empty: {
-                title: "No Businesses Yet",
-                description: "Add your first business to start reaching the community.",
-            },
+            empty: isError
+                ? {
+                    title: "Something Went Wrong",
+                    description: "Pull to refresh and try again.",
+                }
+                : {
+                    title: "No Businesses Yet",
+                    description: "Add your first business to start reaching the community.",
+                },
         },
         functions: {
             onRefresh,
