@@ -10,6 +10,7 @@ export const USER = {
     dialing_code: "+1",
     phone: "6468980885",
     image_url: "https://i.pravatar.cc/150?img=3",
+    createdAt: "2024-03-15",
 }
 
 export const NOTIFICATIONS = [
