@@ -4,26 +4,27 @@ import { heightPixel, widthPixel } from "../../helpers/metrics"
 import Icon from "../Icon"
 import Text from "../Text"
 import Touchable from "../Touchable"
+import Error from "../Error"
+import Label from "../Label"
 
-const ImageUploader = ({ label, required, onPress, onRemove, image }) => {
+const ImageUploader = ({ label, required, onPress, onRemove, image, error }) => {
     return (
         <View style={styles.container}>
-            {
-                label && (
-                    <View style={styles.label}>
-                        <Text weight="semibold" >
-                            {label} {required && <Text color="red">*</Text>}
-                        </Text>
+
+            <Label label={label} required={required} />
+
+            <View>
+                <Touchable style={styles.upload_container} onPress={onPress}>
+                    <Icon name="upload-cloud" size={28} color={colors.black} />
+                    <View style={styles.text_container}>
+                        <Text size={16} align="center">Upload Profile Photo</Text>
+                        <Text size={12} align="center">WebP, PNG, JPG, Or JPEG — Max 5MB</Text>
                     </View>
-                )
-            }
-            <Touchable style={styles.upload_container} onPress={onPress}>
-                <Icon name="upload-cloud" size={38} color={colors.white} />
-                <View style={styles.text_container}>
-                    <Text size={16} align="center">Upload Profile Photo</Text>
-                    <Text size={16} align="center">WebP, PNG, JPG, Or JPEG — Max 5MB</Text>
-                </View>
-            </Touchable>
+                </Touchable>
+
+                <Error error={error} />
+
+            </View>
 
             {image &&
                 <View style={styles.preview_container}>
@@ -33,7 +34,8 @@ const ImageUploader = ({ label, required, onPress, onRemove, image }) => {
                     </View>
                 </View>
             }
-        </View  >
+
+        </View>
     )
 }
 
@@ -45,13 +47,13 @@ const styles = StyleSheet.create({
     },
     upload_container: {
         borderWidth: heightPixel(1),
-        borderColor: colors.light_primary,
+        borderColor: colors.light_gray,
         borderRadius: heightPixel(16),
         paddingVertical: heightPixel(24),
         paddingHorizontal: widthPixel(24),
         alignItems: "center",
         gap: heightPixel(10),
-        backgroundColor: colors.input_background,
+        backgroundColor: colors.white,
     },
     label: {
         paddingHorizontal: widthPixel(2),
