@@ -53,7 +53,7 @@ const BottomNavigator = () => {
                 component={MyProfile}
                 options={{
                     tabBarIcon: ({ focused }) => (
-                        <TabIcon name="user" label="Profile" focused={focused} />
+                        <TabIcon name="grip" label="More" focused={focused} />
                     ),
                     ...ROUTES_OPTIONS[ROUTES.MY_PROFILE]
                 }}
