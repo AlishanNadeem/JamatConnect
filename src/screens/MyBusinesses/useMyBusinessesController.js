@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
-import { useGetBusinessesQuery } from "../../redux/apis/Business"
+import { useGetMyBusinessesQuery } from "../../redux/apis/Business"
 
 const useMyBusinessesController = () => {
 
@@ -11,7 +11,7 @@ const useMyBusinessesController = () => {
         isFetching,
         isError,
         refetch,
-    } = useGetBusinessesQuery()
+    } = useGetMyBusinessesQuery()
 
     const onRefresh = useCallback(() => {
         refetch()
