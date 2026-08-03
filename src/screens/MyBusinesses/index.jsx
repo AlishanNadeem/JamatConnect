@@ -1,7 +1,7 @@
-import { ActivityIndicator, StyleSheet, View } from "react-native"
-import BusinessCard from "../../components/BusinessCard"
+import { StyleSheet, View } from "react-native"
 import Button from "../../components/Button"
 import FlatList from "../../components/FlatList"
+import MyBusinessCard from "../../components/MyBusinessCard"
 import Row from "../../components/Row"
 import Text from "../../components/Text"
 import colors from "../../helpers/colors"
@@ -13,16 +13,6 @@ import useMyBusinessesController from "./useMyBusinessesController"
 const MyBusinesses = () => {
 
     const { values, functions } = useMyBusinessesController()
-
-    if (values.is_loading) {
-        return (
-            <PrimaryLayout header>
-                <View style={styles.loader}>
-                    <ActivityIndicator color={colors.primary} size="large" />
-                </View>
-            </PrimaryLayout>
-        )
-    }
 
     return (
         <PrimaryLayout header>
@@ -49,9 +39,10 @@ const MyBusinesses = () => {
                     refreshing={values.refreshing}
                     loading_more={values.loading_more}
                     onRefresh={functions.onRefresh}
-                    renderItem={({ item }) => <BusinessCard data={item} />}
+                    renderItem={({ item }) => <MyBusinessCard data={item} />}
                     empty={values.empty}
                     style={styles.list}
+                    loading={values.is_loading}
                 />
             </View>
         </PrimaryLayout>
