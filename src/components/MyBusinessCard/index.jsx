@@ -35,13 +35,13 @@ const DetailChip = ({ icon, label }) => (
             background={colors.white}
             color={colors.primary}
         />
-        <Text size={11} color={colors.dark_gray} lines={2} style={styles.detail_label}>
+        <Text size={12} color={colors.dark_gray} lines={2} style={styles.detail_label}>
             {label}
         </Text>
     </View>
 )
 
-const BusinessCard = ({ data }) => {
+const MyBusinessCard = ({ data }) => {
 
     const {
         name,
@@ -160,7 +160,7 @@ const BusinessCard = ({ data }) => {
     )
 }
 
-export default memo(BusinessCard)
+export default memo(MyBusinessCard)
 
 const styles = StyleSheet.create({
     container: {
@@ -225,12 +225,12 @@ const styles = StyleSheet.create({
         backgroundColor: colors.lightest_primary,
     },
     details_grid: {
-        flexDirection: "row",
-        flexWrap: "wrap",
+        // flexDirection: "row",
+        // flexWrap: "wrap",
         gap: widthPixel(10),
     },
     detail_chip: {
-        width: "47.5%",
+        width: "100%",
         flexDirection: "row",
         alignItems: "center",
         gap: widthPixel(10),
