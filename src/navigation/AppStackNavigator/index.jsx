@@ -1,5 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack"
 import { GLOBAL_HEADER_OPTIONS, NAVIGATORS, ROUTES, ROUTES_OPTIONS } from "../../helpers/routes"
+import BusinessDetails from "../../screens/BusinessDetails"
 import CreateBusiness from "../../screens/CreateBusiness"
 import MyBusinesses from "../../screens/MyBusinesses"
 import Referrals from "../../screens/Referrals"
@@ -28,6 +29,7 @@ const AppStackNavigator = () => {
             <Stack.Screen name={ROUTES.REFERRAL_USERS} component={ReferralUsers} options={ROUTES_OPTIONS[ROUTES.REFERRAL_USERS]} />
             <Stack.Screen name={ROUTES.MY_BUSINESSES} component={MyBusinesses} options={ROUTES_OPTIONS[ROUTES.MY_BUSINESSES]} />
             <Stack.Screen name={ROUTES.CREATE_BUSINESS} component={CreateBusiness} options={ROUTES_OPTIONS[ROUTES.CREATE_BUSINESS]} />
+            <Stack.Screen name={ROUTES.BUSINESS_DETAILS} component={BusinessDetails} options={ROUTES_OPTIONS[ROUTES.BUSINESS_DETAILS]} />
             <Stack.Screen name={ROUTES.ABOUT_US} component={AboutUs} options={ROUTES_OPTIONS[ROUTES.ABOUT_US]} />
             <Stack.Screen name={ROUTES.TERMS_AND_CONDITIONS} component={TermsAndConditions} options={ROUTES_OPTIONS[ROUTES.TERMS_AND_CONDITIONS]} />
             <Stack.Screen name={ROUTES.PRIVACY_POLICY} component={PrivacyPolicy} options={ROUTES_OPTIONS[ROUTES.PRIVACY_POLICY]} />
