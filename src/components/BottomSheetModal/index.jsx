@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
     },
     sheet: {
-        backgroundColor: colors.lightest_primary,
+        backgroundColor: colors.white,
         borderTopLeftRadius: heightPixel(24),
         borderTopRightRadius: heightPixel(24),
         paddingHorizontal: widthPixel(24),
