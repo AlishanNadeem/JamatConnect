@@ -14,7 +14,7 @@ const colors = {
     gray: "#9CA3AF",
     light_gray: "#DFDFDF",
     dark_gray: "#585858",
-    overlay: "rgba(0, 0, 0, 0.9)",
+    overlay: "rgba(0, 0, 0, 0.75)",
     input_background: "#071B15",
     pinkish_red: "#FFCCD0",
     success: "#1c6f38",
