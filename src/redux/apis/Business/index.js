@@ -10,18 +10,27 @@ export const businessApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["MyBusinesses"],
         }),
+        getMyBusinesses: builder.query({
+            query: (params) => ({
+                url: "/business/my",
+                method: "GET",
+                params,
+            }),
+            providesTags: ["MyBusinesses"],
+        }),
         getBusinesses: builder.query({
             query: (params) => ({
                 url: "/business/get",
                 method: "GET",
                 params,
             }),
-            providesTags: ["MyBusinesses"],
+            providesTags: ["Businesses"],
         }),
     }),
 })
 
 export const {
     useCreateBusinessMutation,
+    useGetMyBusinessesQuery,
     useGetBusinessesQuery,
 } = businessApi
