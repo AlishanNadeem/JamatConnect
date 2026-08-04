@@ -5,7 +5,9 @@ import Text from "../../components/Text"
 import colors from "../../helpers/colors"
 import { BOTTOM_BAR_HEIGHT, BOTTOM_INSET, heightPixel } from "../../helpers/metrics"
 import { GLOBAL_HEADER_OPTIONS, ROUTES, ROUTES_OPTIONS } from "../../helpers/routes"
+import Businesses from "../../screens/Businesses"
 import Home from "../../screens/Home"
+import Jobs from "../../screens/Jobs"
 import MyProfile from "../../screens/MyProfile"
 
 const Tab = createBottomTabNavigator()
@@ -15,13 +17,13 @@ const TabIcon = ({ name, label, focused }) => (
         <Icon
             name={name}
             size={20}
-            color={focused ? colors.light_primary : colors.white}
+            color={focused ? colors.primary : colors.gray}
         />
         <Text
             size={10}
             lines={1}
             weight={"semibold"}
-            color={focused ? colors.light_primary : colors.white}
+            color={focused ? colors.primary : colors.gray}
         >
             {label}
         </Text>
@@ -49,6 +51,26 @@ const BottomNavigator = () => {
                 }}
             />
             <Tab.Screen
+                name={ROUTES.BUSINESSES}
+                component={Businesses}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="store" label="Businesses" focused={focused} />
+                    ),
+                    ...ROUTES_OPTIONS[ROUTES.BUSINESSES]
+                }}
+            />
+            <Tab.Screen
+                name={ROUTES.JOBS}
+                component={Jobs}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="briefcase" label="Jobs" focused={focused} />
+                    ),
+                    ...ROUTES_OPTIONS[ROUTES.JOBS]
+                }}
+            />
+            <Tab.Screen
                 name={ROUTES.MY_PROFILE}
                 component={MyProfile}
                 options={{
@@ -66,9 +88,9 @@ export default BottomNavigator
 
 const styles = StyleSheet.create({
     tab_bar: {
-        backgroundColor: colors.primary,
+        backgroundColor: colors.white,
         borderTopWidth: heightPixel(1),
-        borderTopColor: colors.light_primary,
+        borderTopColor: colors.light_gray,
         height: BOTTOM_BAR_HEIGHT + BOTTOM_INSET,
         paddingTop: heightPixel(8),
         paddingBottom: BOTTOM_INSET,
