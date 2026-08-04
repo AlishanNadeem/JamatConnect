@@ -24,9 +24,8 @@ const GlobalModal = ({ visible, type, title, button_text = "Ok", message, onOk, 
     }, [visible])
 
     return (
-        <Modal visible={visible} animationType="fade" statusBarTranslucent>
+        <Modal visible={visible} animationType="fade" statusBarTranslucent transparent>
             <View style={styles.overlay}>
-                <Image source={images.logo} style={styles.watermark} />
                 <Animated.View style={[styles.container, { transform: [{ scale: scale_animation }] }]}>
                     <Icon name={type === "info" ? "circle-check" : "alert-circle"} size={47} background={colors.dark_primary} rounded={"full"} space color={colors.white} />
                     {title && <Text size={26} weight="bold" align="center" color={colors.black}>{title}</Text>}
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         paddingHorizontal: GLOBAL_HORIZONTAL_PADDING * 2,
-        backgroundColor: colors.primary
+        backgroundColor: colors.overlay
     },
     container: {
         backgroundColor: colors.lightest_primary,
@@ -72,12 +71,5 @@ const styles = StyleSheet.create({
     row: {
         width: "100%",
         gap: heightPixel(8)
-    },
-    watermark: {
-        position: "absolute",
-        width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT,
-        opacity: 0.06,
-        zIndex: 0
     }
 })
