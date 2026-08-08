@@ -1,7 +1,7 @@
 import { memo } from "react"
 import { StyleSheet } from "react-native"
 import colors from "../../helpers/colors"
-import { heightPixel } from "../../helpers/metrics"
+import { heightPixel, widthPixel } from "../../helpers/metrics"
 import Icon from "../Icon"
 import Text from "../Text"
 import Touchable from "../Touchable"
@@ -30,7 +30,7 @@ export default memo(CategoryCard)
 
 const styles = StyleSheet.create({
     container: {
-        width: heightPixel(88),
+        width: widthPixel(88),
         alignItems: "center",
         gap: heightPixel(8),
     }
