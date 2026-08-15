@@ -38,6 +38,8 @@ export const ROUTES = {
 
     // App
     HOME: "Home",
+    BUSINESSES: "Businesses",
+    JOBS: "Jobs",
     MY_PROFILE: "MyProfile",
     EDIT_PROFILE: "EditProfile",
     CHANGE_PASSWORD: "ChangePassword",
@@ -50,6 +52,8 @@ export const ROUTES = {
     REFERRAL_USERS: "ReferralUsers",
     MY_BUSINESSES: "MyBusinesses",
     CREATE_BUSINESS: "CreateBusiness",
+    BUSINESS_DETAILS: "BusinessDetails",
+    CATEGORIES: "Categories",
 }
 
 export const ROUTES_OPTIONS = {
@@ -90,6 +94,14 @@ export const ROUTES_OPTIONS = {
 
     [ROUTES.HOME]: {
         headerShown: false,
+    },
+
+    [ROUTES.BUSINESSES]: {
+        ...screenOptionsWithTitle("Businesses"),
+    },
+
+    [ROUTES.JOBS]: {
+        ...screenOptionsWithTitle("Jobs"),
     },
 
     [ROUTES.MY_PROFILE]: {
@@ -152,6 +164,16 @@ export const ROUTES_OPTIONS = {
 
     [ROUTES.CREATE_BUSINESS]: {
         ...screenOptionsWithTitle("Add Business"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.BUSINESS_DETAILS]: {
+        ...screenOptionsWithTitle("Business Details"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.CATEGORIES]: {
+        ...screenOptionsWithTitle("Categories"),
         headerLeft: HEADER_LEFT.back,
     },
 }
