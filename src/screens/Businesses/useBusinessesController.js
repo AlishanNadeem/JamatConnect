@@ -52,7 +52,7 @@ const useBusinessesController = () => {
     }, [])
 
     const onBusinessPress = useCallback((business) => {
-        navigate(ROUTES.BUSINESS_DETAILS, { business })
+        navigate(ROUTES.BUSINESS_DETAILS, { _id: business._id })
     }, [])
 
     const has_filters = Boolean(debounced || selected_category)
