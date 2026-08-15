@@ -1,4 +1,5 @@
 import { StyleSheet, View } from "react-native"
+import images from "../../../assets/images"
 import Dropdown from "../../../components/Dropdown"
 import Error from "../../../components/Error"
 import Icon from "../../../components/Icon"
@@ -27,7 +28,7 @@ const StepOne = ({
                     <View style={styles.logo_wrapper}>
                         <Icon
                             rounded="full"
-                            source={formik.values.logo}
+                            source={formik.values.logo || images.image_placeholder}
                             size={81}
                             resize="cover"
                         />
