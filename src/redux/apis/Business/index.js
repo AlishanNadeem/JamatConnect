@@ -26,6 +26,13 @@ export const businessApi = baseApi.injectEndpoints({
             }),
             providesTags: ["Businesses"],
         }),
+        getBusinessById: builder.query({
+            query: (id) => ({
+                url: `/business/get/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["Businesses"],
+        }),
     }),
 })
 
@@ -33,4 +40,5 @@ export const {
     useCreateBusinessMutation,
     useGetMyBusinessesQuery,
     useGetBusinessesQuery,
+    useGetBusinessByIdQuery,
 } = businessApi
