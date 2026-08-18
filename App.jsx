@@ -22,8 +22,8 @@ import { persistor, store } from './src/redux/store'
 const toast_config = {
   error: (props) => (
     <View style={[styles.toast_container, styles.error_bg]}>
-      <Text size={15} weight='semibold'>{props.text1}</Text>
-      <Text size={12}>{props.text2}</Text>
+      <Text color={colors.white} size={15} weight='semibold'>{props.text1}</Text>
+      <Text color={colors.white} size={12}>{props.text2}</Text>
     </View>
   ),
 };
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   error_bg: {
-    backgroundColor: colors.red,
+    backgroundColor: colors.danger,
   },
 })
 
