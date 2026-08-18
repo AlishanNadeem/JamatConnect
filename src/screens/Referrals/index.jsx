@@ -45,14 +45,14 @@ const InviteCard = ({ total_referrals, onPress }) => (
                 background={colors.white}
                 color={colors.primary}
             />
-
-            <Text size={26} weight="bold" align="center" color={colors.white}>
-                Invite Friends
-            </Text>
-
-            <Text size={14} align="center" color={colors.lime_primary}>
-                Share {APP_NAME} with people you trust and grow your community.
-            </Text>
+            <View>
+                <Text size={26} weight="bold" align="center" color={colors.white}>
+                    Invite Friends
+                </Text>
+                <Text size={14} align="center" color={colors.lightest_primary}>
+                    Share {APP_NAME} with people you trust and grow your community.
+                </Text>
+            </View>
         </LinearGradient>
 
         <Row align="center" justify="space-between" gap={16} onPress={onPress} style={styles.stats_row}>
