@@ -3,24 +3,25 @@ const colors = {
     background: "#F6F8F5",
     black: "#282B36",
     white: "#ffffff",
-    lightest_white: "rgba(255, 255, 255, 0.1)",
-    primary: "#1c6f38",
-    lightest_primary: "#DFFFE3",
-    primary_opacity: "rgba(28, 111, 56, 0.2)",
-    light_primary: "#47D043",
-    dark_primary: "#246A22",
-    lime_primary: "#CDFC76",
-    yellowish_primary: "#EEFFCE",
+    primary: "#1C6F38",
+    light_primary: "#4FAE68",
+    lightest_primary: "#DCEFE2",
+    dark_primary: "#124E2A",
     gray: "#9CA3AF",
     light_gray: "#DFDFDF",
     dark_gray: "#585858",
     overlay: "rgba(0, 0, 0, 0.75)",
-    input_background: "#071B15",
-    pinkish_red: "#FFCCD0",
+
+    // status colors
     success: "#1c6f38",
+    light_success: "#DFFFE3",
     warning: "#B45309",
+    light_warning: "#FEF3C7",
+    yellow: "#FACC15",
+    info: "#2563EB",
+    light_info: "#E0EAFF",
     danger: "#F20026",
-    red: "#FF1744",
+    light_danger: "#FFE0E4"
 }
 
 export default colors
