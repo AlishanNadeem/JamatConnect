@@ -40,7 +40,7 @@ const PrimaryLayout = ({ children, padding_horizontal = true, top = true, header
     const header_height = useHeaderHeight()
 
     const top_padding = !top ? 0 : header ? header_height : insets.top
-    const bottom_padding = !bottom_tab ? insets.bottom : BOTTOM_BAR_HEIGHT + BOTTOM_INSET
+    const bottom_padding = !bottom_tab ? insets.bottom : 0
 
     return (
         <View style={styles.container}>
