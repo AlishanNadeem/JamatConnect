@@ -30,17 +30,17 @@ const MarketplaceCard = ({ data, onPress }) => {
                 resize="cover"
             />
             <View style={styles.content}>
-                {category?.name ? (
-                    <Text size={11} weight="semibold" color={colors.primary} lines={1}>
-                        {category.name}
+                {formatted_price ? (
+                    <Text weight="bold" size={18}>
+                        {formatted_price}
                     </Text>
                 ) : null}
-                <Text size={14} weight="bold" lines={2}>
+                <Text lines={2}>
                     {name}
                 </Text>
-                {formatted_price ? (
-                    <Text weight="bold" color={colors.primary}>
-                        {formatted_price}
+                {category?.name ? ( 
+                    <Text size={11} weight="semibold" color={colors.primary} lines={1}>
+                        {category.name}
                     </Text>
                 ) : null}
                 {posted_at ? (
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
     },
     content: {
-        gap: heightPixel(2),
+        gap: heightPixel(3),
         paddingHorizontal: widthPixel(10),
         paddingVertical: heightPixel(10),
     },
