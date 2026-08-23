@@ -22,6 +22,12 @@ const MyProfile = () => {
                     />
                     <View style={styles.divider} />
                     <ProfileMenuItem
+                        icon="shopping-bag"
+                        label="My Listings"
+                        onPress={functions.onMyListings}
+                    />
+                    <View style={styles.divider} />
+                    <ProfileMenuItem
                         icon="gift"
                         label="Referrals"
                         onPress={functions.onReferrals}
