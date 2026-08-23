@@ -7,25 +7,20 @@ import Touchable from "../Touchable"
 import Error from "../Error"
 import Label from "../Label"
 
-const ImageUploader = ({ label, required, onPress, onRemove, image, error }) => {
+const ImageUploader = ({ label, required, onPress, onRemove, image, error, title, subtitle }) => {
     return (
         <View style={styles.container}>
-
             <Label label={label} required={required} />
-
             <View>
                 <Touchable style={styles.upload_container} onPress={onPress}>
                     <Icon name="upload-cloud" size={28} color={colors.black} />
                     <View style={styles.text_container}>
-                        <Text size={16} align="center">Upload Profile Photo</Text>
-                        <Text size={12} align="center">WebP, PNG, JPG, Or JPEG — Max 5MB</Text>
+                        {title && <Text size={16} align="center">{title}</Text>}
+                        {subtitle && <Text size={12} align="center">{subtitle}</Text>}
                     </View>
                 </Touchable>
-
                 <Error error={error} />
-
             </View>
-
             {image &&
                 <View style={styles.preview_container}>
                     <Icon source={image} rounded={"quarter"} size={100} resize="cover" />
@@ -34,7 +29,6 @@ const ImageUploader = ({ label, required, onPress, onRemove, image, error }) => 
                     </View>
                 </View>
             }
-
         </View>
     )
 }
