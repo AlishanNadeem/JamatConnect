@@ -63,7 +63,7 @@ const Icon = ({
     }
 
     const icon_size = space && !is_fluid
-        ? heightPixel(size * 0.4)
+        ? heightPixel(size * 0.3)
         : heightPixel(size)
 
     const image_style = {
