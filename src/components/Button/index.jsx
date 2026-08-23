@@ -23,12 +23,12 @@ const BUTTON_TYPES = {
     },
     secondary: {
         background: [colors.white, colors.white],
-        color: colors.dark_primary,
-        border_color: colors.transparent,
+        color: colors.primary,
+        border_color: colors.primary,
     },
     muted: {
-        background: [colors.lightest_white, colors.lightest_white],
-        color: colors.white,
+        background: [colors.light_gray, colors.light_gray],
+        color: colors.dark_gray,
         border_color: colors.transparent,
     },
     transparent: {
