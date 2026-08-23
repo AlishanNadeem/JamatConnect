@@ -1,17 +1,22 @@
+import { useRoute } from "@react-navigation/native"
 import { useFormik } from "formik"
-import { useEffect } from "react"
+import { useEffect, useMemo } from "react"
 import * as Yup from "yup"
 import { useModal } from "../../contexts/ModalContext"
 import { convertToFormData } from "../../helpers/general"
 import { goBack } from "../../helpers/navigation"
 import useImagePicker from "../../hooks/useImagePicker"
 import useToggle from "../../hooks/useToggle"
-import { useCreateListingMutation } from "../../redux/apis/Marketplace"
+import {
+    useCreateListingMutation,
+    useGetListingByIdQuery,
+    useUpdateListingMutation,
+} from "../../redux/apis/Marketplace"
 import { useGetProductCategoriesQuery } from "../../redux/apis/ProductCategory"
 
 const file_schema = Yup.mixed()
     .required("Image is required")
-    .test("file", "Please upload an image", (value) => Boolean(value?.uri))
+    .test("file", "Please upload an image", (value) => Boolean(value?.uri || (typeof value === "string" && value)))
 
 const create_listing_schema = Yup.object({
     image: file_schema,
@@ -23,8 +28,8 @@ const create_listing_schema = Yup.object({
         .min(10, "Description must be at least 10 characters")
         .required("Description is required"),
     category: Yup.object({
-        id: Yup.string().required("Category is required"),
-        name: Yup.string(),
+        value: Yup.string().required("Category is required"),
+        label: Yup.string(),
     }).nullable().required("Category is required"),
     price: Yup.number()
         .transform((value, original) => (original === "" || original === null ? undefined : Number(original)))
@@ -33,39 +38,80 @@ const create_listing_schema = Yup.object({
         .required("Price is required"),
 })
 
+const empty_initial = {
+    name: "",
+    description: "",
+    category: null,
+    price: "",
+    image: null,
+}
+
 const useCreateListingController = () => {
+
+    const { params } = useRoute()
+    const listing_id = params?._id
+    const is_edit = Boolean(listing_id)
 
     const { showInfoModal } = useModal()
     const { value: image_modal, toggle: toggleImageModal } = useToggle()
-    const [submit, { isSuccess, isLoading }] = useCreateListingMutation()
+    const [create, { isSuccess: is_created, isLoading: is_creating }] = useCreateListingMutation()
+    const [update, { isSuccess: is_updated, isLoading: is_updating }] = useUpdateListingMutation()
+
+    const {
+        data: listing_response,
+        isLoading: listing_loading,
+    } = useGetListingByIdQuery(listing_id, { skip: !is_edit })
+
+    const listing = listing_response?.data
 
     const {
         data: categories_response,
         isLoading: categories_loading,
     } = useGetProductCategoriesQuery()
 
-    const categories = categories_response?.data ?? []
+    const category_options = categories_response?.data ?? []
+
+    const initial = useMemo(() => {
+
+        if (!listing) return empty_initial
+
+        const image_url = listing.image_url || listing.image
+
+        return {
+            name: listing.name || "",
+            description: listing.description || "",
+            category: listing.category?._id
+                ? { value: String(listing.category._id), label: listing.category.name }
+                : listing.category?.value
+                    ? listing.category
+                    : null,
+            price: listing.price != null ? String(listing.price) : "",
+            image: image_url ? { uri: image_url } : null,
+        }
+
+    }, [listing])
 
     const formik = useFormik({
-        initialValues: {
-            name: "",
-            description: "",
-            category: null,
-            price: "",
-            image: null,
-        },
+        initialValues: initial,
+        enableReinitialize: true,
         validationSchema: create_listing_schema,
         onSubmit: async (values) => {
 
-            const payload = convertToFormData({
+            const payload_values = {
                 name: values.name,
                 description: values.description,
-                category: values.category?.id,
+                category: values.category?.value,
                 price: Number(values.price),
-                image: values.image,
-            })
+            }
 
-            submit(payload)
+            if (!is_edit || values.image?.type) {
+                payload_values.image = values.image
+            }
+
+            const payload = convertToFormData(payload_values)
+
+            if (is_edit) update({ id: listing_id, body: payload })
+            else create(payload)
 
         },
     })
@@ -75,21 +121,25 @@ const useCreateListingController = () => {
     })
 
     useEffect(() => {
-        if (isSuccess) {
+        if (is_created || is_updated) {
             showInfoModal({
                 title: "Thank You!",
-                message: "Your listing has been submitted successfully",
+                message: is_edit
+                    ? "Your listing has been updated successfully"
+                    : "Your listing has been submitted successfully",
                 onConfirm: goBack,
             })
         }
-    }, [isSuccess])
+    }, [is_created, is_edit, is_updated])
 
     return {
         values: {
             formik,
-            is_loading: isLoading,
+            is_edit,
+            is_loading: is_creating || is_updating,
+            listing_loading: is_edit && listing_loading,
             image_modal,
-            categories,
+            category_options,
             categories_loading,
         },
         functions: {
