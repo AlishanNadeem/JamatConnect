@@ -41,7 +41,7 @@ const useMarketplaceDetailsController = () => {
     useEffect(() => {
         if (is_toggled) {
             showInfoModal({
-                title: "Listing Updated",
+                title: toggle_data?.data?.active ? "Listing Activated" : "Listing Deactivated",
                 message: toggle_data?.data?.active
                     ? "Your listing has been activated successfully."
                     : "Your listing has been deactivated successfully.",
