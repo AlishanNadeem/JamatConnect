@@ -28,6 +28,46 @@ const STATUS_BANNER = {
     },
 }
 
+const StatCard = ({ icon, background, color, value, label }) => (
+    <View style={styles.stat_card}>
+        <Icon
+            name={icon}
+            size={36}
+            space
+            rounded="half"
+            background={background}
+            color={color}
+        />
+        <View style={styles.stat_text}>
+            <Text size={22} weight="bold" color={colors.primary}>
+                {value}
+            </Text>
+            <Text size={12} color={colors.gray}>
+                {label}
+            </Text>
+        </View>
+    </View>
+)
+
+const ActionTile = ({ icon, background, color, title, subtitle, onPress }) => (
+    <Touchable style={styles.action_tile} onPress={onPress}>
+        <Icon
+            name={icon}
+            size={44}
+            space
+            rounded="half"
+            background={background}
+            color={color}
+        />
+        <Text size={14} weight="semibold">
+            {title}
+        </Text>
+        <Text size={11} color={colors.gray}>
+            {subtitle}
+        </Text>
+    </Touchable>
+)
+
 const MyBusinessDetails = () => {
 
     const { values, functions } = useMyBusinessDetailsController()
@@ -154,24 +194,14 @@ const MyBusinessDetails = () => {
 
                 <View style={styles.stats_row}>
                     {values.stats.map((stat) => (
-                        <View key={stat.key} style={styles.stat_card}>
-                            <Icon
-                                name={stat.icon}
-                                size={36}
-                                space
-                                rounded="half"
-                                background={stat.background}
-                                color={stat.color}
-                            />
-                            <View style={styles.stat_text}>
-                                <Text size={22} weight="bold" color={colors.primary}>
-                                    {stat.value}
-                                </Text>
-                                <Text size={12} color={colors.gray}>
-                                    {stat.label}
-                                </Text>
-                            </View>
-                        </View>
+                        <StatCard
+                            key={stat.key}
+                            icon={stat.icon}
+                            background={stat.background}
+                            color={stat.color}
+                            value={stat.value}
+                            label={stat.label}
+                        />
                     ))}
                 </View>
 
@@ -196,30 +226,19 @@ const MyBusinessDetails = () => {
 
                 <View style={styles.section}>
                     <Text size={15} weight="bold">
-                        Manage
+                        Manage Business
                     </Text>
                     <View style={styles.actions_grid}>
                         {values.manage_actions.map((action) => (
-                            <Touchable
+                            <ActionTile
                                 key={action.key}
-                                style={styles.action_tile}
+                                icon={action.icon}
+                                background={action.background}
+                                color={action.color}
+                                title={action.title}
+                                subtitle={action.subtitle}
                                 onPress={functions.action_handlers[action.onPress]}
-                            >
-                                <Icon
-                                    name={action.icon}
-                                    size={44}
-                                    space
-                                    rounded="half"
-                                    background={action.background}
-                                    color={action.color}
-                                />
-                                <Text size={14} weight="semibold">
-                                    {action.title}
-                                </Text>
-                                <Text size={11} color={colors.gray}>
-                                    {action.subtitle}
-                                </Text>
-                            </Touchable>
+                            />
                         ))}
                     </View>
                 </View>
@@ -235,41 +254,43 @@ const MyBusinessDetails = () => {
                     </View>
                 ) : null}
 
-                {values.contact_items.length ? (
-                    <View style={styles.section_card}>
-                        <Text size={13} weight="bold">
-                            Contact
-                        </Text>
-                        <View style={styles.contact_list}>
-                            {values.contact_items.map((item) => (
-                                <Row
-                                    key={item.icon}
-                                    align="center"
-                                    gap={12}
-                                    onPress={item.url ? () => functions.onOpenLink(item.url) : undefined}
-                                    style={styles.contact_row}
-                                >
-                                    <Icon
-                                        name={item.icon}
-                                        size={36}
-                                        space
-                                        rounded="half"
-                                        background={colors.lightest_primary}
-                                        color={colors.primary}
-                                    />
-                                    <View style={styles.contact_content}>
-                                        <Text size={11} color={colors.gray}>
-                                            {item.title}
-                                        </Text>
-                                        <Text size={13} weight="semibold" lines={2}>
-                                            {item.label}
-                                        </Text>
-                                    </View>
-                                </Row>
-                            ))}
+                {
+                    values.contact_items.length ? (
+                        <View style={styles.section_card}>
+                            <Text size={13} weight="bold">
+                                Contact
+                            </Text>
+                            <View style={styles.contact_list}>
+                                {values.contact_items.map((item) => (
+                                    <Row
+                                        key={item.icon}
+                                        align="center"
+                                        gap={12}
+                                        onPress={item.url ? () => functions.onOpenLink(item.url) : undefined}
+                                        style={styles.contact_row}
+                                    >
+                                        <Icon
+                                            name={item.icon}
+                                            size={36}
+                                            space
+                                            rounded="half"
+                                            background={colors.lightest_primary}
+                                            color={colors.primary}
+                                        />
+                                        <View style={styles.contact_content}>
+                                            <Text size={11} color={colors.gray}>
+                                                {item.title}
+                                            </Text>
+                                            <Text size={13} weight="semibold" lines={2}>
+                                                {item.label}
+                                            </Text>
+                                        </View>
+                                    </Row>
+                                ))}
+                            </View>
                         </View>
-                    </View>
-                ) : null}
+                    ) : null
+                }
 
                 {values.hours.length ? (
                     <View style={styles.section_card}>
