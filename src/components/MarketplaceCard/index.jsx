@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
     },
     content: {
-        gap: heightPixel(3),
+        gap: heightPixel(6),
         paddingHorizontal: widthPixel(10),
         paddingVertical: heightPixel(10),
     },
