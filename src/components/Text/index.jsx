@@ -1,8 +1,8 @@
-import { memo } from 'react';
-import { Text as RNText, StyleSheet } from 'react-native';
-import fonts from "../../assets/fonts";
-import colors from '../../helpers/colors';
-import { font } from "../../helpers/metrics";
+import { memo } from 'react'
+import { Text as RNText, StyleSheet } from 'react-native'
+import fonts from "../../assets/fonts"
+import colors from '../../helpers/colors'
+import { font } from "../../helpers/metrics"
 
 const FONT_FAMILY = {
     primary: {
@@ -10,7 +10,7 @@ const FONT_FAMILY = {
         semibold: fonts.primary.semibold,
         bold: fonts.primary.bold,
     }
-};
+}
 
 const Text = ({
     children,
@@ -28,8 +28,8 @@ const Text = ({
     onPress
 }) => {
 
-    const font_size = font(size);
-    const line_height = font_size * 1.4;
+    const font_size = font(size)
+    const line_height = Math.round(font_size * 1.4)
     const letter_spacing = font_size * (-3 / 100)
 
     const text_style = [
@@ -46,7 +46,7 @@ const Text = ({
             textTransform: capitalize ? 'capitalize' : 'none',
             ...(space && { letterSpacing: letter_spacing })
         },
-    ];
+    ]
 
     return (
         <RNText
@@ -57,14 +57,14 @@ const Text = ({
         >
             {children}
         </RNText>
-    );
-};
+    )
+}
 
-export default memo(Text);
+export default memo(Text)
 
 const styles = StyleSheet.create({
     base: {
         includeFontPadding: false,
         // textAlignVertical: 'center',
     },
-});
+})
