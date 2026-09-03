@@ -14,6 +14,10 @@ const MODES = {
         background: colors.dark_primary,
         color: colors.white,
     },
+    light_primary: {
+        background: colors.lightest_primary,
+        color: colors.primary,
+    },
     success: {
         background: colors.light_success,
         color: colors.success,
