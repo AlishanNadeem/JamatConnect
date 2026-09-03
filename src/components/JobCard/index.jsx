@@ -23,6 +23,7 @@ const JobCard = ({ data, onPress }) => {
         employment_type,
         workplace_type,
         createdAt,
+        applied,
     } = data
 
     const employment_type_label = employment_types.find((option) => option.value === employment_type)?.label
@@ -41,9 +42,14 @@ const JobCard = ({ data, onPress }) => {
                 background={colors.background}
             />
             <View style={styles.content}>
-                <Text size={15} weight="bold" lines={1}>
-                    {title}
-                </Text>
+                <Row align="center" justify="space-between" gap={8} style={styles.title_row}>
+                    <Text size={15} weight="bold" lines={1} style={styles.title}>
+                        {title}
+                    </Text>
+                    {applied ? (
+                        <Badge type="dot" label="Applied" mode="muted" />
+                    ) : null}
+                </Row>
                 {
                     business?.name ? (
                         <Text size={12} weight="semibold" color={colors.primary} lines={1}>
@@ -92,6 +98,12 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         gap: heightPixel(6),
+    },
+    title_row: {
+        width: "100%",
+    },
+    title: {
+        flex: 1,
     },
     meta_row: {
         width: "auto",
