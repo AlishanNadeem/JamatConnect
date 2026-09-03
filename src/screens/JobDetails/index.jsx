@@ -84,23 +84,30 @@ const JobDetails = () => {
 
                     <View style={styles.chips}>
                         {values.employment_type_label ? (
-                            <Badge label={values.employment_type_label} mode="muted" />
+                            <Badge label={values.employment_type_label} mode="light_primary" />
                         ) : null}
                         {values.workplace_type_label ? (
-                            <Badge label={values.workplace_type_label} mode="muted" />
+                            <Badge label={values.workplace_type_label} mode="light_primary" />
                         ) : null}
                     </View>
 
                     <View style={styles.button_wrap}>
-                        <Button size="sm" style={styles.compact_button} onPress={functions.onApply}>
-                            Apply for job
+                        <Button
+                            size="sm"
+                            style={styles.compact_button}
+                            type={job?.applied ? "muted" : "primary"}
+                            disabled={job?.applied}
+                            loading={values.is_applying}
+                            onPress={functions.onApply}
+                        >
+                            {job?.applied ? "Applied" : "Apply for job"}
                         </Button>
                     </View>
                 </View>
 
                 {job.description ? (
                     <View style={styles.card}>
-                        <Text size={18} weight="bold">
+                        <Text weight="bold">
                             About the job
                         </Text>
                         <Text size={14} color={colors.dark_gray} style={styles.body_text}>
@@ -111,8 +118,8 @@ const JobDetails = () => {
 
                 {business ? (
                     <View style={styles.card}>
-                        <Text size={18} weight="bold">
-                            About the company
+                        <Text weight="bold">
+                            About the business
                         </Text>
                         {business.description ? (
                             <Text size={14} color={colors.dark_gray} style={styles.body_text}>
@@ -134,8 +141,8 @@ const JobDetails = () => {
 
                 {values.similar_jobs.length ? (
                     <View style={styles.similar_section}>
-                        <Text size={18} weight="bold">
-                            More jobs like this
+                        <Text size={18} weight="semibold">
+                            More Jobs Like This
                         </Text>
                         <View style={styles.similar_list}>
                             {values.similar_jobs.map((item) => (
