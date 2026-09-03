@@ -5,6 +5,7 @@ import colors from "../../helpers/colors"
 import { formatDate } from "../../helpers/date"
 import { heightPixel, widthPixel } from "../../helpers/metrics"
 import { selectEmploymentTypes, selectWorkplaceTypes } from "../../redux/selectors"
+import Badge from "../Badge"
 import Icon from "../Icon"
 import Row from "../Row"
 import Text from "../Text"
@@ -60,18 +61,10 @@ const JobCard = ({ data, onPress }) => {
                 ) : null}
                 <Row align="center" gap={10} style={styles.meta_row}>
                     {employment_type_label ? (
-                        <View style={styles.type_chip}>
-                            <Text size={11} weight="semibold" color={colors.primary}>
-                                {employment_type_label}
-                            </Text>
-                        </View>
+                        <Badge label={employment_type_label} mode="light_primary" />
                     ) : null}
                     {workplace_type_label ? (
-                        <View style={styles.type_chip}>
-                            <Text size={11} weight="semibold" color={colors.primary}>
-                                {workplace_type_label}
-                            </Text>
-                        </View>
+                        <Badge label={workplace_type_label} mode="light_primary" />
                     ) : null}
                 </Row>
                 {posted_at ? (
@@ -104,12 +97,7 @@ const styles = StyleSheet.create({
         width: "auto",
         maxWidth: "100%",
         marginTop: heightPixel(2),
-    },
-    type_chip: {
-        paddingHorizontal: widthPixel(8),
-        paddingVertical: heightPixel(3),
-        borderRadius: heightPixel(8),
-        backgroundColor: colors.lightest_primary,
+        flexWrap: "wrap",
     },
     location_row: {
         flex: 1,
