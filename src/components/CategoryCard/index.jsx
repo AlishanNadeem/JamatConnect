@@ -19,7 +19,13 @@ const CategoryCard = ({ data, onPress }) => {
                 background={colors.white}
                 space
             />
-            <Text size={11} weight="semibold" align="center" lines={2}>
+            <Text
+                size={11}
+                weight="semibold"
+                align="center"
+                lines={2}
+                style={styles.name}
+            >
                 {name}
             </Text>
         </Touchable>
@@ -33,5 +39,8 @@ const styles = StyleSheet.create({
         width: widthPixel(88),
         alignItems: "center",
         gap: heightPixel(8),
-    }
+    },
+    name: {
+        width: "100%",
+    },
 })
