@@ -13,7 +13,7 @@ const THEME = {
         text_color: colors.black,
     },
     danger: {
-        background: colors.pinkish_red,
+        background: colors.light_danger,
         color: colors.danger,
         text_color: colors.danger,
     },
