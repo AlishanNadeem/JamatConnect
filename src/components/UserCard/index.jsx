@@ -7,13 +7,13 @@ import Icon from "../Icon"
 import Row from "../Row"
 import Text from "../Text"
 
-const ReferralUserCard = ({ data }) => {
+const UserCard = ({ data, date_label, onChat }) => {
 
     const {
         name,
         email,
         image_url,
-        joining_date,
+        date,
     } = data
 
     return (
@@ -29,18 +29,33 @@ const ReferralUserCard = ({ data }) => {
                 <Text size={16} weight="semibold" lines={1}>
                     {name}
                 </Text>
-                <Text size={13} color={colors.gray} lines={1}>
-                    {email}
-                </Text>
-                <Text size={12} color={colors.gray}>
-                    Joined on {formatDate(joining_date)}
-                </Text>
+                {email ? (
+                    <Text size={13} color={colors.gray} lines={1}>
+                        {email}
+                    </Text>
+                ) : null}
+                {date ? (
+                    <Text size={12} color={colors.gray}>
+                        {date_label ? `${date_label} ` : ""}{formatDate(date)}
+                    </Text>
+                ) : null}
             </View>
+            {onChat ? (
+                <Icon
+                    name="message-circle"
+                    size={40}
+                    space
+                    rounded="half"
+                    color={colors.primary}
+                    background={colors.lightest_primary}
+                    onPress={onChat}
+                />
+            ) : null}
         </Row>
     )
 }
 
-export default memo(ReferralUserCard)
+export default memo(UserCard)
 
 const styles = StyleSheet.create({
     container: {
