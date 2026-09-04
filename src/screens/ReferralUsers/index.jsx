@@ -1,6 +1,6 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native"
 import FlatList from "../../components/FlatList"
-import ReferralUserCard from "../../components/ReferralUserCard"
+import UserCard from "../../components/UserCard"
 import colors from "../../helpers/colors"
 import { heightPixel } from "../../helpers/metrics"
 import PrimaryLayout from "../../layouts/PrimaryLayout"
@@ -28,7 +28,9 @@ const ReferralUsers = () => {
                 loading_more={values.loading_more}
                 onRefresh={functions.onRefresh}
                 onEndReached={functions.onLoadMore}
-                renderItem={({ item }) => <ReferralUserCard data={item} />}
+                renderItem={({ item }) => (
+                    <UserCard data={item} date_label="Joined on" />
+                )}
                 empty={values.empty}
             />
         </PrimaryLayout>
