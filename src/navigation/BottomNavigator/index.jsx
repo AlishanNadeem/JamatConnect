@@ -8,6 +8,7 @@ import { GLOBAL_HEADER_OPTIONS, ROUTES, ROUTES_OPTIONS } from "../../helpers/rou
 import Businesses from "../../screens/Businesses"
 import Home from "../../screens/Home"
 import Jobs from "../../screens/Jobs"
+import Marketplace from "../../screens/Marketplace"
 import MyProfile from "../../screens/MyProfile"
 
 const Tab = createBottomTabNavigator()
@@ -68,6 +69,16 @@ const BottomNavigator = () => {
                         <TabIcon name="briefcase" label="Jobs" focused={focused} />
                     ),
                     ...ROUTES_OPTIONS[ROUTES.JOBS]
+                }}
+            />
+            <Tab.Screen
+                name={ROUTES.MARKETPLACE}
+                component={Marketplace}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="shopping-bag" label="Marketplace" focused={focused} />
+                    ),
+                    ...ROUTES_OPTIONS[ROUTES.MARKETPLACE]
                 }}
             />
             <Tab.Screen
