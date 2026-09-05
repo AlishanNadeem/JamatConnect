@@ -115,28 +115,36 @@ const JobDetails = () => {
                 </View>
 
                 {is_mine ? (
-                    <Row gap={12}>
-                        <View style={styles.action_button}>
-                            <Button
-                                type={job.closed ? "primary" : "secondary"}
-                                onPress={functions.onToggleClosed}
-                                loading={values.is_closing}
-                                disabled={values.is_deleting}
-                            >
-                                {job.closed ? "Reopen Job" : "Mark as Closed"}
-                            </Button>
-                        </View>
-                        <View style={styles.action_button}>
-                            <Button
-                                type="danger"
-                                onPress={functions.onDelete}
-                                loading={values.is_deleting}
-                                disabled={values.is_closing}
-                            >
-                                Delete Job
-                            </Button>
-                        </View>
-                    </Row>
+                    <View style={styles.owner_actions}>
+                        <Button
+                            type={job.closed ? "primary" : "secondary"}
+                            onPress={functions.onToggleClosed}
+                            loading={values.is_closing}
+                            disabled={values.is_deleting}
+                        >
+                            {job.closed ? "Reopen Job" : "Mark as Closed"}
+                        </Button>
+                        <Row gap={12}>
+                            <View style={styles.action_button}>
+                                <Button
+                                    onPress={functions.onEdit}
+                                    disabled={values.is_closing || values.is_deleting}
+                                >
+                                    Edit Job
+                                </Button>
+                            </View>
+                            <View style={styles.action_button}>
+                                <Button
+                                    type="danger"
+                                    onPress={functions.onDelete}
+                                    loading={values.is_deleting}
+                                    disabled={values.is_closing}
+                                >
+                                    Delete Job
+                                </Button>
+                            </View>
+                        </Row>
+                    </View>
                 ) : null}
 
                 {job.description ? (
@@ -256,6 +264,9 @@ const styles = StyleSheet.create({
     },
     action_button: {
         flex: 1,
+    },
+    owner_actions: {
+        gap: heightPixel(10),
     },
     section: {
         gap: heightPixel(12),

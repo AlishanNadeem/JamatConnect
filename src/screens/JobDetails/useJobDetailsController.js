@@ -82,6 +82,7 @@ const useJobDetailsController = () => {
     }, [is_closed, close_data])
 
     const onApply = useCallback(async () => {
+
         if (!id || job?.applied || job?.closed || is_applying || is_mine) return
 
         const confirmed = await showConfirmModal({
@@ -90,9 +91,11 @@ const useJobDetailsController = () => {
         })
 
         if (confirmed) applyJob(id)
-    }, [applyJob, id, is_applying, is_mine, job?.applied, job?.closed, showConfirmModal])
+
+    }, [id, is_applying, is_mine, job?.applied, job?.closed])
 
     const onToggleClosed = useCallback(async () => {
+
         if (!id || is_closing) return
 
         const confirmed = await showConfirmModal({
@@ -103,9 +106,11 @@ const useJobDetailsController = () => {
         })
 
         if (confirmed) closeJob(id)
-    }, [closeJob, id, is_closing, job?.closed, showConfirmModal])
+
+    }, [id, is_closing, job?.closed])
 
     const onDelete = useCallback(async () => {
+
         if (!id || is_deleting) return
 
         const confirmed = await showConfirmModal({
@@ -114,7 +119,13 @@ const useJobDetailsController = () => {
         })
 
         if (confirmed) deleteJob(id)
-    }, [deleteJob, id, is_deleting, showConfirmModal])
+
+    }, [id, is_deleting])
+
+    const onEdit = useCallback(() => {
+        if (!id) return
+        navigate(ROUTES.CREATE_JOB, { _id: id })
+    }, [id])
 
     const onViewBusiness = useCallback(() => {
         if (!business?._id) return
@@ -149,6 +160,7 @@ const useJobDetailsController = () => {
             onApply,
             onToggleClosed,
             onDelete,
+            onEdit,
         },
     }
 }
