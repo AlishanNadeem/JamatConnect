@@ -21,6 +21,15 @@ export const formatPhone = (dialing_code, phone) => {
     return `${dialing_code ?? ""} ${phone}`.trim()
 }
 
+export const getOptionLabel = (options = [], value) =>
+    options.find((option) => option.value === value)?.label ?? value
+
+export const getLocationLabel = ({ location, address } = {}) =>
+    location
+    || address?.formatted
+    || [address?.city, address?.state, address?.country].filter(Boolean).join(", ")
+    || null
+
 const appendFormDataValue = (form_data, key, value) => {
 
     if (value === undefined || value === null) return
