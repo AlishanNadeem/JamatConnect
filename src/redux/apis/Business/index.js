@@ -27,10 +27,24 @@ export const businessApi = baseApi.injectEndpoints({
             providesTags: ["Businesses"],
         }),
         getBusinessById: builder.query({
-            query: (id) => ({
-                url: `/business/get/${id}`,
-                method: "GET",
-            }),
+            query: (arg) => {
+
+                const id = typeof arg === "object" && arg !== null ? arg.id : arg
+
+                const params = typeof arg === "object" && arg !== null
+                    ? {
+                        ...(arg.jobs !== undefined && { jobs: arg.jobs }),
+                        ...(arg.reviews !== undefined && { reviews: arg.reviews }),
+                    }
+                    : undefined
+
+                return {
+                    url: `/business/get/${id}`,
+                    method: "GET",
+                    params,
+                }
+
+            },
             providesTags: ["Businesses"],
         }),
     }),
