@@ -2,15 +2,20 @@ import { ActivityIndicator, StyleSheet, View } from "react-native"
 import Badge from "../../components/Badge"
 import Button from "../../components/Button"
 import Empty from "../../components/Empty"
+import FlatList from "../../components/FlatList"
 import Icon from "../../components/Icon"
 import JobCard from "../../components/JobCard"
+import Row from "../../components/Row"
 import Text from "../../components/Text"
 import Touchable from "../../components/Touchable"
+import UserCard from "../../components/UserCard"
 import colors from "../../helpers/colors"
 import { formatDate } from "../../helpers/date"
 import { heightPixel, widthPixel } from "../../helpers/metrics"
 import PrimaryLayout from "../../layouts/PrimaryLayout"
 import useJobDetailsController from "./useJobDetailsController"
+
+const APPLICANT_DATE_OPTIONS = { format: "MMM D, YYYY hh:mm A" }
 
 const JobDetails = () => {
 
@@ -37,8 +42,7 @@ const JobDetails = () => {
         )
     }
 
-    const job = values.data
-    const business = values.business
+    const { data: job, business, is_mine, applicants, similar_jobs } = values
 
     return (
         <PrimaryLayout scrollable header>
@@ -89,27 +93,55 @@ const JobDetails = () => {
                         {values.workplace_type_label ? (
                             <Badge label={values.workplace_type_label} mode="light_primary" />
                         ) : null}
+                        {job.closed ? (
+                            <Badge label="Closed" mode="danger" />
+                        ) : null}
                     </View>
 
-                    <View style={styles.button_wrap}>
-                        <Button
-                            size="sm"
-                            style={styles.compact_button}
-                            type={job?.applied ? "muted" : "primary"}
-                            disabled={job?.applied}
-                            loading={values.is_applying}
-                            onPress={functions.onApply}
-                        >
-                            {job?.applied ? "Applied" : "Apply for job"}
-                        </Button>
-                    </View>
+                    {!is_mine ? (
+                        <View style={styles.button_wrap}>
+                            <Button
+                                size="sm"
+                                style={styles.compact_button}
+                                type={job.applied ? "muted" : "primary"}
+                                disabled={job.applied || job.closed}
+                                loading={values.is_applying}
+                                onPress={functions.onApply}
+                            >
+                                {values.apply_label}
+                            </Button>
+                        </View>
+                    ) : null}
                 </View>
+
+                {is_mine ? (
+                    <Row gap={12}>
+                        <View style={styles.action_button}>
+                            <Button
+                                type={job.closed ? "primary" : "secondary"}
+                                onPress={functions.onToggleClosed}
+                                loading={values.is_closing}
+                                disabled={values.is_deleting}
+                            >
+                                {job.closed ? "Reopen Job" : "Mark as Closed"}
+                            </Button>
+                        </View>
+                        <View style={styles.action_button}>
+                            <Button
+                                type="danger"
+                                onPress={functions.onDelete}
+                                loading={values.is_deleting}
+                                disabled={values.is_closing}
+                            >
+                                Delete Job
+                            </Button>
+                        </View>
+                    </Row>
+                ) : null}
 
                 {job.description ? (
                     <View style={styles.card}>
-                        <Text weight="bold">
-                            About the job
-                        </Text>
+                        <Text weight="bold">About the job</Text>
                         <Text size={14} color={colors.dark_gray} style={styles.body_text}>
                             {job.description}
                         </Text>
@@ -118,9 +150,7 @@ const JobDetails = () => {
 
                 {business ? (
                     <View style={styles.card}>
-                        <Text weight="bold">
-                            About the business
-                        </Text>
+                        <Text weight="bold">About the business</Text>
                         {business.description ? (
                             <Text size={14} color={colors.dark_gray} style={styles.body_text}>
                                 {business.description}
@@ -139,20 +169,42 @@ const JobDetails = () => {
                     </View>
                 ) : null}
 
-                {values.similar_jobs.length ? (
-                    <View style={styles.similar_section}>
+                {is_mine && applicants.length ? (
+                    <View style={styles.section}>
+                        <Text size={18} weight="semibold">
+                            Applicants ({applicants.length})
+                        </Text>
+                        <FlatList
+                            data={applicants}
+                            scrollEnabled={false}
+                            keyExtractor={(item) => String(item._id)}
+                            renderItem={({ item }) => (
+                                <UserCard
+                                    data={item}
+                                    date_label="Applied on"
+                                    date_options={APPLICANT_DATE_OPTIONS}
+                                />
+                            )}
+                        />
+                    </View>
+                ) : null}
+
+                {similar_jobs.length ? (
+                    <View style={styles.section}>
                         <Text size={18} weight="semibold">
                             More Jobs Like This
                         </Text>
-                        <View style={styles.similar_list}>
-                            {values.similar_jobs.map((item) => (
+                        <FlatList
+                            data={similar_jobs}
+                            scrollEnabled={false}
+                            keyExtractor={(item) => String(item._id)}
+                            renderItem={({ item }) => (
                                 <JobCard
-                                    key={item._id}
                                     data={item}
                                     onPress={() => functions.onSimilarJobPress(item)}
                                 />
-                            ))}
-                        </View>
+                            )}
+                        />
                     </View>
                 ) : null}
             </View>
@@ -202,11 +254,11 @@ const styles = StyleSheet.create({
         width: "auto",
         minWidth: widthPixel(120),
     },
-    similar_section: {
-        gap: heightPixel(12),
+    action_button: {
+        flex: 1,
     },
-    similar_list: {
-        gap: heightPixel(10),
+    section: {
+        gap: heightPixel(12),
     },
     body_text: {
         lineHeight: heightPixel(22),
