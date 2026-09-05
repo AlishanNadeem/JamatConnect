@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native"
 import { useSelector } from "react-redux"
 import colors from "../../helpers/colors"
 import { formatDate } from "../../helpers/date"
+import { getOptionLabel } from "../../helpers/general"
 import { heightPixel, widthPixel } from "../../helpers/metrics"
 import { selectEmploymentTypes, selectWorkplaceTypes } from "../../redux/selectors"
 import Badge from "../Badge"
@@ -26,8 +27,8 @@ const JobCard = ({ data, onPress }) => {
         applied,
     } = data
 
-    const employment_type_label = employment_types.find((option) => option.value === employment_type)?.label
-    const workplace_type_label = workplace_types.find((option) => option.value === workplace_type)?.label
+    const employment_type_label = getOptionLabel(employment_types, employment_type)
+    const workplace_type_label = getOptionLabel(workplace_types, workplace_type)
     const posted_at = createdAt
         ? formatDate(createdAt, { show_time_ago: true })
         : null
