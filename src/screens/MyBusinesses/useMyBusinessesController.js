@@ -21,6 +21,10 @@ const useMyBusinessesController = () => {
         navigate(ROUTES.CREATE_BUSINESS)
     }, [])
 
+    const onBusinessPress = useCallback((business) => {
+        navigate(ROUTES.MY_BUSINESS_DETAILS, { _id: business._id })
+    }, [])
+
     return {
         values: {
             data: data?.data ?? [],
@@ -40,6 +44,7 @@ const useMyBusinessesController = () => {
         functions: {
             onRefresh,
             onAddBusiness,
+            onBusinessPress,
         },
     }
 }

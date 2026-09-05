@@ -39,7 +39,12 @@ const MyBusinesses = () => {
                     refreshing={values.refreshing}
                     loading_more={values.loading_more}
                     onRefresh={functions.onRefresh}
-                    renderItem={({ item }) => <MyBusinessCard data={item} />}
+                    renderItem={({ item }) => (
+                        <MyBusinessCard
+                            data={item}
+                            onPress={() => functions.onBusinessPress(item)}
+                        />
+                    )}
                     empty={values.empty}
                     style={styles.list}
                     loading={values.is_loading}
