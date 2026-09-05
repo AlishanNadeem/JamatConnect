@@ -1,8 +1,12 @@
-import { StyleSheet, View } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { useLayoutEffect } from "react"
+import { ActivityIndicator, StyleSheet, View } from "react-native"
 import Button from "../../components/Button"
 import Dropdown from "../../components/Dropdown"
 import Input from "../../components/Input"
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper"
+import HeaderTitle from "../../components/Navigation/HeaderTitle"
+import colors from "../../helpers/colors"
 import { heightPixel } from "../../helpers/metrics"
 import PrimaryLayout from "../../layouts/PrimaryLayout"
 import useCreateJobController from "./useCreateJobController"
@@ -15,8 +19,29 @@ const dropdownError = (touched, error) => {
 
 const CreateJob = () => {
 
+    const navigation = useNavigation()
     const { values } = useCreateJobController()
     const { formik } = values
+
+    useLayoutEffect(() => {
+
+        if (!values.is_edit) return
+
+        navigation.setOptions({
+            headerTitle: () => <HeaderTitle title="Edit Job" />,
+        })
+
+    }, [navigation, values.is_edit])
+
+    if (values.job_loading) {
+        return (
+            <PrimaryLayout header>
+                <View style={styles.loader}>
+                    <ActivityIndicator color={colors.primary} size="large" />
+                </View>
+            </PrimaryLayout>
+        )
+    }
 
     return (
         <PrimaryLayout header>
@@ -79,7 +104,7 @@ const CreateJob = () => {
                         />
                     </View>
                     <Button onPress={formik.handleSubmit} loading={values.is_loading}>
-                        Post Job
+                        {values.is_edit ? "Update Job" : "Post Job"}
                     </Button>
                 </View>
             </KeyboardAvoidingWrapper>
@@ -90,6 +115,11 @@ const CreateJob = () => {
 export default CreateJob
 
 const styles = StyleSheet.create({
+    loader: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+    },
     container: {
         flex: 1,
         gap: heightPixel(40),
