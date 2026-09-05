@@ -49,9 +49,9 @@ export const jobApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["Jobs", "MyJobs"],
         }),
-        toggleJobActive: builder.mutation({
+        closeJob: builder.mutation({
             query: (id) => ({
-                url: `/job/toggle-active/${id}`,
+                url: `/job/close/${id}`,
                 method: "PATCH",
             }),
             invalidatesTags: ["Jobs", "MyJobs"],
@@ -61,7 +61,21 @@ export const jobApi = baseApi.injectEndpoints({
                 url: `/job/delete/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["Jobs", "MyJobs"],
+            invalidatesTags: ["Jobs", "MyJobs", "JobApplications"],
+        }),
+        applyJob: builder.mutation({
+            query: (id) => ({
+                url: `/job/apply/${id}`,
+                method: "POST",
+            }),
+            invalidatesTags: ["Jobs", "MyJobs", "JobApplications"],
+        }),
+        getJobApplications: builder.query({
+            query: (id) => ({
+                url: `/job/applications/${id}`,
+                method: "GET",
+            }),
+            providesTags: ["JobApplications"],
         }),
     }),
 })
@@ -72,6 +86,8 @@ export const {
     useGetMyJobsQuery,
     useGetJobByIdQuery,
     useUpdateJobMutation,
-    useToggleJobActiveMutation,
+    useCloseJobMutation,
     useDeleteJobMutation,
+    useApplyJobMutation,
+    useGetJobApplicationsQuery,
 } = jobApi
