@@ -40,6 +40,8 @@ export const ROUTES = {
     HOME: "Home",
     BUSINESSES: "Businesses",
     JOBS: "Jobs",
+    MARKETPLACE: "Marketplace",
+    MARKETPLACE_DETAILS: "MarketplaceDetails",
     MY_PROFILE: "MyProfile",
     EDIT_PROFILE: "EditProfile",
     CHANGE_PASSWORD: "ChangePassword",
@@ -52,7 +54,13 @@ export const ROUTES = {
     REFERRAL_USERS: "ReferralUsers",
     MY_BUSINESSES: "MyBusinesses",
     CREATE_BUSINESS: "CreateBusiness",
+    MY_BUSINESS_DETAILS: "MyBusinessDetails",
+    MY_LISTINGS: "MyListings",
+    CREATE_LISTING: "CreateListing",
+    CREATE_JOB: "CreateJob",
+    JOB_DETAILS: "JobDetails",
     BUSINESS_DETAILS: "BusinessDetails",
+    BUSINESS_REVIEWS: "BusinessReviews",
     CATEGORIES: "Categories",
 }
 
@@ -102,6 +110,15 @@ export const ROUTES_OPTIONS = {
 
     [ROUTES.JOBS]: {
         ...screenOptionsWithTitle("Jobs"),
+    },
+
+    [ROUTES.MARKETPLACE]: {
+        ...screenOptionsWithTitle("Marketplace"),
+    },
+
+    [ROUTES.MARKETPLACE_DETAILS]: {
+        ...screenOptionsWithTitle("Listing Details"),
+        headerLeft: HEADER_LEFT.back,
     },
 
     [ROUTES.MY_PROFILE]: {
@@ -167,8 +184,38 @@ export const ROUTES_OPTIONS = {
         headerLeft: HEADER_LEFT.back,
     },
 
+    [ROUTES.MY_BUSINESS_DETAILS]: {
+        ...screenOptionsWithTitle("My Business"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.MY_LISTINGS]: {
+        ...screenOptionsWithTitle("My Listings"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.CREATE_LISTING]: {
+        ...screenOptionsWithTitle("Add Listing"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.CREATE_JOB]: {
+        ...screenOptionsWithTitle("Post a Job"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.JOB_DETAILS]: {
+        ...screenOptionsWithTitle("Job Details"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
     [ROUTES.BUSINESS_DETAILS]: {
         ...screenOptionsWithTitle("Business Details"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.BUSINESS_REVIEWS]: {
+        ...screenOptionsWithTitle("Reviews"),
         headerLeft: HEADER_LEFT.back,
     },
 
