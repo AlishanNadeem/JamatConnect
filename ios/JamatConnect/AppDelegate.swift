@@ -49,7 +49,7 @@ class ReactNativeDelegate: RCTDefaultReactNativeFactoryDelegate {
   
   override func customize(_ rootView: RCTRootView) {
         super.customize(rootView)
-        RNBootSplash.initWithStoryboard("LaunchScreen", rootView: rootView) // ⬅️ initialize the splash screen
+        RNBootSplash.initWithStoryboard("BootSplash", rootView: rootView) // ⬅️ initialize the splash screen
     }
   
 }
