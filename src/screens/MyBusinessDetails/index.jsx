@@ -2,8 +2,10 @@ import { ActivityIndicator, StyleSheet, View } from "react-native"
 import LinearGradient from "react-native-linear-gradient"
 import Badge from "../../components/Badge"
 import Empty from "../../components/Empty"
+import FlatList from "../../components/FlatList"
 import Icon from "../../components/Icon"
 import Image from "../../components/Image"
+import JobCard from "../../components/JobCard"
 import ReviewCard, { Stars } from "../../components/ReviewCard"
 import Row from "../../components/Row"
 import Text from "../../components/Text"
@@ -327,6 +329,35 @@ const MyBusinessDetails = () => {
                                 )
                             })}
                         </View>
+                    </View>
+                ) : null}
+
+                {values.preview_jobs.length ? (
+                    <View style={styles.section}>
+                        <Row align="center" justify="space-between">
+                            <Text size={15} weight="bold">
+                                Jobs
+                            </Text>
+                            <Text
+                                size={13}
+                                weight="semibold"
+                                color={colors.primary}
+                                onPress={functions.onViewAllJobs}
+                            >
+                                View All
+                            </Text>
+                        </Row>
+                        <FlatList
+                            data={values.preview_jobs}
+                            scrollEnabled={false}
+                            keyExtractor={(item) => String(item._id)}
+                            renderItem={({ item }) => (
+                                <JobCard
+                                    data={item}
+                                    onPress={() => functions.onJobPress(item)}
+                                />
+                            )}
+                        />
                     </View>
                 ) : null}
 

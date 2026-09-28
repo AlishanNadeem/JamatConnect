@@ -2,50 +2,32 @@ import { useRoute } from "@react-navigation/native"
 import dayjs from "dayjs"
 import { useCallback, useMemo } from "react"
 import { Linking } from "react-native"
-import { useModal } from "../../contexts/ModalContext"
+import { useDispatch, useSelector } from "react-redux"
 import colors from "../../helpers/colors"
+import { BUSINESS_REVIEWS } from "../../helpers/data"
 import { formatPhone, formatWebsite, getLocationLabel } from "../../helpers/general"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
 import { useGetBusinessByIdQuery } from "../../redux/apis/Business"
+import { selectSavedBusinessIds } from "../../redux/selectors"
+import { toggleSavedBusiness } from "../../redux/slices/general.slice"
 
 const PREVIEW_COUNT = 2
 
-const STATUS_THEME = {
-    approved: {
-        mode: "success",
-        label: "Approved",
-        message: "Your business is live and visible to the community.",
-    },
-    pending: {
-        mode: "warning",
-        label: "Pending",
-        message: "Your listing is under review. You’ll be notified once it’s approved.",
-    },
-    rejected: {
-        mode: "danger",
-        label: "Rejected",
-        message: "This listing was not approved. Edit and resubmit your details.",
-    },
-}
-
-const useMyBusinessDetailsController = () => {
+const useBusinessDetailsController = () => {
 
     const { params } = useRoute()
     const id = params?._id
-    const { showInfoModal } = useModal()
+    const dispatch = useDispatch()
+    const saved_business_ids = useSelector(selectSavedBusinessIds)
 
     const {
         data,
         isLoading,
         isError,
-    } = useGetBusinessByIdQuery(
-        { id, jobs: true },
-        { skip: !id },
-    )
+    } = useGetBusinessByIdQuery(id, { skip: !id })
 
     const business = data?.data ?? {}
-    const preview_jobs = Array.isArray(business.jobs) ? business.jobs : []
 
     const {
         name,
@@ -59,39 +41,8 @@ const useMyBusinessDetailsController = () => {
         image_url,
         logo_url,
         verified,
-        status,
-        active,
         hours = [],
-        views_count,
-        saved_count,
-        review_count = 0,
-        average_rating = 0,
-        reviews = [],
     } = business
-
-    const status_theme = STATUS_THEME[status] ?? STATUS_THEME.pending
-    const is_active = Boolean(active)
-    const rating_average = Number(average_rating || 0).toFixed(1)
-    const preview_reviews = (Array.isArray(reviews) ? reviews : []).slice(0, PREVIEW_COUNT)
-
-    const stats = useMemo(() => [
-        {
-            key: "views",
-            label: "Views",
-            value: Number(views_count ?? 0),
-            icon: "eye",
-            background: colors.lightest_primary,
-            color: colors.primary,
-        },
-        {
-            key: "saves",
-            label: "Saved",
-            value: Number(saved_count ?? 0),
-            icon: "bookmark",
-            background: colors.lightest_primary,
-            color: colors.primary,
-        },
-    ], [saved_count, views_count])
 
     const phone_label = formatPhone(dialing_code, phone)
     const website_label = formatWebsite(website)
@@ -154,89 +105,28 @@ const useMyBusinessDetailsController = () => {
         website_label && { icon: "globe", title: "Website", label: website_label, url: website_url },
     ].filter(Boolean), [email, email_url, location_label, maps_url, phone_label, phone_url, website_label, website_url])
 
-    const manage_actions = useMemo(() => [
-        {
-            key: "edit",
-            icon: "pencil",
-            title: "Edit Listing",
-            subtitle: "Profile & photos",
-            background: colors.lightest_primary,
-            color: colors.primary,
-            onPress: "onEditListing",
-        },
-        {
-            key: "special",
-            icon: "megaphone",
-            title: "Add Special",
-            subtitle: "Promote offers",
-            background: colors.light_danger,
-            color: colors.danger,
-            onPress: "onAddSpecial",
-        },
-        {
-            key: "job",
-            icon: "briefcase",
-            title: "Post a Job",
-            subtitle: "Hire talent",
-            background: colors.light_info,
-            color: colors.info,
-            onPress: "onPostJob",
-        },
-        {
-            key: "public",
-            icon: "eye",
-            title: "View Public",
-            subtitle: "See live page",
-            background: colors.light_warning,
-            color: colors.warning,
-            onPress: "onViewPublic",
-        },
-    ], [])
-
     const onOpenLink = useCallback((url) => {
         if (!url) return
         Linking.openURL(url)
     }, [])
 
+    const reviews = BUSINESS_REVIEWS
+    const review_count = reviews.length
+    const rating_average = review_count
+        ? (reviews.reduce((sum, review) => sum + review.rating, 0) / review_count).toFixed(1)
+        : "0.0"
+    const preview_reviews = reviews.slice(0, PREVIEW_COUNT)
+
     const onViewAllReviews = useCallback(() => {
         navigate(ROUTES.BUSINESS_REVIEWS, { _id: id })
     }, [id])
 
-    const onViewAllJobs = useCallback(() => {
+    const saved = saved_business_ids.includes(String(id))
+
+    const onToggleSave = useCallback(() => {
         if (!id) return
-        navigate(ROUTES.BUSINESS_JOBS, { _id: id })
-    }, [id])
-
-    const onEditListing = useCallback(() => {
-        navigate(ROUTES.CREATE_BUSINESS, { _id: id })
-    }, [id])
-
-    const onViewPublic = useCallback(() => {
-        navigate(ROUTES.BUSINESS_DETAILS, { _id: id })
-    }, [id])
-
-    const onAddSpecial = useCallback(() => {
-        showInfoModal({
-            title: "Coming Soon",
-            message: "Adding specials will be available soon.",
-        })
-    }, [showInfoModal])
-
-    const onPostJob = useCallback(() => {
-        navigate(ROUTES.CREATE_JOB, { business_id: id })
-    }, [id])
-
-    const onJobPress = useCallback((job) => {
-        if (!job?._id) return
-        navigate(ROUTES.JOB_DETAILS, { _id: String(job._id) })
-    }, [])
-
-    const action_handlers = {
-        onEditListing,
-        onAddSpecial,
-        onPostJob,
-        onViewPublic,
-    }
+        dispatch(toggleSavedBusiness(id))
+    }, [dispatch, id])
 
     return {
         values: {
@@ -246,34 +136,23 @@ const useMyBusinessDetailsController = () => {
             image_url,
             logo_url,
             verified,
-            status,
-            status_theme,
-            active: is_active,
             hours,
             today,
             today_status,
             contact_items,
-            manage_actions,
-            stats,
-            preview_jobs,
             preview_reviews,
             review_count,
             rating_average,
+            saved,
             is_loading: isLoading,
             is_error: isError || !id,
         },
         functions: {
             onOpenLink,
             onViewAllReviews,
-            onViewAllJobs,
-            onEditListing,
-            onAddSpecial,
-            onPostJob,
-            onViewPublic,
-            onJobPress,
-            action_handlers,
+            onToggleSave,
         },
     }
 }
 
-export default useMyBusinessDetailsController
+export default useBusinessDetailsController

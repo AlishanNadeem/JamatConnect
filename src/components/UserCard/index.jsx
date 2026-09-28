@@ -7,7 +7,7 @@ import Icon from "../Icon"
 import Row from "../Row"
 import Text from "../Text"
 
-const UserCard = ({ data, date_label, onChat }) => {
+const UserCard = ({ data, date_label, date_options = {}, onChat }) => {
 
     const {
         name,
@@ -36,18 +36,15 @@ const UserCard = ({ data, date_label, onChat }) => {
                 ) : null}
                 {date ? (
                     <Text size={12} color={colors.gray}>
-                        {date_label ? `${date_label} ` : ""}{formatDate(date)}
+                        {date_label ? `${date_label} ` : ""}{formatDate(date, date_options)}
                     </Text>
                 ) : null}
             </View>
             {onChat ? (
                 <Icon
-                    name="message-circle"
-                    size={40}
-                    space
-                    rounded="half"
+                    name="message-circle-more"
+                    size={24}
                     color={colors.primary}
-                    background={colors.lightest_primary}
                     onPress={onChat}
                 />
             ) : null}

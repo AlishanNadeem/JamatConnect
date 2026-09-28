@@ -25,6 +25,7 @@ const JobCard = ({ data, onPress }) => {
         workplace_type,
         createdAt,
         applied,
+        closed,
     } = data
 
     const employment_type_label = getOptionLabel(employment_types, employment_type)
@@ -47,7 +48,9 @@ const JobCard = ({ data, onPress }) => {
                     <Text size={15} weight="bold" lines={1} style={styles.title}>
                         {title}
                     </Text>
-                    {applied ? (
+                    {closed ? (
+                        <Badge type="dot" label="Closed" mode="danger" />
+                    ) : applied ? (
                         <Badge type="dot" label="Applied" mode="muted" />
                     ) : null}
                 </Row>

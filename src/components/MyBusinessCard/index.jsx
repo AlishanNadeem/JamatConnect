@@ -2,25 +2,26 @@ import { memo } from "react"
 import { StyleSheet, View } from "react-native"
 import LinearGradient from "react-native-linear-gradient"
 import colors from "../../helpers/colors"
-import { formatPhone, formatWebsite } from "../../helpers/general"
+import { formatPhone, formatWebsite, getLocationLabel } from "../../helpers/general"
 import { heightPixel, widthPixel } from "../../helpers/metrics"
 import Badge from "../Badge"
 import Icon from "../Icon"
 import Image from "../Image"
 import Row from "../Row"
 import Text from "../Text"
+import Touchable from "../Touchable"
 
 const STATUS_THEME = {
     approved: {
-        color: colors.success,
+        mode: "success",
         label: "Approved",
     },
     pending: {
-        color: colors.warning,
+        mode: "warning",
         label: "Pending",
     },
     rejected: {
-        color: colors.danger,
+        mode: "danger",
         label: "Rejected",
     },
 }
@@ -41,7 +42,7 @@ const DetailChip = ({ icon, label }) => (
     </View>
 )
 
-const MyBusinessCard = ({ data }) => {
+const MyBusinessCard = ({ data, onPress }) => {
 
     const {
         name,
@@ -63,8 +64,7 @@ const MyBusinessCard = ({ data }) => {
     const status_theme = STATUS_THEME[status] ?? STATUS_THEME.pending
     const phone_label = formatPhone(dialing_code, phone)
     const website_label = formatWebsite(website)
-    const location_label = address?.formatted
-        ?? [address?.city, address?.state].filter(Boolean).join(", ")
+    const location_label = getLocationLabel({ address })
 
     const detail_items = [
         location_label && { icon: "map-pin", label: location_label },
@@ -74,7 +74,7 @@ const MyBusinessCard = ({ data }) => {
     ].filter(Boolean)
 
     return (
-        <View style={styles.container}>
+        <Touchable onPress={onPress} style={styles.container}>
             <View style={styles.cover_wrapper}>
                 <Image source={{ uri: image_url }} style={styles.cover} />
 
@@ -85,16 +85,12 @@ const MyBusinessCard = ({ data }) => {
 
                 <Row align="center" gap={8} style={styles.badges_row}>
                     {!active ? (
-                        <Badge
-                            type="secondary"
-                            label="Inactive"
-                            background="rgba(255, 255, 255, 0.94)"
-                        />
+                        <Badge mode="default" label="Inactive" />
                     ) : null}
                     <Badge
                         type="dot"
                         label={status_theme.label}
-                        color={status_theme.color}
+                        mode={status_theme.mode}
                     />
                 </Row>
             </View>
@@ -156,7 +152,7 @@ const MyBusinessCard = ({ data }) => {
                     ) : null
                 }
             </View>
-        </View>
+        </Touchable>
     )
 }
 

@@ -61,6 +61,7 @@ export const ROUTES = {
     JOB_DETAILS: "JobDetails",
     BUSINESS_DETAILS: "BusinessDetails",
     BUSINESS_REVIEWS: "BusinessReviews",
+    BUSINESS_JOBS: "BusinessJobs",
     CATEGORIES: "Categories",
 }
 
@@ -216,6 +217,11 @@ export const ROUTES_OPTIONS = {
 
     [ROUTES.BUSINESS_REVIEWS]: {
         ...screenOptionsWithTitle("Reviews"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.BUSINESS_JOBS]: {
+        ...screenOptionsWithTitle("Business Jobs"),
         headerLeft: HEADER_LEFT.back,
     },
 

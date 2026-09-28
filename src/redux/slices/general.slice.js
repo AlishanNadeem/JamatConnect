@@ -4,7 +4,10 @@ import { generalApi } from "../apis/General"
 const initial = {
     first_launch: true,
     alert_mode: null,
-    app_config: null
+    app_config: null,
+    employment_types: [],
+    workplace_types: [],
+    saved_business_ids: [],
 }
 
 const generalSlice = createSlice({
@@ -17,6 +20,21 @@ const generalSlice = createSlice({
         setAlertMode: (state, action) => {
             state.alert_mode = action.payload
         },
+        toggleSavedBusiness: (state, action) => {
+            const id = String(action.payload)
+            if (!state.saved_business_ids) {
+                state.saved_business_ids = []
+            }
+            const index = state.saved_business_ids.indexOf(id)
+            if (index >= 0) {
+                state.saved_business_ids.splice(index, 1)
+            } else {
+                state.saved_business_ids.push(id)
+            }
+        },
+        clearUserData: (state) => {
+            state.saved_business_ids = []
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -26,8 +44,16 @@ const generalSlice = createSlice({
                     state.app_config = action.payload.data
                 }
             )
+            .addMatcher(
+                generalApi.endpoints.getData.matchFulfilled,
+                (state, action) => {
+                    const data = action.payload?.data ?? {}
+                    state.employment_types = data.employment_types ?? []
+                    state.workplace_types = data.workplace_types ?? []
+                }
+            )
     }
 })
 
-export const { completeOnboarding, setAlertMode } = generalSlice.actions
+export const { completeOnboarding, setAlertMode, toggleSavedBusiness, clearUserData } = generalSlice.actions
 export default generalSlice.reducer

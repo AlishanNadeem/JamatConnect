@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
         borderColor: colors.transparent,
         paddingHorizontal: widthPixel(16),
         paddingVertical: heightPixel(16),
-        backgroundColor: colors.input_background,
+        backgroundColor: colors.white,
         gap: heightPixel(8)
     },
     content: {
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     },
     unread: {
         borderColor: colors.light_primary,
-        backgroundColor: colors.primary_opacity
+        backgroundColor: colors.lightest_primary
     }
 })
 

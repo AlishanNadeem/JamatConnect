@@ -27,9 +27,11 @@ const GlobalModal = ({ visible, type, title, button_text = "Ok", message, onOk, 
         <Modal visible={visible} animationType="fade" statusBarTranslucent transparent>
             <View style={styles.overlay}>
                 <Animated.View style={[styles.container, { transform: [{ scale: scale_animation }] }]}>
-                    <Icon name={type === "info" ? "circle-check" : "alert-circle"} size={47} background={colors.dark_primary} rounded={"full"} space color={colors.white} />
-                    {title && <Text size={26} weight="bold" align="center" color={colors.black}>{title}</Text>}
-                    {message && <Text size={16} align="center" color={colors.black}>{message}</Text>}
+                    <Icon name={type === "info" ? "circle-check" : "alert-circle"} size={60} color={type === "info" ? colors.dark_primary : colors.danger} />
+                    <View style={styles.content}>
+                        {title && <Text size={26} weight="bold" align="center" color={colors.black}>{title}</Text>}
+                        {message && <Text size={16} align="center" color={colors.black}>{message}</Text>}
+                    </View>
                     <View style={styles.row}>
                         {
                             type === "info" ?
@@ -58,15 +60,18 @@ const styles = StyleSheet.create({
         backgroundColor: colors.overlay
     },
     container: {
-        backgroundColor: colors.lightest_primary,
+        backgroundColor: colors.white,
         borderRadius: heightPixel(20),
         paddingHorizontal: widthPixel(27),
         paddingVertical: heightPixel(34),
         minHeight: heightPixel(250),
         width: "100%",
-        gap: heightPixel(16),
+        gap: heightPixel(18),
         justifyContent: "center",
         alignItems: "center"
+    },
+    content: {
+        gap: heightPixel(6)
     },
     row: {
         width: "100%",

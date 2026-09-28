@@ -1,5 +1,5 @@
 import { useCallback } from "react"
-import { FlatList, Image, StyleSheet, View } from "react-native"
+import { FlatList, StyleSheet, View } from "react-native"
 import LinearGradient from "react-native-linear-gradient"
 import images from "../../assets/images"
 import Button from "../../components/Button"
@@ -49,7 +49,7 @@ const Onboarding = () => {
                     <View style={styles.circle_two} />
                     <View style={styles.circle_three} />
                     <View style={styles.logo_badge}>
-                        <Image source={images.full_logo} style={styles.logo} />
+                        <Icon source={images.logo} size={140} />
                     </View>
                 </LinearGradient>
 
@@ -155,11 +155,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         borderWidth: heightPixel(4),
         borderColor: "rgba(255, 255, 255, 0.35)",
-    },
-    logo: {
-        width: heightPixel(118),
-        height: heightPixel(118),
-        resizeMode: "contain",
     },
     panel: {
         marginTop: heightPixel(-28),

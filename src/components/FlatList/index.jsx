@@ -16,6 +16,7 @@ const FlatList = ({
     separator = 13,
     empty,
     horizontal = false,
+    loading = false,
     ...rest
 }) => {
 

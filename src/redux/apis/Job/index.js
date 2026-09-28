@@ -8,7 +8,7 @@ export const jobApi = baseApi.injectEndpoints({
                 method: "POST",
                 body,
             }),
-            invalidatesTags: ["Jobs", "MyJobs"],
+            invalidatesTags: ["Jobs", "MyJobs", "Businesses"],
         }),
         getJobs: builder.query({
             query: (params) => ({
@@ -47,21 +47,21 @@ export const jobApi = baseApi.injectEndpoints({
                 method: "PATCH",
                 body,
             }),
-            invalidatesTags: ["Jobs", "MyJobs"],
+            invalidatesTags: ["Jobs", "MyJobs", "Businesses"],
         }),
         closeJob: builder.mutation({
             query: (id) => ({
                 url: `/job/close/${id}`,
                 method: "PATCH",
             }),
-            invalidatesTags: ["Jobs", "MyJobs"],
+            invalidatesTags: ["Jobs", "MyJobs", "Businesses"],
         }),
         deleteJob: builder.mutation({
             query: (id) => ({
                 url: `/job/delete/${id}`,
                 method: "DELETE",
             }),
-            invalidatesTags: ["Jobs", "MyJobs", "JobApplications"],
+            invalidatesTags: ["Jobs", "MyJobs", "JobApplications", "Businesses"],
         }),
         applyJob: builder.mutation({
             query: (id) => ({

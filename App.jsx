@@ -15,7 +15,7 @@ import { GLOBAL_HORIZONTAL_PADDING, heightPixel, SCREEN_WIDTH, widthPixel } from
 import { navigation_ref } from './src/helpers/navigation'
 import useToggle from './src/hooks/useToggle'
 import MainStackNavigator from './src/navigation/MainStackNavigator'
-import { useGetVersionQuery } from './src/redux/apis/General'
+import { useGetDataQuery, useGetVersionQuery } from './src/redux/apis/General'
 import { selectAppConfig } from './src/redux/selectors'
 import { persistor, store } from './src/redux/store'
 
@@ -33,6 +33,7 @@ const AppContent = () => {
   const { showInfoModal } = useModal()
   const { value: navigation_ready, toggle: toggleNavigationReady } = useToggle()
   const { isSuccess } = useGetVersionQuery()
+  useGetDataQuery()
   const app_config = useSelector(selectAppConfig)
 
   useEffect(() => {
