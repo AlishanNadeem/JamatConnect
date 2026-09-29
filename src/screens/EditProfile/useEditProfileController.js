@@ -24,10 +24,6 @@ export const edit_profile_schema = Yup.object().shape({
         .matches(/^[0-9+\-\s()]*$/, "Invalid phone number format")
         .min(10, "Phone number must be at least 10 digits")
         .required("Phone number is required"),
-    date_of_birth: Yup.date()
-        .nullable(),
-    emergency_notes: Yup.string()
-        .max(500, "Emergency note must not exceed 500 characters"),
 })
 
 const useEditProfileController = () => {
@@ -46,8 +42,6 @@ const useEditProfileController = () => {
         country_code: user?.country_code || DEFAULT_COUNTRY.code,
         phone: user?.phone || "",
         image: user?.image_url || "",
-        emergency_notes: user?.emergency_notes || "",
-        date_of_birth: user?.date_of_birth || "",
     }
 
     const formik = useFormik({

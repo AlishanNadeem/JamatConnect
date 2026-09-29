@@ -1,6 +1,5 @@
 import { StyleSheet, View } from "react-native"
 import Button from "../../components/Button"
-import DateTimeInput from "../../components/DateTimeInput"
 import Icon from "../../components/Icon"
 import ImagePickerModal from "../../components/ImagePickerModal"
 import Input from "../../components/Input"
@@ -56,26 +55,6 @@ const EditProfile = () => {
                             onBlur={values.formik.handleBlur("phone")}
                             error={values.formik.touched.phone && values.formik.errors.phone}
                             default_country={{ code: values.formik.values.country_code, calling_code: values.formik.values.dialing_code }}
-                        />
-                        <DateTimeInput
-                            label="Date of Birth"
-                            placeholder={"Enter date of birth"}
-                            value={values.formik.values.date_of_birth}
-                            onChangeText={(value) => {
-                                console.log("Value", value)
-                                values.formik.setFieldValue("date_of_birth", value)
-                            }}
-                            error={values.formik.touched.date_of_birth && values.formik.errors.date_of_birth}
-                        />
-                        <Input
-                            required
-                            type="textarea"
-                            label="Emergency Notes"
-                            placeholder="Enter here"
-                            value={values.formik.values.emergency_notes}
-                            onChangeText={values.formik.handleChange("emergency_notes")}
-                            onBlur={values.formik.handleBlur("emergency_notes")}
-                            error={values.formik.touched.emergency_notes && values.formik.errors.emergency_notes}
                         />
                     </View>
                     <Button onPress={values.formik.handleSubmit} loading={values.isLoading} type="danger">Update</Button>
