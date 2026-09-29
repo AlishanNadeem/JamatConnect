@@ -53,8 +53,11 @@ const useSignupController = () => {
         onSubmit: async (values) => {
             if (IS_BETA) {
                 submit(convertToFormData({
-                    ...values,
-                    referral: referral_code,
+                    name: values.name,
+                    email: values.email,
+                    password: values.password,
+                    referral_code,
+                    image: values.image,
                 }))
             } else {
                 onSuccess()
