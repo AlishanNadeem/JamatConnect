@@ -1,11 +1,13 @@
 import { useCallback } from "react"
-import { Share } from "react-native"
+import { Platform, Share } from "react-native"
 import { useSelector } from "react-redux"
 import { APP_NAME } from "../../config/env"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
 import { useGetReferredUsersQuery } from "../../redux/apis/Referral"
 import { selectUser } from "../../redux/selectors"
+
+const INVITE_MESSAGE = `Come join on ${APP_NAME} — find trusted businesses, jobs, and deals in our community.`
 
 const useReferralsController = () => {
 
@@ -18,10 +20,18 @@ const useReferralsController = () => {
 
         if (!referral_link) return
 
-        await Share.share({
-            message: `Join me on ${APP_NAME}: ${referral_link}`,
-            url: referral_link,
-        })
+        await Share.share(
+            Platform.select({
+                ios: {
+                    message: INVITE_MESSAGE,
+                    url: referral_link,
+                },
+                default: {
+                    message: `${INVITE_MESSAGE}\n\n${referral_link}`,
+                    title: `Join on ${APP_NAME}`,
+                },
+            })
+        )
 
     }, [referral_link])
 
