@@ -35,6 +35,7 @@
 		65BF4D7ACB494C01B4DE991F /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../src/assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		66C63BE3EC9944FE83A16842 /* LexendDeca-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LexendDeca-Regular.ttf"; path = "../src/assets/fonts/LexendDeca-Regular.ttf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = JamatConnect/AppDelegate.swift; sourceTree = "<group>"; };
+		7BD8E7A9306BE94B00920288 /* JamatConnect.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = JamatConnect.entitlements; path = JamatConnect/JamatConnect.entitlements; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = JamatConnect/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8B067B3A8F744286AA39A924 /* LexendDeca-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LexendDeca-SemiBold.ttf"; path = "../src/assets/fonts/LexendDeca-SemiBold.ttf"; sourceTree = "<group>"; };
 		91CFC993C539503CD4AE027B /* Pods-JamatConnect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JamatConnect.release.xcconfig"; path = "Target Support Files/Pods-JamatConnect/Pods-JamatConnect.release.xcconfig"; sourceTree = "<group>"; };
@@ -62,6 +63,7 @@
 		13B07FAE1A68108700A75B9A /* JamatConnect */ = {
 			isa = PBXGroup;
 			children = (
+				7BD8E7A9306BE94B00920288 /* JamatConnect.entitlements */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				761780EC2CA45674006654EE /* AppDelegate.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -315,6 +317,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = JamatConnect/JamatConnect.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9ZVZV3G359;
 				ENABLE_BITCODE = NO;
@@ -350,6 +353,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = JamatConnect/JamatConnect.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9ZVZV3G359;
 				INFOPLIST_FILE = JamatConnect/Info.plist;
