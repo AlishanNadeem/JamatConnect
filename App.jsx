@@ -13,6 +13,7 @@ import { ModalProvider, useModal } from './src/contexts/ModalContext'
 import colors from './src/helpers/colors'
 import { GLOBAL_HORIZONTAL_PADDING, heightPixel, SCREEN_WIDTH, widthPixel } from './src/helpers/metrics'
 import { navigation_ref } from './src/helpers/navigation'
+import { NAVIGATORS, ROUTES } from './src/helpers/routes'
 import useToggle from './src/hooks/useToggle'
 import MainStackNavigator from './src/navigation/MainStackNavigator'
 import { useGetDataQuery, useGetVersionQuery } from './src/redux/apis/General'
@@ -26,7 +27,20 @@ const toast_config = {
       <Text color={colors.white} size={12}>{props.text2}</Text>
     </View>
   ),
-};
+}
+
+const linking = {
+  prefixes: ['https://jamatconnect.com'],
+  config: {
+    screens: {
+      [NAVIGATORS.AUTH_STACK]: {
+        screens: {
+          [ROUTES.SIGNUP]: 'invite/:code',
+        },
+      },
+    },
+  },
+}
 
 const AppContent = () => {
 
@@ -75,7 +89,7 @@ const AppContent = () => {
     <SafeAreaProvider>
       <StatusBar barStyle={'dark-content'} />
       <View style={styles.container}>
-        <NavigationContainer ref={navigation_ref} onReady={toggleNavigationReady}>
+        <NavigationContainer ref={navigation_ref} linking={linking} onReady={toggleNavigationReady}>
           <MainStackNavigator />
           <Toast
             config={toast_config}
