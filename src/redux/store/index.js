@@ -8,7 +8,7 @@ import authReducer from "../slices/auth.slice"
 import generalReducer from "../slices/general.slice"
 
 const persist_config = {
-    key: "com.pixelgenesys.checkingup",
+    key: "com.jamatconnect.app",
     storage: AsyncStorage,
     whitelist: ["auth", "general"]
 }

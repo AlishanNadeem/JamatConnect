@@ -7,40 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0820179D7A044B7082E1ACEA /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DF5A41297BD841C7BA31D7F2 /* Montserrat-Regular.ttf */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
-		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		EAA7D0FF373D077E82B2A405 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
-		D76D14B2A2C748998C060016 /* LexendDeca-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6466E40B22824B58B5980083 /* LexendDeca-Bold.ttf */; };
+		13F13B8E71234256B5D73945 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 529484FCC46149D9B19A2D6A /* Colors.xcassets */; };
 		1F4BE7A0DB4842109763E753 /* LexendDeca-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D367CE9AB67042129B2A0214 /* LexendDeca-Medium.ttf */; };
-		92E05D2E7BEC462984864FE2 /* LexendDeca-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C63BE3EC9944FE83A16842 /* LexendDeca-Regular.ttf */; };
-		7518D3AA9C8A416496512D10 /* LexendDeca-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B067B3A8F744286AA39A924 /* LexendDeca-SemiBold.ttf */; };
 		362454D67E4A4CC1B5ECC577 /* Montserrat-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 65BF4D7ACB494C01B4DE991F /* Montserrat-Bold.ttf */; };
 		541291FC2F26448CB545DEBD /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F85E9F34208F4AA7AF651D22 /* Montserrat-Medium.ttf */; };
-		0820179D7A044B7082E1ACEA /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DF5A41297BD841C7BA31D7F2 /* Montserrat-Regular.ttf */; };
-		B61951F6F1AA48D58B6DEC36 /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = FA7B080F5E3D4E60B493C341 /* index.js */; };
 		7342228EF2774AC7B403615F /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F51CC18CA13A4FE08D7406B4 /* BootSplash.storyboard */; };
-		13F13B8E71234256B5D73945 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 529484FCC46149D9B19A2D6A /* Colors.xcassets */; };
+		7518D3AA9C8A416496512D10 /* LexendDeca-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8B067B3A8F744286AA39A924 /* LexendDeca-SemiBold.ttf */; };
+		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
+		7C7813A28597DC03BD6CF65F /* libPods-JamatConnect.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E309D3AB223A00125AD73BAF /* libPods-JamatConnect.a */; };
+		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		92E05D2E7BEC462984864FE2 /* LexendDeca-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 66C63BE3EC9944FE83A16842 /* LexendDeca-Regular.ttf */; };
+		B61951F6F1AA48D58B6DEC36 /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = FA7B080F5E3D4E60B493C341 /* index.js */; };
+		D76D14B2A2C748998C060016 /* LexendDeca-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6466E40B22824B58B5980083 /* LexendDeca-Bold.ttf */; };
+		EAA7D0FF373D077E82B2A405 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		13B07F961A680F5B00A75B9A /* JamatConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JamatConnect.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "JamatConnect/Images.xcassets"; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "JamatConnect/Info.plist"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* JamatConnect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JamatConnect.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = JamatConnect/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = JamatConnect/Info.plist; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = JamatConnect/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3DD64BD52ABECA5B80E19A0B /* Pods-JamatConnect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JamatConnect.debug.xcconfig"; path = "Target Support Files/Pods-JamatConnect/Pods-JamatConnect.debug.xcconfig"; sourceTree = "<group>"; };
+		529484FCC46149D9B19A2D6A /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = JamatConnect/Colors.xcassets; sourceTree = "<group>"; };
+		6466E40B22824B58B5980083 /* LexendDeca-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LexendDeca-Bold.ttf"; path = "../src/assets/fonts/LexendDeca-Bold.ttf"; sourceTree = "<group>"; };
+		65BF4D7ACB494C01B4DE991F /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../src/assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
+		66C63BE3EC9944FE83A16842 /* LexendDeca-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LexendDeca-Regular.ttf"; path = "../src/assets/fonts/LexendDeca-Regular.ttf"; sourceTree = "<group>"; };
 		761780EC2CA45674006654EE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = JamatConnect/AppDelegate.swift; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "JamatConnect/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = JamatConnect/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		8B067B3A8F744286AA39A924 /* LexendDeca-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LexendDeca-SemiBold.ttf"; path = "../src/assets/fonts/LexendDeca-SemiBold.ttf"; sourceTree = "<group>"; };
+		91CFC993C539503CD4AE027B /* Pods-JamatConnect.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JamatConnect.release.xcconfig"; path = "Target Support Files/Pods-JamatConnect/Pods-JamatConnect.release.xcconfig"; sourceTree = "<group>"; };
+		D367CE9AB67042129B2A0214 /* LexendDeca-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "LexendDeca-Medium.ttf"; path = "../src/assets/fonts/LexendDeca-Medium.ttf"; sourceTree = "<group>"; };
+		DF5A41297BD841C7BA31D7F2 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		E309D3AB223A00125AD73BAF /* libPods-JamatConnect.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JamatConnect.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		6466E40B22824B58B5980083 /* LexendDeca-Bold.ttf */ = {isa = PBXFileReference; name = "LexendDeca-Bold.ttf"; path = "../src/assets/fonts/LexendDeca-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		D367CE9AB67042129B2A0214 /* LexendDeca-Medium.ttf */ = {isa = PBXFileReference; name = "LexendDeca-Medium.ttf"; path = "../src/assets/fonts/LexendDeca-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		66C63BE3EC9944FE83A16842 /* LexendDeca-Regular.ttf */ = {isa = PBXFileReference; name = "LexendDeca-Regular.ttf"; path = "../src/assets/fonts/LexendDeca-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		8B067B3A8F744286AA39A924 /* LexendDeca-SemiBold.ttf */ = {isa = PBXFileReference; name = "LexendDeca-SemiBold.ttf"; path = "../src/assets/fonts/LexendDeca-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		65BF4D7ACB494C01B4DE991F /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; name = "Montserrat-Bold.ttf"; path = "../src/assets/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F85E9F34208F4AA7AF651D22 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; name = "Montserrat-Medium.ttf"; path = "../src/assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		DF5A41297BD841C7BA31D7F2 /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; name = "Montserrat-Regular.ttf"; path = "../src/assets/fonts/Montserrat-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		FA7B080F5E3D4E60B493C341 /* index.js */ = {isa = PBXFileReference; name = "index.js"; path = "../src/assets/fonts/index.js"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		F51CC18CA13A4FE08D7406B4 /* BootSplash.storyboard */ = {isa = PBXFileReference; name = "BootSplash.storyboard"; path = "JamatConnect/BootSplash.storyboard"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		529484FCC46149D9B19A2D6A /* Colors.xcassets */ = {isa = PBXFileReference; name = "Colors.xcassets"; path = "JamatConnect/Colors.xcassets"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = folder.assetcatalog; explicitFileType = undefined; includeInIndex = 0; };
+		F51CC18CA13A4FE08D7406B4 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = JamatConnect/BootSplash.storyboard; sourceTree = "<group>"; };
+		F85E9F34208F4AA7AF651D22 /* Montserrat-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Medium.ttf"; path = "../src/assets/fonts/Montserrat-Medium.ttf"; sourceTree = "<group>"; };
+		FA7B080F5E3D4E60B493C341 /* index.js */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = index.js; path = ../src/assets/fonts/index.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C7813A28597DC03BD6CF65F /* libPods-JamatConnect.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,7 +70,7 @@
 				F51CC18CA13A4FE08D7406B4 /* BootSplash.storyboard */,
 				529484FCC46149D9B19A2D6A /* Colors.xcassets */,
 			);
-			name = "JamatConnect";
+			name = JamatConnect;
 			sourceTree = "<group>";
 		};
 		1EB35529ECCE47FA92D75207 /* Resources */ = {
@@ -87,6 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				E309D3AB223A00125AD73BAF /* libPods-JamatConnect.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -124,6 +130,8 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
+				3DD64BD52ABECA5B80E19A0B /* Pods-JamatConnect.debug.xcconfig */,
+				91CFC993C539503CD4AE027B /* Pods-JamatConnect.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -135,17 +143,20 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "JamatConnect" */;
 			buildPhases = (
+				69E92AE9B47B16345D8B6523 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				112B17648E5B0CBB4E837116 /* [CP] Embed Pods Frameworks */,
+				21C18C0C01F125F4CB6F0557 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "JamatConnect";
-			productName = "JamatConnect";
+			name = JamatConnect;
+			productName = JamatConnect;
 			productReference = 13B07F961A680F5B00A75B9A /* JamatConnect.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -220,6 +231,70 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$REACT_NATIVE_PATH/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"\\\"$WITH_ENVIRONMENT\\\" \\\"$REACT_NATIVE_XCODE\\\"\"\n";
 		};
+		112B17648E5B0CBB4E837116 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JamatConnect/Pods-JamatConnect-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JamatConnect/Pods-JamatConnect-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-JamatConnect/Pods-JamatConnect-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		21C18C0C01F125F4CB6F0557 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JamatConnect/Pods-JamatConnect-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-JamatConnect/Pods-JamatConnect-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-JamatConnect/Pods-JamatConnect-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		69E92AE9B47B16345D8B6523 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-JamatConnect-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -236,27 +311,28 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3DD64BD52ABECA5B80E19A0B /* Pods-JamatConnect.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 845NZLJNNG;
+				DEVELOPMENT_TEAM = 9ZVZV3G359;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = "JamatConnect/Info.plist";
+				INFOPLIST_FILE = JamatConnect/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Jamat Connect";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jamatconnect.app";
-				PRODUCT_NAME = "JamatConnect";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jamatconnect.app;
+				PRODUCT_NAME = JamatConnect;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -270,26 +346,27 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 91CFC993C539503CD4AE027B /* Pods-JamatConnect.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 845NZLJNNG;
-				INFOPLIST_FILE = "JamatConnect/Info.plist";
+				DEVELOPMENT_TEAM = 9ZVZV3G359;
+				INFOPLIST_FILE = JamatConnect/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Jamat Connect";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.3;
+				MARKETING_VERSION = 1.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.jamatconnect.app";
-				PRODUCT_NAME = "JamatConnect";
+				PRODUCT_BUNDLE_IDENTIFIER = com.jamatconnect.app;
+				PRODUCT_NAME = JamatConnect;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

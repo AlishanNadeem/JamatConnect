@@ -33,14 +33,14 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to show nearby results.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>We need camera access to take photos.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need photo library access to select photos.</string>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>We need media library access to select media.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We need camera access to take photos.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need your location to show nearby results.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need photo library access to select photos.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -52,6 +52,7 @@
 		<string>Montserrat-Bold.ttf</string>
 		<string>Montserrat-Medium.ttf</string>
 		<string>Montserrat-Regular.ttf</string>
+		<string>Lucide.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
@@ -62,13 +63,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>UISupportedInterfaceOrientations~ipad</key>
-	<array>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

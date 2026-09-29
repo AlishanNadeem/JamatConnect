@@ -3,8 +3,8 @@ import { Platform } from 'react-native'
 import * as Keychain from 'react-native-keychain'
 
 const SERVICE = Platform.select({
-    ios: "com.pixelgenesys.checkingup",
-    android: "com.pixelgenesys.checkingup"
+    ios: "com.jamatconnect.app",
+    android: "com.jamatconnect.app"
 })
 
 const useKeychain = () => {
