@@ -24,24 +24,28 @@ const GreetingCard = ({ user }) => {
     const member_since = formatDate(user?.createdAt)
 
     return (
-        <LinearGradient
-            colors={[colors.dark_primary, colors.primary, colors.light_primary]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.card}
-        >
+        <View style={styles.card}>
+            <LinearGradient
+                colors={[colors.dark_primary, colors.primary, colors.light_primary]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={StyleSheet.absoluteFill}
+                pointerEvents="none"
+            />
             <View style={styles.circle_one} />
             <View style={styles.circle_two} />
             <View style={styles.circle_three} />
 
             <Row align="center" gap={14} style={styles.content}>
-                <Icon
-                    rounded="full"
-                    source={{ uri: user?.image_url }}
-                    size={64}
-                    resize="cover"
-                    border={colors.white}
-                />
+                <View style={styles.avatar}>
+                    <Icon
+                        rounded="full"
+                        source={{ uri: user?.image_url }}
+                        size={64}
+                        resize="cover"
+                        border={colors.white}
+                    />
+                </View>
                 <View style={styles.text_block}>
                     <Text size={13} weight="semibold" color={colors.lightest_primary}>
                         {getGreeting()}
@@ -59,7 +63,7 @@ const GreetingCard = ({ user }) => {
                     ) : null}
                 </View>
             </Row>
-        </LinearGradient>
+        </View>
     )
 }
 
@@ -276,6 +280,10 @@ const styles = StyleSheet.create({
         paddingVertical: heightPixel(18),
         borderRadius: heightPixel(20),
         overflow: "hidden",
+        backgroundColor: colors.primary,
+    },
+    avatar: {
+        flexShrink: 0,
     },
     circle_one: {
         position: "absolute",
