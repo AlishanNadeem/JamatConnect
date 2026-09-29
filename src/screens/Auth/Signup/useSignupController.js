@@ -1,3 +1,4 @@
+import { useRoute } from "@react-navigation/native"
 import { useFormik } from "formik"
 import { useCallback, useEffect } from "react"
 import * as Yup from "yup"
@@ -38,6 +39,9 @@ const initial = {
 
 const useSignupController = () => {
 
+    const { params } = useRoute()
+    const referral_code = params?.code
+
     const { showInfoModal } = useModal()
     const { value: image_modal, toggle: toggleImageModal } = useToggle(false)
 
@@ -48,7 +52,10 @@ const useSignupController = () => {
         validationSchema: signup_schema,
         onSubmit: async (values) => {
             if (IS_BETA) {
-                submit(convertToFormData(values))
+                submit(convertToFormData({
+                    ...values,
+                    referral: referral_code,
+                }))
             } else {
                 onSuccess()
             }
