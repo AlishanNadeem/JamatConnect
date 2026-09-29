@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import * as Yup from "yup"
 import { useModal } from "../../contexts/ModalContext"
+import { DEFAULT_COUNTRY } from "../../helpers/data"
 import { convertToFormData } from "../../helpers/general"
 import { goBack } from "../../helpers/navigation"
 import useImagePicker from "../../hooks/useImagePicker"
@@ -39,12 +40,12 @@ const useEditProfileController = () => {
     const [submit, { isSuccess, isLoading }] = useEditProfileMutation()
 
     const initial = {
-        name: user?.name,
-        email: user?.email,
-        dialing_code: user?.dialing_code,
-        country_code: user?.country_code,
-        phone: user?.phone,
-        image: user?.image_url,
+        name: user?.name || "",
+        email: user?.email || "",
+        dialing_code: user?.dialing_code || DEFAULT_COUNTRY.calling_code,
+        country_code: user?.country_code || DEFAULT_COUNTRY.code,
+        phone: user?.phone || "",
+        image: user?.image_url || "",
         emergency_notes: user?.emergency_notes || "",
         date_of_birth: user?.date_of_birth || "",
     }
