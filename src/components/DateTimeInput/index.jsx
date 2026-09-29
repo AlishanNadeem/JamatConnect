@@ -20,12 +20,16 @@ const DateTimeInput = ({
 
     const { value: open, toggle: toggleOpen } = useToggle(false)
 
+    const parsed_date = value ? new Date(value) : null
+    const safe_date = parsed_date && !Number.isNaN(parsed_date.getTime()) ? parsed_date : null
+
     const getDisplayValue = () => {
-        if (!value) return null
-        const date = new Date(value)
-        if (type === "date") return date.toLocaleDateString()
-        if (type === "time") return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-        if (type === "datetime") return `${date.toLocaleDateString()}  ${date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+
+        if (!safe_date) return null
+        if (type === "date") return safe_date.toLocaleDateString()
+        if (type === "time") return safe_date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        if (type === "datetime") return `${safe_date.toLocaleDateString()}  ${safe_date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`
+    
     }
 
     const icon_name = type === "time" ? "clock" : "calendar"
@@ -45,7 +49,7 @@ const DateTimeInput = ({
             <DatePicker
                 modal
                 open={open}
-                date={value ? new Date(value) : new Date()}
+                date={safe_date || new Date()}
                 mode={type}
                 onConfirm={(date) => {
                     toggleOpen()

@@ -12,9 +12,18 @@ import Text from "../Text"
 import Touchable from "../Touchable"
 
 const getFlag = (code) => {
+
+    if (!code || typeof code !== "string") return ""
+
     return code
         .toUpperCase()
         .replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt()))
+
+}
+
+const resolveCountry = (country) => {
+    if (country?.code && country?.calling_code) return country
+    return DEFAULT_COUNTRY
 }
 
 const getMaxLength = (code) => {
@@ -40,9 +49,13 @@ const PhoneInput = ({
     onBlur,
 }) => {
 
-    const [country, setCountry] = useState(default_country)
+    const [country, setCountry] = useState(() => resolveCountry(default_country))
     const [modal_visible, setModalVisible] = useState(false)
     const [displayValue, setDisplayValue] = useState("")
+
+    useEffect(() => {
+        setCountry(resolveCountry(default_country))
+    }, [default_country?.code, default_country?.calling_code])
 
     useEffect(() => {
         if (value) {
@@ -63,14 +76,15 @@ const PhoneInput = ({
         setDisplayValue(formatted)
         onChangeText(digits)
 
-    }, [country])
+    }, [country, onChangeText])
 
     const handleSelectCountry = useCallback((selected) => {
-        setCountry(selected)
+        const next = resolveCountry(selected)
+        setCountry(next)
         setDisplayValue("")
         onChangeText("")
-        onChangeCountry?.(selected)
-    }, [])
+        onChangeCountry?.(next)
+    }, [onChangeText, onChangeCountry])
 
     return (
         <>
