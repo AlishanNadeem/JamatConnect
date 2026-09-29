@@ -31,12 +31,14 @@ const STEPS = [
 
 const InviteCard = ({ total_referrals, onPress }) => (
     <View style={styles.invite_card}>
-        <LinearGradient
-            colors={[colors.light_primary, colors.dark_primary]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 0, y: 1 }}
-            style={styles.invite_banner}
-        >
+        <View style={styles.invite_banner}>
+            <LinearGradient
+                colors={[colors.light_primary, colors.dark_primary]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                style={StyleSheet.absoluteFill}
+                pointerEvents="none"
+            />
             <Icon
                 name="users"
                 size={56}
@@ -53,7 +55,7 @@ const InviteCard = ({ total_referrals, onPress }) => (
                     Share {APP_NAME} with people you trust and grow your community.
                 </Text>
             </View>
-        </LinearGradient>
+        </View>
 
         <Row align="center" justify="space-between" gap={16} onPress={onPress} style={styles.stats_row}>
             <View style={styles.stats_details}>
@@ -170,6 +172,7 @@ const styles = StyleSheet.create({
     },
     invite_banner: {
         alignItems: "center",
+        backgroundColor: colors.primary,
         gap: heightPixel(12),
         paddingVertical: heightPixel(28),
         paddingHorizontal: widthPixel(24),
