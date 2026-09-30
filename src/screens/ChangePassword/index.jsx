@@ -59,7 +59,6 @@ const ChangePassword = () => {
                     <Button
                         onPress={values.formik.handleSubmit}
                         loading={values.isLoading}
-                        type="danger"
                     >
                         Update
                     </Button>

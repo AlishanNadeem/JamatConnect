@@ -25,8 +25,24 @@ const useMyProfileController = () => {
         navigate(ROUTES.REFERRALS)
     }, [])
 
+    const onChangePassword = useCallback(() => {
+        navigate(ROUTES.CHANGE_PASSWORD)
+    }, [])
+
     const onAboutUs = useCallback(() => {
         navigate(ROUTES.ABOUT_US)
+    }, [])
+
+    const onContactUs = useCallback(() => {
+        navigate(ROUTES.CONTACT_US)
+    }, [])
+
+    const onPrivacyPolicy = useCallback(() => {
+        navigate(ROUTES.PRIVACY_POLICY)
+    }, [])
+
+    const onTermsAndConditions = useCallback(() => {
+        navigate(ROUTES.TERMS_AND_CONDITIONS)
     }, [])
 
     const onLogout = useCallback(async () => {
@@ -53,7 +69,11 @@ const useMyProfileController = () => {
             onMyBusiness,
             onMyListings,
             onReferrals,
+            onChangePassword,
             onAboutUs,
+            onContactUs,
+            onPrivacyPolicy,
+            onTermsAndConditions,
             onLogout,
         }
     }

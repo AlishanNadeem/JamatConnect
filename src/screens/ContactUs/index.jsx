@@ -59,7 +59,6 @@ const ContactUs = () => {
                     <Button
                         onPress={values.formik.handleSubmit}
                         loading={values.isLoading}
-                        type="danger"
                     >
                         Submit
                     </Button>

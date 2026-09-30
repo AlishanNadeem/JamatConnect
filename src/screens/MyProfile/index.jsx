@@ -6,6 +6,14 @@ import { heightPixel, widthPixel } from "../../helpers/metrics"
 import PrimaryLayout from "../../layouts/PrimaryLayout"
 import useMyProfileController from "./useMyProfileController"
 
+const MenuCard = ({ children }) => (
+    <View style={styles.card}>
+        {children}
+    </View>
+)
+
+const MenuDivider = () => <View style={styles.divider} />
+
 const MyProfile = () => {
 
     const { functions } = useMyProfileController()
@@ -14,32 +22,62 @@ const MyProfile = () => {
         <PrimaryLayout scrollable bottom_tab header>
             <View style={styles.container}>
                 <ProfileHeader />
-                <View style={styles.card}>
+
+                <MenuCard>
                     <ProfileMenuItem
                         icon="store"
                         label="My Businesses"
                         onPress={functions.onMyBusiness}
                     />
-                    <View style={styles.divider} />
+                    <MenuDivider />
                     <ProfileMenuItem
                         icon="shopping-bag"
                         label="My Listings"
                         onPress={functions.onMyListings}
                     />
-                    <View style={styles.divider} />
+                    <MenuDivider />
                     <ProfileMenuItem
                         icon="gift"
                         label="Referrals"
                         onPress={functions.onReferrals}
                     />
-                    <View style={styles.divider} />
+                </MenuCard>
+
+                <MenuCard>
+                    <ProfileMenuItem
+                        icon="lock-keyhole"
+                        label="Change Password"
+                        onPress={functions.onChangePassword}
+                    />
+                </MenuCard>
+
+                <MenuCard>
                     <ProfileMenuItem
                         icon="info"
                         label="About Us"
                         onPress={functions.onAboutUs}
                     />
-                </View>
-                <View style={styles.card}>
+                    <MenuDivider />
+                    <ProfileMenuItem
+                        icon="mail"
+                        label="Contact Us"
+                        onPress={functions.onContactUs}
+                    />
+                    <MenuDivider />
+                    <ProfileMenuItem
+                        icon="shield"
+                        label="Privacy Policy"
+                        onPress={functions.onPrivacyPolicy}
+                    />
+                    <MenuDivider />
+                    <ProfileMenuItem
+                        icon="file-text"
+                        label="Terms & Conditions"
+                        onPress={functions.onTermsAndConditions}
+                    />
+                </MenuCard>
+
+                <MenuCard>
                     <ProfileMenuItem
                         icon="log-out"
                         label="Log Out"
@@ -47,7 +85,7 @@ const MyProfile = () => {
                         color="danger"
                         arrow={false}
                     />
-                </View>
+                </MenuCard>
             </View>
         </PrimaryLayout>
     )

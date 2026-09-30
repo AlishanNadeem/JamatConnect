@@ -57,7 +57,7 @@ const EditProfile = () => {
                             default_country={{ code: values.formik.values.country_code, calling_code: values.formik.values.dialing_code }}
                         />
                     </View>
-                    <Button onPress={values.formik.handleSubmit} loading={values.isLoading} type="danger">Update</Button>
+                    <Button onPress={values.formik.handleSubmit} loading={values.isLoading}>Update</Button>
                 </View>
             </KeyboardAvoidingWrapper >
             <ImagePickerModal
