@@ -47,11 +47,28 @@ export const businessApi = baseApi.injectEndpoints({
             },
             providesTags: ["Businesses"],
         }),
+        updateBusiness: builder.mutation({
+            query: ({ id, body }) => ({
+                url: `/business/update/${id}`,
+                method: "PATCH",
+                body,
+            }),
+            invalidatesTags: ["MyBusinesses", "Businesses"],
+        }),
+        toggleBusinessActive: builder.mutation({
+            query: (id) => ({
+                url: `/business/toggle-active/${id}`,
+                method: "PATCH",
+            }),
+            invalidatesTags: ["MyBusinesses", "Businesses"],
+        }),
     }),
 })
 
 export const {
     useCreateBusinessMutation,
+    useUpdateBusinessMutation,
+    useToggleBusinessActiveMutation,
     useGetMyBusinessesQuery,
     useGetBusinessesQuery,
     useGetBusinessByIdQuery,

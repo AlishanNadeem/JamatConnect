@@ -1,13 +1,13 @@
 import { useRoute } from "@react-navigation/native"
 import dayjs from "dayjs"
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo } from "react"
 import { Linking } from "react-native"
 import { useModal } from "../../contexts/ModalContext"
 import colors from "../../helpers/colors"
 import { formatPhone, formatWebsite, getLocationLabel } from "../../helpers/general"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
-import { useGetBusinessByIdQuery } from "../../redux/apis/Business"
+import { useGetBusinessByIdQuery, useToggleBusinessActiveMutation } from "../../redux/apis/Business"
 
 const PREVIEW_COUNT = 2
 
@@ -33,7 +33,7 @@ const useMyBusinessDetailsController = () => {
 
     const { params } = useRoute()
     const id = params?._id
-    const { showInfoModal } = useModal()
+    const { showInfoModal, showConfirmModal } = useModal()
 
     const {
         data,
@@ -43,6 +43,8 @@ const useMyBusinessDetailsController = () => {
         { id, jobs: true },
         { skip: !id },
     )
+
+    const [toggleActive, { data: toggle_data, isSuccess: is_toggled, isLoading: is_toggling }] = useToggleBusinessActiveMutation()
 
     const business = data?.data ?? {}
     const preview_jobs = Array.isArray(business.jobs) ? business.jobs : []
@@ -231,6 +233,30 @@ const useMyBusinessDetailsController = () => {
         navigate(ROUTES.JOB_DETAILS, { _id: String(job._id) })
     }, [])
 
+    const onToggleActive = useCallback(async () => {
+        if (!id || is_toggling) return
+
+        const confirmed = await showConfirmModal({
+            title: is_active ? "Deactivate Business" : "Activate Business",
+            message: is_active
+                ? "Are you sure you want to mark this business as inactive? It will be hidden from the public directory."
+                : "Are you sure you want to mark this business as active? It will be visible in the public directory again.",
+        })
+
+        if (confirmed) toggleActive(id)
+    }, [id, is_active, is_toggling, showConfirmModal, toggleActive])
+
+    useEffect(() => {
+        if (!is_toggled) return
+        const active = toggle_data?.data?.active
+        showInfoModal({
+            title: active ? "Business Activated" : "Business Deactivated",
+            message: active
+                ? "Your business is active and visible to the community."
+                : "Your business is inactive and hidden from the public directory.",
+        })
+    }, [is_toggled, toggle_data])
+
     const action_handlers = {
         onEditListing,
         onAddSpecial,
@@ -260,6 +286,7 @@ const useMyBusinessDetailsController = () => {
             review_count,
             rating_average,
             is_loading: isLoading,
+            is_toggling,
             is_error: isError || !id,
         },
         functions: {
@@ -271,6 +298,7 @@ const useMyBusinessDetailsController = () => {
             onPostJob,
             onViewPublic,
             onJobPress,
+            onToggleActive,
             action_handlers,
         },
     }

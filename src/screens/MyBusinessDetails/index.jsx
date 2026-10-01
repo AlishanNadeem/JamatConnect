@@ -1,6 +1,7 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native"
 import LinearGradient from "react-native-linear-gradient"
 import Badge from "../../components/Badge"
+import Button from "../../components/Button"
 import Empty from "../../components/Empty"
 import FlatList from "../../components/FlatList"
 import Icon from "../../components/Icon"
@@ -225,6 +226,14 @@ const MyBusinessDetails = () => {
                         </View>
                     </Row>
                 </View>
+
+                <Button
+                    type={values.active ? "secondary" : "primary"}
+                    onPress={functions.onToggleActive}
+                    loading={values.is_toggling}
+                >
+                    {values.active ? "Mark as Inactive" : "Mark as Active"}
+                </Button>
 
                 <View style={styles.section}>
                     <Text size={15} weight="bold">
