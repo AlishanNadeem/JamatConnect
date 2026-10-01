@@ -191,6 +191,12 @@ const JobDetails = () => {
                                     data={item}
                                     date_label="Applied on"
                                     date_options={APPLICANT_DATE_OPTIONS}
+                                    onCall={item.phone
+                                        ? () => functions.onCallApplicant(item)
+                                        : undefined}
+                                    onEmail={item.email
+                                        ? () => functions.onEmailApplicant(item)
+                                        : undefined}
                                 />
                             )}
                         />

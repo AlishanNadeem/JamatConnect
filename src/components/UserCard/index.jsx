@@ -7,7 +7,7 @@ import Icon from "../Icon"
 import Row from "../Row"
 import Text from "../Text"
 
-const UserCard = ({ data, date_label, date_options = {}, onChat }) => {
+const UserCard = ({ data, date_label, date_options = {}, onChat, onCall, onEmail }) => {
 
     const {
         name,
@@ -15,6 +15,8 @@ const UserCard = ({ data, date_label, date_options = {}, onChat }) => {
         image_url,
         date,
     } = data
+
+    const has_actions = Boolean(onChat || onCall || onEmail)
 
     return (
         <Row align="center" gap={14} style={styles.container}>
@@ -29,24 +31,48 @@ const UserCard = ({ data, date_label, date_options = {}, onChat }) => {
                 <Text size={16} weight="semibold" lines={1}>
                     {name}
                 </Text>
-                {email ? (
-                    <Text size={13} color={colors.gray} lines={1}>
-                        {email}
-                    </Text>
-                ) : null}
                 {date ? (
                     <Text size={12} color={colors.gray}>
                         {date_label ? `${date_label} ` : ""}{formatDate(date, date_options)}
                     </Text>
                 ) : null}
             </View>
-            {onChat ? (
-                <Icon
-                    name="message-circle-more"
-                    size={24}
-                    color={colors.primary}
-                    onPress={onChat}
-                />
+            {has_actions ? (
+                <Row align="center" gap={8} style={styles.actions}>
+                    {onCall ? (
+                        <Icon
+                            name="phone"
+                            size={36}
+                            space
+                            rounded="half"
+                            background={colors.lightest_primary}
+                            color={colors.primary}
+                            onPress={onCall}
+                        />
+                    ) : null}
+                    {onEmail ? (
+                        <Icon
+                            name="mail"
+                            size={36}
+                            space
+                            rounded="half"
+                            background={colors.lightest_primary}
+                            color={colors.primary}
+                            onPress={onEmail}
+                        />
+                    ) : null}
+                    {onChat ? (
+                        <Icon
+                            name="message-circle-more"
+                            size={36}
+                            space
+                            rounded="half"
+                            background={colors.lightest_primary}
+                            color={colors.primary}
+                            onPress={onChat}
+                        />
+                    ) : null}
+                </Row>
             ) : null}
         </Row>
     )
@@ -66,5 +92,8 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         gap: heightPixel(4),
+    },
+    actions: {
+        width: "auto",
     },
 })

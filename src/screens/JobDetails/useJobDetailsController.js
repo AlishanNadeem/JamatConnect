@@ -1,5 +1,6 @@
 import { useRoute } from "@react-navigation/native"
 import { useCallback, useEffect } from "react"
+import { Linking } from "react-native"
 import { useSelector } from "react-redux"
 import { useModal } from "../../contexts/ModalContext"
 import { getLocationLabel, getOptionLabel } from "../../helpers/general"
@@ -14,13 +15,21 @@ import {
 } from "../../redux/apis/Job"
 import { selectEmploymentTypes, selectUser, selectWorkplaceTypes } from "../../redux/selectors"
 
-const mapApplicant = (application) => ({
-    _id: application._id,
-    name: application.applicant?.name || "Applicant",
-    email: application.applicant?.email,
-    image_url: application.applicant?.image_url,
-    date: application.createdAt,
-})
+const mapApplicant = (application) => {
+
+    const applicant = application.applicant || {}
+
+    return {
+        _id: application._id,
+        name: applicant.name || "Applicant",
+        email: applicant.email,
+        phone: applicant.phone,
+        dialing_code: applicant.dialing_code,
+        image_url: applicant.image_url,
+        date: application.createdAt,
+    }
+
+}
 
 const useJobDetailsController = () => {
 
@@ -137,6 +146,18 @@ const useJobDetailsController = () => {
         navigate(ROUTES.JOB_DETAILS, { _id: String(item._id) })
     }, [])
 
+    const onCallApplicant = useCallback((applicant) => {
+        if (!applicant?.phone) return
+        const number = `${applicant.dialing_code ?? ""}${applicant.phone}`.replace(/[^\d+]/g, "")
+        if (!number) return
+        Linking.openURL(`tel:${number}`)
+    }, [])
+
+    const onEmailApplicant = useCallback((applicant) => {
+        if (!applicant?.email) return
+        Linking.openURL(`mailto:${applicant.email}`)
+    }, [])
+
     return {
         values: {
             data: job,
@@ -161,6 +182,8 @@ const useJobDetailsController = () => {
             onToggleClosed,
             onDelete,
             onEdit,
+            onCallApplicant,
+            onEmailApplicant,
         },
     }
 }
