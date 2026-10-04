@@ -115,12 +115,13 @@ export const getStoredFcmToken = () => AsyncStorage.getItem(FCM_TOKEN_KEY)
 
 export const clearStoredFcmToken = () => AsyncStorage.removeItem(FCM_TOKEN_KEY)
 
-export const subscribeToForegroundMessages = () => {
+export const subscribeToForegroundMessages = (onNotification) => {
   const messaging = getMessagingInstance()
 
   return onMessage(messaging, async (remoteMessage) => {
     console.log('[FCM] Foreground message:', remoteMessage)
     await displayLocalNotification(remoteMessage)
+    onNotification?.(remoteMessage)
   })
 }
 
