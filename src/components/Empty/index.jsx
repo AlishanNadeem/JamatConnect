@@ -11,9 +11,17 @@ const Empty = ({
 }) => {
     return (
         <View style={styles.container}>
-            {icon && <Icon source={icon} size={64} color={colors.gray} />}
-            <Text weight="semibold" size={18} style={styles.title}>{title}</Text>
-            {description && <Text size={14} style={styles.description}>{description}</Text>}
+            {icon && (
+                typeof icon === "string"
+                    ? <Icon name={icon} size={64} color={colors.gray} />
+                    : <Icon source={icon} size={64} color={colors.gray} />
+            )}
+            <Text weight="semibold" size={18} align="center" style={styles.title}>{title}</Text>
+            {description && (
+                <Text size={14} align="center" style={styles.description}>
+                    {description}
+                </Text>
+            )}
         </View>
     )
 }
@@ -24,6 +32,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         paddingVertical: heightPixel(80),
+        paddingHorizontal: heightPixel(24),
         gap: heightPixel(8),
     },
     title: {
