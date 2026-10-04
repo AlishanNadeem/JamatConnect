@@ -41,5 +41,23 @@ target 'JamatConnect' do
       :mac_catalyst_enabled => false,
       # :ccache_enabled => true
     )
+
+    # Legacy pods that only declare `React-Core` don't link the prebuilt React
+    # framework when built as dynamic frameworks, causing undefined RCT* symbols.
+    if ENV['RCT_USE_PREBUILT_RNCORE'] == '1'
+      installer.pod_targets.each do |pod_target|
+        next unless pod_target.build_as_dynamic_framework?
+        deps = pod_target.specs.flat_map { |s| s.dependencies(pod_target.platform).map(&:name) }
+        next unless deps.include?('React-Core') && !deps.include?('React-Core-prebuilt')
+
+        native_target = installer.pods_project.targets.find { |t| t.name == pod_target.name }
+        next unless native_target
+        native_target.build_configurations.each do |build_config|
+          flags = build_config.build_settings['OTHER_LDFLAGS'] || ['$(inherited)']
+          flags = [flags] if flags.is_a?(String)
+          build_config.build_settings['OTHER_LDFLAGS'] = flags + ['-framework', 'React']
+        end
+      end
+    end
   end
 end
