@@ -40,13 +40,23 @@ const FlatList = ({
 
     }, [loading_more])
 
-    const renderEmpty = useCallback(() => (
-        <Empty
-            title={empty?.title}
-            description={empty?.description}
-            icon={empty?.icon}
-        />
-    ), [empty])
+    const renderEmpty = useCallback(() => {
+        if (loading) {
+            return (
+                <View style={{ paddingVertical: heightPixel(40) }}>
+                    <ActivityIndicator color={colors.primary} />
+                </View>
+            )
+        }
+
+        return (
+            <Empty
+                title={empty?.title}
+                description={empty?.description}
+                icon={empty?.icon}
+            />
+        )
+    }, [empty, loading])
 
     return (
         <RNFlatList
