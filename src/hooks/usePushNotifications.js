@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { baseApi } from '../redux/apis/Base'
 import { useRegisterFcmTokenMutation } from '../redux/apis/User'
 import { selectIsAuthenticated } from '../redux/selectors'
 import {
@@ -9,6 +10,8 @@ import {
 } from '../services/notifications'
 
 const usePushNotifications = () => {
+  
+  const dispatch = useDispatch()
   const is_authenticated = useSelector(selectIsAuthenticated)
   const [registerFcmToken] = useRegisterFcmTokenMutation()
 
@@ -26,11 +29,18 @@ const usePushNotifications = () => {
       }
     }
 
+    const refreshNotificationQueries = () => {
+      dispatch(baseApi.util.invalidateTags(['Notifications', 'NotificationUnreadCount']))
+    }
+
     const setup = async () => {
       const token = await initPushNotifications()
       await syncToken(token)
 
-      unsubscribe_message = subscribeToForegroundMessages()
+      unsubscribe_message = subscribeToForegroundMessages(() => {
+        refreshNotificationQueries()
+      })
+
       unsubscribe_token = subscribeToTokenRefresh((refreshed_token) => {
         syncToken(refreshed_token)
       })
@@ -42,7 +52,7 @@ const usePushNotifications = () => {
       unsubscribe_message?.()
       unsubscribe_token?.()
     }
-  }, [is_authenticated, registerFcmToken])
+  }, [dispatch, is_authenticated, registerFcmToken])
 }
 
 export default usePushNotifications
