@@ -1,9 +1,9 @@
 import HeaderLeft from "../components/Navigation/HeaderLeft";
-import HeaderRight from "../components/Navigation/HeaderRight";
 import HeaderTitle from "../components/Navigation/HeaderTitle";
+import NotificationsBell from "../components/Navigation/NotificationsBell";
 import colors from "./colors";
 import { GLOBAL_HORIZONTAL_PADDING, HEADER_HEIGHT } from "./metrics";
-import { goBack, navigate } from "./navigation";
+import { goBack } from "./navigation";
 
 const screenOptionsWithTitle = (title, type = "primary") => ({
     headerTitle: ({ children }) => (
@@ -17,7 +17,7 @@ const HEADER_LEFT = {
 }
 
 const HEADER_RIGHT = {
-    notifications: () => <HeaderRight name="bell" onPress={() => navigate(ROUTES.NOTIFICATIONS)} />,
+    notifications: () => <NotificationsBell />,
     none: null,
 }
 
@@ -107,14 +107,17 @@ export const ROUTES_OPTIONS = {
 
     [ROUTES.BUSINESSES]: {
         ...screenOptionsWithTitle("Businesses"),
+        headerRight: HEADER_RIGHT.notifications,
     },
 
     [ROUTES.JOBS]: {
         ...screenOptionsWithTitle("Jobs"),
+        headerRight: HEADER_RIGHT.notifications,
     },
 
     [ROUTES.MARKETPLACE]: {
         ...screenOptionsWithTitle("Marketplace"),
+        headerRight: HEADER_RIGHT.notifications,
     },
 
     [ROUTES.MARKETPLACE_DETAILS]: {
@@ -124,6 +127,7 @@ export const ROUTES_OPTIONS = {
 
     [ROUTES.MY_PROFILE]: {
         ...screenOptionsWithTitle("More Options"),
+        headerRight: HEADER_RIGHT.notifications,
     },
 
     [ROUTES.EDIT_PROFILE]: {
