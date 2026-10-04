@@ -14,6 +14,7 @@ import colors from './src/helpers/colors'
 import { GLOBAL_HORIZONTAL_PADDING, heightPixel, SCREEN_WIDTH, widthPixel } from './src/helpers/metrics'
 import { navigation_ref } from './src/helpers/navigation'
 import { NAVIGATORS, ROUTES } from './src/helpers/routes'
+import usePushNotifications from './src/hooks/usePushNotifications'
 import useToggle from './src/hooks/useToggle'
 import MainStackNavigator from './src/navigation/MainStackNavigator'
 import { useGetDataQuery, useGetVersionQuery } from './src/redux/apis/General'
@@ -48,6 +49,7 @@ const AppContent = () => {
   const { value: navigation_ready, toggle: toggleNavigationReady } = useToggle()
   const { isSuccess } = useGetVersionQuery()
   useGetDataQuery()
+  usePushNotifications()
   const app_config = useSelector(selectAppConfig)
 
   useEffect(() => {
