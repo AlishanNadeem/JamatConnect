@@ -19,13 +19,11 @@ setup_permissions([
   'Camera',
   'MediaLibrary',
   'PhotoLibrary',
+  'Notifications',
 ])
 
-linkage = ENV['USE_FRAMEWORKS']
-if linkage != nil
-  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
-  use_frameworks! :linkage => linkage.to_sym
-end
+# React Native Firebase requires frameworks (dynamic via SPM by default on RN 0.75+)
+use_frameworks! :linkage => :dynamic
 
 target 'JamatConnect' do
   config = use_native_modules!

@@ -23,11 +23,27 @@ export const userApi = baseApi.injectEndpoints({
                 body
             }),
         }),
+        registerFcmToken: builder.mutation({
+            query: (body) => ({
+                url: "/user/fcm-token",
+                method: "POST",
+                body,
+            }),
+        }),
+        removeFcmToken: builder.mutation({
+            query: (body) => ({
+                url: "/user/fcm-token",
+                method: "DELETE",
+                body,
+            }),
+        }),
     }),
 })
 
 export const {
     useCompleteProfileMutation,
     useChangePasswordMutation,
-    useEditProfileMutation
+    useEditProfileMutation,
+    useRegisterFcmTokenMutation,
+    useRemoveFcmTokenMutation,
 } = userApi
