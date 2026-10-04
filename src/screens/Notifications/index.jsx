@@ -15,13 +15,19 @@ const Notifications = () => {
                 data={values.data}
                 refreshing={values.refreshing}
                 loading_more={values.loading_more}
+                loading={values.is_loading}
                 onRefresh={functions.onRefresh}
                 onEndReached={functions.onLoadMore}
-                renderItem={({ item }) => <NotificationCard data={item} />}
-                empty={{
-                    title: "No Notifications Found",
-                    description: "Pull to refresh"
-                }}
+                separator={12}
+                keyExtractor={(item) => String(item?._id || item?.id)}
+                contentContainerStyle={styles.list}
+                renderItem={({ item }) => (
+                    <NotificationCard
+                        data={item}
+                        onPress={() => functions.onPressNotification(item)}
+                    />
+                )}
+                empty={values.empty}
             />
         </PrimaryLayout>
     )
@@ -30,7 +36,8 @@ const Notifications = () => {
 export default Notifications
 
 const styles = StyleSheet.create({
-    container: {
-        gap: heightPixel(20),
-    }
+    list: {
+        paddingTop: heightPixel(8),
+        flexGrow: 1,
+    },
 })
