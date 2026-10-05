@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Alert, Platform } from "react-native"
 import { launchCamera, launchImageLibrary } from "react-native-image-picker"
-import { check, request, PERMISSIONS, RESULTS } from "react-native-permissions"
+import { check, openSettings, request, PERMISSIONS, RESULTS } from "react-native-permissions"
 
 const useImagePicker = ({ onImageSelected } = {}) => {
 
@@ -28,14 +28,37 @@ const useImagePicker = ({ onImageSelected } = {}) => {
             : PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
     })
 
+    const isPermissionAllowed = (status) =>
+        status === RESULTS.GRANTED || status === RESULTS.LIMITED
+
     const requestPermission = async (permission) => {
         const result = await check(permission)
-        if (result === RESULTS.GRANTED) return true
+        if (isPermissionAllowed(result)) return true
+
         if (result === RESULTS.DENIED) {
             const request_result = await request(permission)
-            return request_result === RESULTS.GRANTED
+            return isPermissionAllowed(request_result)
         }
+
         return false
+    }
+
+    const showPermissionDeniedAlert = (message) => {
+        Alert.alert(
+            "Permission Required",
+            message,
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Open Settings",
+                    onPress: () => {
+                        openSettings().catch(() => {
+                            Alert.alert("Error", "Unable to open settings.")
+                        })
+                    },
+                },
+            ],
+        )
     }
 
     const handleResponse = (response) => {
@@ -61,7 +84,9 @@ const useImagePicker = ({ onImageSelected } = {}) => {
         try {
             const granted = await requestPermission(camera_permission)
             if (!granted) {
-                Alert.alert("Permission Denied", "Camera permission is required to take a photo.")
+                showPermissionDeniedAlert(
+                    "Camera access is turned off. Open Settings to allow camera and try again.",
+                )
                 return
             }
             const response = await launchCamera(options)
@@ -76,7 +101,9 @@ const useImagePicker = ({ onImageSelected } = {}) => {
         try {
             const granted = await requestPermission(gallery_permission)
             if (!granted) {
-                Alert.alert("Permission Denied", "Gallery permission is required to select a photo.")
+                showPermissionDeniedAlert(
+                    "Photo library access is turned off. Open Settings to allow photos and try again.",
+                )
                 return
             }
             const response = await launchImageLibrary(options)
