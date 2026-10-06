@@ -9,6 +9,7 @@ import Image from "../../components/Image"
 import JobCard from "../../components/JobCard"
 import ReviewCard, { Stars } from "../../components/ReviewCard"
 import Row from "../../components/Row"
+import SpecialCard from "../../components/SpecialCard"
 import Text from "../../components/Text"
 import Touchable from "../../components/Touchable"
 import colors from "../../helpers/colors"
@@ -338,6 +339,29 @@ const MyBusinessDetails = () => {
                                 )
                             })}
                         </View>
+                    </View>
+                ) : null}
+
+                {values.specials.length ? (
+                    <View style={styles.section}>
+                        <Text size={15} weight="bold">
+                            Specials
+                        </Text>
+                        <FlatList
+                            data={values.specials}
+                            scrollEnabled={false}
+                            keyExtractor={(item) => String(item._id)}
+                            renderItem={({ item }) => (
+                                <SpecialCard
+                                    data={item}
+                                    owner
+                                    show_business={false}
+                                    onVerify={() => functions.onSpecialVerify(item)}
+                                    onRedeemedList={() => functions.onSpecialRedeemedList(item)}
+                                    onToggleActive={() => functions.onToggleSpecialActive(item)}
+                                />
+                            )}
+                        />
                     </View>
                 ) : null}
 

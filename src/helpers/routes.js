@@ -63,6 +63,11 @@ export const ROUTES = {
     BUSINESS_REVIEWS: "BusinessReviews",
     BUSINESS_JOBS: "BusinessJobs",
     CATEGORIES: "Categories",
+    CREATE_SPECIAL: "CreateSpecial",
+    BILLBOARD: "Billboard",
+    SPECIAL_VOUCHER: "SpecialVoucher",
+    SPECIAL_VERIFY_CODE: "SpecialVerifyCode",
+    SPECIAL_REDEEMED_LIST: "SpecialRedeemedList",
 }
 
 export const ROUTES_OPTIONS = {
@@ -231,6 +236,31 @@ export const ROUTES_OPTIONS = {
 
     [ROUTES.CATEGORIES]: {
         ...screenOptionsWithTitle("Categories"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.CREATE_SPECIAL]: {
+        ...screenOptionsWithTitle("Add Special"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.BILLBOARD]: {
+        ...screenOptionsWithTitle("Billboard"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.SPECIAL_VOUCHER]: {
+        ...screenOptionsWithTitle("Voucher"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.SPECIAL_VERIFY_CODE]: {
+        ...screenOptionsWithTitle("Verify Code"),
+        headerLeft: HEADER_LEFT.back,
+    },
+
+    [ROUTES.SPECIAL_REDEEMED_LIST]: {
+        ...screenOptionsWithTitle("Redeemed"),
         headerLeft: HEADER_LEFT.back,
     },
 }

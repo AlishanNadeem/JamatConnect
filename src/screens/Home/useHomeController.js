@@ -2,10 +2,12 @@ import { useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { navigate } from "../../helpers/navigation"
 import { NAVIGATORS, ROUTES } from "../../helpers/routes"
+import useRedeemSpecial from "../../hooks/useRedeemSpecial"
 import { useGetBusinessesQuery } from "../../redux/apis/Business"
 import { useGetBusinessCategoriesQuery } from "../../redux/apis/BusinessCategory"
 import { useGetJobsQuery } from "../../redux/apis/Job"
 import { useGetListingsQuery } from "../../redux/apis/Marketplace"
+import { useGetFeaturedSpecialsQuery } from "../../redux/apis/Special"
 import { selectSavedBusinessIds } from "../../redux/selectors"
 import { toggleSavedBusiness } from "../../redux/slices/general.slice"
 
@@ -18,6 +20,7 @@ const useHomeController = () => {
 
     const dispatch = useDispatch()
     const saved_business_ids = useSelector(selectSavedBusinessIds)
+    const { redeeming_id, onRedeem } = useRedeemSpecial()
 
     const {
         data: categories_response,
@@ -36,10 +39,15 @@ const useHomeController = () => {
         data: businesses_response,
     } = useGetBusinessesQuery(HOME_PREVIEW_PARAMS)
 
+    const {
+        data: specials_response,
+    } = useGetFeaturedSpecialsQuery(HOME_PREVIEW_PARAMS)
+
     const categories = categories_response?.data ?? []
     const jobs = jobs_response?.data ?? []
     const listings = listings_response?.data ?? []
     const businesses = businesses_response?.data ?? []
+    const specials = specials_response?.data ?? []
 
     const onGrowCommunity = useCallback(() => {
         navigate(ROUTES.REFERRALS)
@@ -76,6 +84,10 @@ const useHomeController = () => {
         })
     }, [])
 
+    const onViewAllSpecials = useCallback(() => {
+        navigate(ROUTES.BILLBOARD)
+    }, [])
+
     const onJobPress = useCallback((item) => {
         navigate(ROUTES.JOB_DETAILS, { _id: String(item._id) })
     }, [])
@@ -99,7 +111,9 @@ const useHomeController = () => {
             jobs,
             listings,
             businesses,
+            specials,
             saved_business_ids,
+            redeeming_id,
         },
         functions: {
             onGrowCommunity,
@@ -108,10 +122,12 @@ const useHomeController = () => {
             onViewAllJobs,
             onViewAllListings,
             onViewAllBusinesses,
+            onViewAllSpecials,
             onJobPress,
             onListingPress,
             onBusinessPress,
             onToggleSave,
+            onRedeem,
         },
     }
 }

@@ -4,6 +4,7 @@ import Icon from "../../components/Icon"
 import Image from "../../components/Image"
 import ReviewCard, { Stars } from "../../components/ReviewCard"
 import Row from "../../components/Row"
+import SpecialCard from "../../components/SpecialCard"
 import Text from "../../components/Text"
 import colors from "../../helpers/colors"
 import { GLOBAL_HORIZONTAL_PADDING, heightPixel, widthPixel } from "../../helpers/metrics"
@@ -210,6 +211,25 @@ const BusinessDetails = () => {
                     </View>
                 ) : null}
 
+                {values.specials?.length ? (
+                    <View style={styles.block}>
+                        <Text size={13} weight="bold">
+                            Specials
+                        </Text>
+                        <View style={styles.specials_list}>
+                            {values.specials.map((special) => (
+                                <SpecialCard
+                                    key={String(special._id)}
+                                    data={special}
+                                    show_business={false}
+                                    redeeming={String(values.redeeming_id) === String(special._id)}
+                                    onRedeem={() => functions.onRedeem(special)}
+                                />
+                            ))}
+                        </View>
+                    </View>
+                ) : null}
+
                 {values.review_count ? (
                     <View style={styles.block}>
                         <Row align="center" justify="space-between">
@@ -348,6 +368,9 @@ const styles = StyleSheet.create({
         backgroundColor: colors.lightest_primary,
     },
     reviews_list: {
+        gap: heightPixel(10),
+    },
+    specials_list: {
         gap: heightPixel(10),
     },
 })

@@ -8,6 +8,10 @@ import { formatPhone, formatWebsite, getLocationLabel } from "../../helpers/gene
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
 import { useGetBusinessByIdQuery, useToggleBusinessActiveMutation } from "../../redux/apis/Business"
+import {
+    useGetSpecialsQuery,
+    useToggleSpecialActiveMutation,
+} from "../../redux/apis/Special"
 
 const PREVIEW_COUNT = 2
 
@@ -44,10 +48,19 @@ const useMyBusinessDetailsController = () => {
         { skip: !id },
     )
 
+    const {
+        data: specials_response,
+    } = useGetSpecialsQuery(
+        { business: id },
+        { skip: !id },
+    )
+
     const [toggleActive, { data: toggle_data, isSuccess: is_toggled, isLoading: is_toggling }] = useToggleBusinessActiveMutation()
+    const [toggleSpecialActive] = useToggleSpecialActiveMutation()
 
     const business = data?.data ?? {}
     const preview_jobs = Array.isArray(business.jobs) ? business.jobs : []
+    const specials = specials_response?.data ?? []
 
     const {
         name,
@@ -176,6 +189,15 @@ const useMyBusinessDetailsController = () => {
             onPress: "onAddSpecial",
         },
         {
+            key: "verify",
+            icon: "scan-line",
+            title: "Verify Code",
+            subtitle: "Redeem vouchers",
+            background: colors.light_success,
+            color: colors.success,
+            onPress: "onVerifyCode",
+        },
+        {
             key: "job",
             icon: "briefcase",
             title: "Post a Job",
@@ -218,11 +240,12 @@ const useMyBusinessDetailsController = () => {
     }, [id])
 
     const onAddSpecial = useCallback(() => {
-        showInfoModal({
-            title: "Coming Soon",
-            message: "Adding specials will be available soon.",
-        })
-    }, [showInfoModal])
+        navigate(ROUTES.CREATE_SPECIAL, { business_id: id })
+    }, [id])
+
+    const onVerifyCode = useCallback(() => {
+        navigate(ROUTES.SPECIAL_VERIFY_CODE, { business_id: id })
+    }, [id])
 
     const onPostJob = useCallback(() => {
         navigate(ROUTES.CREATE_JOB, { business_id: id })
@@ -232,6 +255,40 @@ const useMyBusinessDetailsController = () => {
         if (!job?._id) return
         navigate(ROUTES.JOB_DETAILS, { _id: String(job._id) })
     }, [])
+
+    const onSpecialVerify = useCallback((special) => {
+        navigate(ROUTES.SPECIAL_VERIFY_CODE, {
+            business_id: id,
+            special_id: special?._id,
+        })
+    }, [id])
+
+    const onSpecialRedeemedList = useCallback((special) => {
+        if (!special?._id) return
+        navigate(ROUTES.SPECIAL_REDEEMED_LIST, { special_id: String(special._id) })
+    }, [])
+
+    const onToggleSpecialActive = useCallback(async (special) => {
+        if (!special?._id) return
+
+        const confirmed = await showConfirmModal({
+            title: special.is_active ? "Deactivate Special" : "Activate Special",
+            message: special.is_active
+                ? "This special will be hidden from the public. Existing active codes stay valid until they expire."
+                : "This special will be visible to the community again.",
+        })
+
+        if (!confirmed) return
+
+        try {
+            await toggleSpecialActive(special._id).unwrap()
+        } catch (error) {
+            showInfoModal({
+                title: "Unable to Update",
+                message: error?.data?.message || "Something went wrong.",
+            })
+        }
+    }, [showConfirmModal, showInfoModal, toggleSpecialActive])
 
     const onToggleActive = useCallback(async () => {
         if (!id || is_toggling) return
@@ -260,6 +317,7 @@ const useMyBusinessDetailsController = () => {
     const action_handlers = {
         onEditListing,
         onAddSpecial,
+        onVerifyCode,
         onPostJob,
         onViewPublic,
     }
@@ -282,6 +340,7 @@ const useMyBusinessDetailsController = () => {
             manage_actions,
             stats,
             preview_jobs,
+            specials,
             preview_reviews,
             review_count,
             rating_average,
@@ -295,9 +354,13 @@ const useMyBusinessDetailsController = () => {
             onViewAllJobs,
             onEditListing,
             onAddSpecial,
+            onVerifyCode,
             onPostJob,
             onViewPublic,
             onJobPress,
+            onSpecialVerify,
+            onSpecialRedeemedList,
+            onToggleSpecialActive,
             onToggleActive,
             action_handlers,
         },

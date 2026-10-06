@@ -9,6 +9,7 @@ import Icon from "../../components/Icon"
 import JobCard from "../../components/JobCard"
 import MarketplaceCard from "../../components/MarketplaceCard"
 import Row from "../../components/Row"
+import SpecialCard from "../../components/SpecialCard"
 import Text from "../../components/Text"
 import { APP_NAME } from "../../config/env"
 import colors from "../../helpers/colors"
@@ -167,6 +168,36 @@ const JobsSection = ({ jobs, onJobPress, onViewAll }) => {
     )
 }
 
+const SpecialsSection = ({ specials, redeeming_id, onRedeem, onViewAll }) => {
+
+    if (!specials.length) return null
+
+    return (
+        <View style={styles.section}>
+            <Row align="center" justify="space-between">
+                <Text size={16} weight="bold">
+                    Featured Specials
+                </Text>
+                <Text size={13} weight="semibold" color={colors.primary} onPress={onViewAll}>
+                    See All
+                </Text>
+            </Row>
+            <FlatList
+                data={specials}
+                scrollEnabled={false}
+                keyExtractor={(item) => String(item._id)}
+                renderItem={({ item }) => (
+                    <SpecialCard
+                        data={item}
+                        redeeming={String(redeeming_id) === String(item._id)}
+                        onRedeem={() => onRedeem(item)}
+                    />
+                )}
+            />
+        </View>
+    )
+}
+
 const MarketplaceSection = ({ listings, onListingPress, onViewAll }) => {
 
     if (!listings.length) return null
@@ -243,6 +274,12 @@ const Home = () => {
                     categories={values.categories}
                     onCategoryPress={functions.onCategoryPress}
                     onViewAll={functions.onViewAllCategories}
+                />
+                <SpecialsSection
+                    specials={values.specials}
+                    redeeming_id={values.redeeming_id}
+                    onRedeem={functions.onRedeem}
+                    onViewAll={functions.onViewAllSpecials}
                 />
                 <JobsSection
                     jobs={values.jobs}

@@ -8,7 +8,9 @@ import { BUSINESS_REVIEWS } from "../../helpers/data"
 import { formatPhone, formatWebsite, getLocationLabel } from "../../helpers/general"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
+import useRedeemSpecial from "../../hooks/useRedeemSpecial"
 import { useGetBusinessByIdQuery } from "../../redux/apis/Business"
+import { useGetSpecialsQuery } from "../../redux/apis/Special"
 import { selectSavedBusinessIds } from "../../redux/selectors"
 import { toggleSavedBusiness } from "../../redux/slices/general.slice"
 
@@ -20,6 +22,7 @@ const useBusinessDetailsController = () => {
     const id = params?._id
     const dispatch = useDispatch()
     const saved_business_ids = useSelector(selectSavedBusinessIds)
+    const { redeeming_id, onRedeem } = useRedeemSpecial()
 
     const {
         data,
@@ -27,7 +30,15 @@ const useBusinessDetailsController = () => {
         isError,
     } = useGetBusinessByIdQuery(id, { skip: !id })
 
+    const {
+        data: specials_response,
+    } = useGetSpecialsQuery(
+        { business: id },
+        { skip: !id },
+    )
+
     const business = data?.data ?? {}
+    const specials = specials_response?.data ?? []
 
     const {
         name,
@@ -140,10 +151,12 @@ const useBusinessDetailsController = () => {
             today,
             today_status,
             contact_items,
+            specials,
             preview_reviews,
             review_count,
             rating_average,
             saved,
+            redeeming_id,
             is_loading: isLoading,
             is_error: isError || !id,
         },
@@ -151,6 +164,7 @@ const useBusinessDetailsController = () => {
             onOpenLink,
             onViewAllReviews,
             onToggleSave,
+            onRedeem,
         },
     }
 }
