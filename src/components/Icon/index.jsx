@@ -46,25 +46,29 @@ const Icon = ({
         full: is_fluid ? "50%" : heightPixel(size / 2),
     }
 
+    const container_size = is_fluid ? null : heightPixel(size)
+    const border_width = border ? heightPixel(1) : 0
+
+    const icon_size = space && !is_fluid
+        ? heightPixel(size * 0.36)
+        : (container_size ?? heightPixel(size))
+
+    const image_padding = space && !is_fluid
+        ? Math.max(0, (container_size - border_width * 2 - icon_size) / 2)
+        : 0
+
     const container_style = {
-        width: is_fluid ? "100%" : heightPixel(size),
-        height: is_fluid ? "100%" : heightPixel(size),
+        width: is_fluid ? "100%" : container_size,
+        height: is_fluid ? "100%" : container_size,
         borderRadius: rounded ? border_round_config[rounded] : 0,
         backgroundColor: background,
-        borderWidth: border ? heightPixel(1) : 0,
+        borderWidth: border_width,
         borderColor: border || "transparent",
         justifyContent: "center",
         alignItems: "center",
         overflow: "hidden",
+        ...(isImageSource(source) && image_padding ? { padding: image_padding } : {}),
     }
-
-    if (space && !is_fluid) {
-        container_style.padding = heightPixel(size * 0.3)
-    }
-
-    const icon_size = space && !is_fluid
-        ? heightPixel(size * 0.3)
-        : heightPixel(size)
 
     const image_style = {
         width: "100%",
