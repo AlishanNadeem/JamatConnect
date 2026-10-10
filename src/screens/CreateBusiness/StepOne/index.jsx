@@ -48,6 +48,8 @@ const StepOne = ({
                 <ImageUploader
                     label="Cover Image"
                     required
+                    title="Upload cover image"
+                    subtitle="PNG, JPG, or JPEG"
                     onPress={() => onOpenImagePicker("image")}
                     image={formik.values.image}
                     onRemove={() => formik.setFieldValue("image", null)}

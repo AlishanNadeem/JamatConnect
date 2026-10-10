@@ -152,7 +152,9 @@ const useCreateBusinessController = () => {
         address: {
             formatted: "",
             country: "",
+            country_code: "",
             state: "",
+            state_code: "",
             city: "",
         },
         logo: null,
@@ -175,7 +177,10 @@ const useCreateBusinessController = () => {
                 dialing_code: values.dialing_code,
                 website: values.website || undefined,
                 address: {
-                    ...values.address,
+                    formatted: values.address.formatted,
+                    country: values.address.country,
+                    state: values.address.state,
+                    city: values.address.city,
                     latitude: 0,
                     longitude: 0,
                 },

@@ -43,26 +43,25 @@ const Dropdown = ({
 
     const handleSelect = useCallback((option) => {
         onChange?.(option)
-        onBlur?.()
-    }, [onBlur, onChange])
+    }, [onChange])
 
     return (
         <>
             <InputLayout
                 label={label}
                 required={required}
-                onPress={handleOpen}
+                onPress={disabled ? undefined : handleOpen}
                 error={error}
-                wrapper_style={styles.wrapper}
+                wrapper_style={[styles.wrapper, disabled && styles.wrapper_disabled]}
             >
                 <Text
                     lines={1}
-                    color={selected_option ? colors.black : colors.gray}
+                    color={disabled ? colors.gray : selected_option ? colors.black : colors.gray}
                     style={styles.text}
                 >
                     {display_text}
                 </Text>
-                <Icon name="chevron-down" size={20} color={colors.black} />
+                <Icon name="chevron-down" size={20} color={disabled ? colors.gray : colors.black} />
             </InputLayout>
 
             <DropDownModal
@@ -83,6 +82,9 @@ export default memo(Dropdown)
 const styles = StyleSheet.create({
     wrapper: {
         justifyContent: "space-between",
+    },
+    wrapper_disabled: {
+        backgroundColor: colors.background,
     },
     text: {
         flex: 1,
