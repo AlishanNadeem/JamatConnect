@@ -69,33 +69,49 @@ const GreetingCard = ({ user }) => {
 
 const CommunityCard = ({ onPress }) => (
     <View style={styles.community_card}>
-        <View style={styles.community_blob_one} />
-        <View style={styles.community_blob_two} />
+        <LinearGradient
+            colors={[colors.dark_primary, colors.primary, colors.light_primary]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={StyleSheet.absoluteFill}
+            pointerEvents="none"
+        />
+        <View style={styles.community_circle_one} />
+        <View style={styles.community_circle_two} />
+        <View style={styles.community_circle_three} />
 
-        <Row align="flex-start" gap={14} style={styles.community_top}>
-            <Icon
-                name="users"
-                size={48}
-                space
-                rounded="half"
-                background={colors.lightest_primary}
-                color={colors.primary}
-            />
+        <Row align="center" gap={14} style={styles.community_top}>
+            <View style={styles.community_icon}>
+                <Icon
+                    name="users"
+                    size={44}
+                    space
+                    rounded="half"
+                    background={colors.white}
+                    color={colors.primary}
+                />
+            </View>
             <View style={styles.community_text}>
-                <Text size={16} weight="bold">
-                    Help Our Community Grow
+                <Text size={12} weight="semibold" color={colors.lightest_primary}>
+                    Referrals
                 </Text>
-                <Text size={13} color={colors.dark_gray} lines={3}>
-                    Invite friends and family to join {APP_NAME} and strengthen our community together.
+                <Text size={18} weight="bold" color={colors.white} lines={2}>
+                    Help our community grow
                 </Text>
             </View>
         </Row>
+
+        <Text size={13} color={colors.lightest_primary}>
+            Invite friends and family to join {APP_NAME} and strengthen our community together.
+        </Text>
 
         <Row align="center" justify="space-between" onPress={onPress} style={styles.community_action}>
             <Text size={14} weight="semibold" color={colors.primary}>
                 Invite Friends
             </Text>
-            <Icon name="arrow-right" size={18} color={colors.primary} />
+            <View style={styles.community_action_icon}>
+                <Icon name="arrow-right" size={16} color={colors.white} />
+            </View>
         </Row>
     </View>
 )
@@ -314,48 +330,65 @@ const styles = StyleSheet.create({
     },
     community_card: {
         position: "relative",
-        gap: heightPixel(16),
+        gap: heightPixel(14),
         paddingHorizontal: widthPixel(16),
         paddingVertical: heightPixel(18),
         borderRadius: heightPixel(20),
-        backgroundColor: colors.white,
-        borderWidth: heightPixel(1),
-        borderColor: colors.light_gray,
         overflow: "hidden",
+        backgroundColor: colors.primary,
     },
-    community_blob_one: {
+    community_circle_one: {
         position: "absolute",
-        top: heightPixel(-30),
-        right: widthPixel(-20),
-        width: widthPixel(90),
-        height: widthPixel(90),
-        borderRadius: widthPixel(45),
-        backgroundColor: colors.lightest_primary,
+        top: heightPixel(-28),
+        right: widthPixel(-18),
+        width: widthPixel(110),
+        height: widthPixel(110),
+        borderRadius: widthPixel(55),
+        backgroundColor: "rgba(255, 255, 255, 0.1)",
     },
-    community_blob_two: {
+    community_circle_two: {
         position: "absolute",
-        bottom: heightPixel(-24),
-        left: widthPixel(-16),
-        width: widthPixel(64),
-        height: widthPixel(64),
-        borderRadius: widthPixel(32),
-        backgroundColor: colors.lightest_primary,
+        bottom: heightPixel(-36),
+        left: widthPixel(-22),
+        width: widthPixel(88),
+        height: widthPixel(88),
+        borderRadius: widthPixel(44),
+        backgroundColor: "rgba(255, 255, 255, 0.08)",
+    },
+    community_circle_three: {
+        position: "absolute",
+        top: heightPixel(52),
+        right: widthPixel(72),
+        width: widthPixel(28),
+        height: widthPixel(28),
+        borderRadius: widthPixel(14),
+        backgroundColor: "rgba(255, 255, 255, 0.12)",
     },
     community_top: {
         width: "100%",
     },
+    community_icon: {
+        flexShrink: 0,
+    },
     community_text: {
         flex: 1,
-        gap: heightPixel(6),
+        gap: heightPixel(2),
     },
     community_action: {
         width: "100%",
-        paddingHorizontal: widthPixel(14),
-        paddingVertical: heightPixel(12),
+        paddingLeft: widthPixel(16),
+        paddingRight: widthPixel(8),
+        paddingVertical: heightPixel(8),
         borderRadius: heightPixel(14),
-        backgroundColor: colors.background,
-        borderWidth: heightPixel(1),
-        borderColor: colors.lightest_primary,
+        backgroundColor: colors.white,
+    },
+    community_action_icon: {
+        width: heightPixel(32),
+        height: heightPixel(32),
+        borderRadius: heightPixel(16),
+        backgroundColor: colors.primary,
+        alignItems: "center",
+        justifyContent: "center",
     },
     content: {
         width: "100%",
