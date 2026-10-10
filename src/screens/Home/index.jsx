@@ -154,7 +154,7 @@ const CategoriesSection = ({ categories, onCategoryPress, onViewAll }) => {
     )
 }
 
-const JobsSection = ({ jobs, onJobPress, onViewAll }) => {
+const JobsSection = ({ jobs, saved_job_ids, onJobPress, onToggleSave, onViewAll }) => {
 
     if (!jobs.length) return null
 
@@ -175,7 +175,9 @@ const JobsSection = ({ jobs, onJobPress, onViewAll }) => {
                 renderItem={({ item }) => (
                     <JobCard
                         data={item}
+                        saved={saved_job_ids.includes(String(item._id))}
                         onPress={() => onJobPress(item)}
+                        onSave={() => onToggleSave(item)}
                     />
                 )}
             />
@@ -262,7 +264,9 @@ const Home = () => {
                 />
                 <JobsSection
                     jobs={values.jobs}
+                    saved_job_ids={values.saved_job_ids}
                     onJobPress={functions.onJobPress}
+                    onToggleSave={functions.onToggleSaveJob}
                     onViewAll={functions.onViewAllJobs}
                 />
                 <MarketplaceSection

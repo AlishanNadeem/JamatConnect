@@ -12,6 +12,7 @@ const initial = {
     employment_types: [],
     workplace_types: [],
     saved_business_ids: [],
+    saved_job_ids: [],
 }
 
 const generalSlice = createSlice({
@@ -36,8 +37,21 @@ const generalSlice = createSlice({
                 state.saved_business_ids.push(id)
             }
         },
+        toggleSavedJob: (state, action) => {
+            const id = String(action.payload)
+            if (!state.saved_job_ids) {
+                state.saved_job_ids = []
+            }
+            const index = state.saved_job_ids.indexOf(id)
+            if (index >= 0) {
+                state.saved_job_ids.splice(index, 1)
+            } else {
+                state.saved_job_ids.push(id)
+            }
+        },
         clearUserData: (state) => {
             state.saved_business_ids = []
+            state.saved_job_ids = []
         },
     },
     extraReducers: (builder) => {
@@ -69,19 +83,33 @@ const generalSlice = createSlice({
                 }
             )
             .addMatcher(
+                userApi.endpoints.getSavedJobs.matchFulfilled,
+                (state, action) => {
+                    state.saved_job_ids = toIdList(action.payload?.data ?? [])
+                }
+            )
+            .addMatcher(
+                userApi.endpoints.toggleSavedJob.matchFulfilled,
+                (state, action) => {
+                    state.saved_job_ids = toIdList(action.payload?.data?.saved_jobs ?? [])
+                }
+            )
+            .addMatcher(
                 authApi.endpoints.login.matchFulfilled,
                 (state, action) => {
                     state.saved_business_ids = toIdList(action.payload?.data?.user?.saved_businesses ?? [])
+                    state.saved_job_ids = toIdList(action.payload?.data?.user?.saved_jobs ?? [])
                 }
             )
             .addMatcher(
                 authApi.endpoints.signup.matchFulfilled,
                 (state, action) => {
                     state.saved_business_ids = toIdList(action.payload?.data?.user?.saved_businesses ?? [])
+                    state.saved_job_ids = toIdList(action.payload?.data?.user?.saved_jobs ?? [])
                 }
             )
     }
 })
 
-export const { completeOnboarding, setAlertMode, toggleSavedBusiness, clearUserData } = generalSlice.actions
+export const { completeOnboarding, setAlertMode, toggleSavedBusiness, toggleSavedJob, clearUserData } = generalSlice.actions
 export default generalSlice.reducer

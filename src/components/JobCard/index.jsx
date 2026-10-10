@@ -12,7 +12,7 @@ import Row from "../Row"
 import Text from "../Text"
 import Touchable from "../Touchable"
 
-const JobCard = ({ data, onPress }) => {
+const JobCard = ({ data, saved = false, onPress, onSave }) => {
 
     const employment_types = useSelector(selectEmploymentTypes)
     const workplace_types = useSelector(selectWorkplaceTypes)
@@ -52,6 +52,14 @@ const JobCard = ({ data, onPress }) => {
                         <Badge type="dot" label="Closed" mode="danger" />
                     ) : applied ? (
                         <Badge type="dot" label="Applied" mode="muted" />
+                    ) : null}
+                    {onSave ? (
+                        <Icon
+                            name="bookmark"
+                            size={22}
+                            color={saved ? colors.primary : colors.gray}
+                            onPress={onSave}
+                        />
                     ) : null}
                 </Row>
                 {

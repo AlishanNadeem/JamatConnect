@@ -1,11 +1,13 @@
 import { useCallback, useMemo, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
 import useSearch from "../../hooks/useSearch"
 import useToggle from "../../hooks/useToggle"
 import { useGetJobsQuery } from "../../redux/apis/Job"
-import { selectEmploymentTypes, selectWorkplaceTypes } from "../../redux/selectors"
+import { useToggleSavedJobMutation } from "../../redux/apis/User"
+import { selectEmploymentTypes, selectSavedJobIds, selectWorkplaceTypes } from "../../redux/selectors"
+import { toggleSavedJob } from "../../redux/slices/general.slice"
 
 const EMPTY_FILTERS = {
     employment_type: "",
@@ -17,8 +19,11 @@ const useJobsController = () => {
     const { search, debounced, onChange } = useSearch()
     const { value: filters_visible, set: setFiltersVisible } = useToggle()
     const [filters, setFilters] = useState(EMPTY_FILTERS)
+    const dispatch = useDispatch()
     const employment_type_options = useSelector(selectEmploymentTypes)
     const workplace_type_options = useSelector(selectWorkplaceTypes)
+    const saved_job_ids = useSelector(selectSavedJobIds)
+    const [toggleSaved] = useToggleSavedJobMutation()
 
     const query_params = useMemo(() => {
         const query = {}
@@ -66,6 +71,14 @@ const useJobsController = () => {
         navigate(ROUTES.JOB_DETAILS, { _id: String(item._id) })
     }, [])
 
+    const onToggleSave = useCallback((job) => {
+        const id = String(job._id)
+        dispatch(toggleSavedJob(id))
+        toggleSaved(id).unwrap().catch(() => {
+            dispatch(toggleSavedJob(id))
+        })
+    }, [dispatch, toggleSaved])
+
     return {
         values: {
             data: data?.data ?? [],
@@ -75,6 +88,7 @@ const useJobsController = () => {
             has_active_filters,
             employment_type_options,
             workplace_type_options,
+            saved_job_ids,
             is_loading: isLoading,
             refreshing: isFetching,
             loading_more: false,
@@ -101,6 +115,7 @@ const useJobsController = () => {
             onApplyFilters,
             onResetFilters,
             onJobPress,
+            onToggleSave,
         },
     }
 }

@@ -51,6 +51,20 @@ export const userApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["SavedBusinesses"],
         }),
+        getSavedJobs: builder.query({
+            query: () => ({
+                url: "/user/saved-jobs",
+                method: "GET",
+            }),
+            providesTags: ["SavedJobs"],
+        }),
+        toggleSavedJob: builder.mutation({
+            query: (id) => ({
+                url: `/user/saved-job/${id}`,
+                method: "PATCH",
+            }),
+            invalidatesTags: ["SavedJobs"],
+        }),
     }),
 })
 
@@ -62,4 +76,6 @@ export const {
     useRemoveFcmTokenMutation,
     useGetSavedBusinessesQuery,
     useToggleSavedBusinessMutation,
+    useGetSavedJobsQuery,
+    useToggleSavedJobMutation,
 } = userApi

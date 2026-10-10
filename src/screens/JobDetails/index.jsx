@@ -70,9 +70,19 @@ const JobDetails = () => {
                         </Touchable>
                     ) : null}
 
-                    <Text size={24} weight="bold">
-                        {job.title}
-                    </Text>
+                    <Row align="center" gap={12} style={styles.title_row}>
+                        <Text size={24} weight="bold" style={styles.title}>
+                            {job.title}
+                        </Text>
+                        {!is_mine ? (
+                            <Icon
+                                name="bookmark"
+                                size={26}
+                                color={values.saved ? colors.primary : colors.gray}
+                                onPress={() => functions.onToggleSave()}
+                            />
+                        ) : null}
+                    </Row>
 
                     {values.location_label ? (
                         <Text size={14} color={colors.dark_gray}>
@@ -215,7 +225,9 @@ const JobDetails = () => {
                             renderItem={({ item }) => (
                                 <JobCard
                                     data={item}
+                                    saved={values.saved_job_ids.includes(String(item._id))}
                                     onPress={() => functions.onSimilarJobPress(item)}
+                                    onSave={() => functions.onToggleSave(item._id)}
                                 />
                             )}
                         />
@@ -246,6 +258,12 @@ const styles = StyleSheet.create({
         backgroundColor: colors.white,
         borderWidth: heightPixel(1),
         borderColor: colors.light_gray,
+    },
+    title_row: {
+        width: "100%",
+    },
+    title: {
+        flex: 1,
     },
     company_row: {
         flexDirection: "row",

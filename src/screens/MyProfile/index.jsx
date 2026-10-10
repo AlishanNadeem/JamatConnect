@@ -38,7 +38,7 @@ const MyProfile = () => {
                     <MenuDivider />
                     <ProfileMenuItem
                         icon="bookmark"
-                        label="Saved Businesses"
+                        label="Saved"
                         onPress={functions.onSavedBusinesses}
                     />
                     <MenuDivider />

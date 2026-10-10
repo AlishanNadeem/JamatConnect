@@ -7,3 +7,4 @@ export const selectAppConfig = (state) => state.general.app_config
 export const selectEmploymentTypes = (state) => state.general.employment_types ?? []
 export const selectWorkplaceTypes = (state) => state.general.workplace_types ?? []
 export const selectSavedBusinessIds = (state) => state.general.saved_business_ids ?? []
+export const selectSavedJobIds = (state) => state.general.saved_job_ids ?? []

@@ -6,9 +6,9 @@ import { useGetBusinessesQuery } from "../../redux/apis/Business"
 import { useGetBusinessCategoriesQuery } from "../../redux/apis/BusinessCategory"
 import { useGetJobsQuery } from "../../redux/apis/Job"
 import { useGetListingsQuery } from "../../redux/apis/Marketplace"
-import { selectSavedBusinessIds } from "../../redux/selectors"
-import { useToggleSavedBusinessMutation } from "../../redux/apis/User"
-import { toggleSavedBusiness } from "../../redux/slices/general.slice"
+import { useToggleSavedBusinessMutation, useToggleSavedJobMutation } from "../../redux/apis/User"
+import { selectSavedBusinessIds, selectSavedJobIds } from "../../redux/selectors"
+import { toggleSavedBusiness, toggleSavedJob } from "../../redux/slices/general.slice"
 
 const HOME_PREVIEW_PARAMS = {
     page: 1,
@@ -19,7 +19,9 @@ const useHomeController = () => {
 
     const dispatch = useDispatch()
     const saved_business_ids = useSelector(selectSavedBusinessIds)
+    const saved_job_ids = useSelector(selectSavedJobIds)
     const [toggleSaved] = useToggleSavedBusinessMutation()
+    const [toggleSavedJobApi] = useToggleSavedJobMutation()
 
     const {
         data: categories_response,
@@ -98,6 +100,14 @@ const useHomeController = () => {
         })
     }, [dispatch, toggleSaved])
 
+    const onToggleSaveJob = useCallback((job) => {
+        const id = String(job._id)
+        dispatch(toggleSavedJob(id))
+        toggleSavedJobApi(id).unwrap().catch(() => {
+            dispatch(toggleSavedJob(id))
+        })
+    }, [dispatch, toggleSavedJobApi])
+
     return {
         values: {
             categories,
@@ -106,6 +116,7 @@ const useHomeController = () => {
             listings,
             businesses,
             saved_business_ids,
+            saved_job_ids,
         },
         functions: {
             onGrowCommunity,
@@ -118,6 +129,7 @@ const useHomeController = () => {
             onListingPress,
             onBusinessPress,
             onToggleSave,
+            onToggleSaveJob,
         },
     }
 }

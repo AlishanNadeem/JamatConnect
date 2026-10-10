@@ -1,7 +1,7 @@
 import { useRoute } from "@react-navigation/native"
 import { useCallback, useEffect } from "react"
 import { Linking } from "react-native"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useModal } from "../../contexts/ModalContext"
 import { getLocationLabel, getOptionLabel } from "../../helpers/general"
 import { goBack, navigate } from "../../helpers/navigation"
@@ -13,7 +13,9 @@ import {
     useGetJobApplicationsQuery,
     useGetJobByIdQuery,
 } from "../../redux/apis/Job"
-import { selectEmploymentTypes, selectUser, selectWorkplaceTypes } from "../../redux/selectors"
+import { useToggleSavedJobMutation } from "../../redux/apis/User"
+import { selectEmploymentTypes, selectSavedJobIds, selectUser, selectWorkplaceTypes } from "../../redux/selectors"
+import { toggleSavedJob } from "../../redux/slices/general.slice"
 
 const mapApplicant = (application) => {
 
@@ -35,9 +37,12 @@ const useJobDetailsController = () => {
 
     const { params } = useRoute()
     const id = params?._id
+    const dispatch = useDispatch()
     const current_user = useSelector(selectUser)
     const employment_types = useSelector(selectEmploymentTypes)
     const workplace_types = useSelector(selectWorkplaceTypes)
+    const saved_job_ids = useSelector(selectSavedJobIds)
+    const [toggleSaved] = useToggleSavedJobMutation()
     const { showInfoModal, showConfirmModal } = useModal()
 
     const { data, isLoading: is_loading, isError } = useGetJobByIdQuery(
@@ -146,6 +151,15 @@ const useJobDetailsController = () => {
         navigate(ROUTES.JOB_DETAILS, { _id: String(item._id) })
     }, [])
 
+    const onToggleSave = useCallback((job_id = id) => {
+        if (!job_id) return
+        const saved_id = String(job_id)
+        dispatch(toggleSavedJob(saved_id))
+        toggleSaved(saved_id).unwrap().catch(() => {
+            dispatch(toggleSavedJob(saved_id))
+        })
+    }, [dispatch, id, toggleSaved])
+
     const onCallApplicant = useCallback((applicant) => {
         if (!applicant?.phone) return
         const number = `${applicant.dialing_code ?? ""}${applicant.phone}`.replace(/[^\d+]/g, "")
@@ -174,10 +188,13 @@ const useJobDetailsController = () => {
             workplace_type_label: getOptionLabel(workplace_types, job?.workplace_type),
             location_label: getLocationLabel({ location: job?.location, address: business?.address }),
             apply_label: job?.applied ? "Applied" : job?.closed ? "Closed" : "Apply for job",
+            saved: saved_job_ids.includes(String(id)),
+            saved_job_ids,
         },
         functions: {
             onViewBusiness,
             onSimilarJobPress,
+            onToggleSave,
             onApply,
             onToggleClosed,
             onDelete,

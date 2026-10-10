@@ -50,7 +50,9 @@ const Jobs = () => {
                     renderItem={({ item }) => (
                         <JobCard
                             data={item}
+                            saved={values.saved_job_ids.includes(String(item._id))}
                             onPress={() => functions.onJobPress(item)}
+                            onSave={() => functions.onToggleSave(item)}
                         />
                     )}
                     empty={values.empty}

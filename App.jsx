@@ -18,7 +18,7 @@ import usePushNotifications from './src/hooks/usePushNotifications'
 import useToggle from './src/hooks/useToggle'
 import MainStackNavigator from './src/navigation/MainStackNavigator'
 import { useGetDataQuery, useGetVersionQuery } from './src/redux/apis/General'
-import { useGetSavedBusinessesQuery } from './src/redux/apis/User'
+import { useGetSavedBusinessesQuery, useGetSavedJobsQuery } from './src/redux/apis/User'
 import { selectAppConfig, selectIsAuthenticated } from './src/redux/selectors'
 import { persistor, store } from './src/redux/store'
 
@@ -53,6 +53,7 @@ const AppContent = () => {
   usePushNotifications()
   const is_authenticated = useSelector(selectIsAuthenticated)
   useGetSavedBusinessesQuery(undefined, { skip: !is_authenticated })
+  useGetSavedJobsQuery(undefined, { skip: !is_authenticated })
   const app_config = useSelector(selectAppConfig)
 
   useEffect(() => {
