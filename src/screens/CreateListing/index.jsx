@@ -22,7 +22,7 @@ const CreateListing = () => {
     useLayoutEffect(() => {
         if (!values.is_edit) return
         navigation.setOptions({
-            headerTitle: () => <HeaderTitle title="Edit Listing" />,
+            headerTitle: () => <HeaderTitle title="Edit Listing" has_back_button />,
         })
     }, [navigation, values.is_edit])
 

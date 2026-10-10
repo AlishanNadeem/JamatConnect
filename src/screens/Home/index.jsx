@@ -236,7 +236,7 @@ const Home = () => {
     const { values, functions } = useHomeController()
 
     return (
-        <PrimaryLayout bottom_tab scrollable>
+        <PrimaryLayout bottom_tab header scrollable>
             <View style={styles.container}>
                 <GreetingCard user={user} />
                 <CategoriesSection

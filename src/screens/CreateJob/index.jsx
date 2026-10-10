@@ -28,7 +28,7 @@ const CreateJob = () => {
         if (!values.is_edit) return
 
         navigation.setOptions({
-            headerTitle: () => <HeaderTitle title="Edit Job" />,
+            headerTitle: () => <HeaderTitle title="Edit Job" has_back_button />,
         })
 
     }, [navigation, values.is_edit])

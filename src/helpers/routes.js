@@ -1,25 +1,49 @@
-import HeaderLeft from "../components/Navigation/HeaderLeft";
-import HeaderTitle from "../components/Navigation/HeaderTitle";
-import NotificationsBell from "../components/Navigation/NotificationsBell";
-import colors from "./colors";
-import { GLOBAL_HORIZONTAL_PADDING, HEADER_HEIGHT } from "./metrics";
-import { goBack } from "./navigation";
+import HeaderLeft from "../components/Navigation/HeaderLeft"
+import HeaderTitle from "../components/Navigation/HeaderTitle"
+import NotificationsBell from "../components/Navigation/NotificationsBell"
+import colors from "./colors"
+import { GLOBAL_HORIZONTAL_PADDING, HEADER_HEIGHT } from "./metrics"
+import { goBack } from "./navigation"
 
-const screenOptionsWithTitle = (title, type = "primary") => ({
+const headerBack = () => (
+    <HeaderLeft name="chevron-left" onPress={goBack} type="secondary" />
+)
+
+const headerNotifications = () => <NotificationsBell />
+
+const withTitle = (title, { has_back_button = false } = {}) => ({
     headerTitle: ({ children }) => (
-        <HeaderTitle title={title || children} type={type} />
+        <HeaderTitle
+            title={title || children}
+            has_back_button={has_back_button}
+        />
     ),
+    ...(has_back_button ? { headerLeft: headerBack } : {}),
 })
 
-const HEADER_LEFT = {
-    back: () => <HeaderLeft name="chevron-left" onPress={goBack} type="secondary" />,
-    none: null,
+const withLogo = () => ({
+    headerTitle: () => <HeaderTitle type="logo" />,
+})
+
+const TAB_HEADER = {
+    headerLeft: null,
+    headerLeftContainerStyle: { paddingLeft: 0 },
+    headerTitleContainerStyle: {
+        marginHorizontal: 0,
+        paddingLeft: GLOBAL_HORIZONTAL_PADDING,
+    },
+    headerRight: headerNotifications,
 }
 
-const HEADER_RIGHT = {
-    notifications: () => <NotificationsBell />,
-    none: null,
-}
+const tabScreen = (title) => ({
+    ...withTitle(title),
+    ...TAB_HEADER,
+})
+
+const backScreen = (title, { notifications = false } = {}) => ({
+    ...withTitle(title, { has_back_button: true }),
+    ...(notifications ? { headerRight: headerNotifications } : {}),
+})
 
 export const NAVIGATORS = {
     AUTH_STACK: "AuthStackNavigator",
@@ -65,174 +89,48 @@ export const ROUTES = {
     CATEGORIES: "Categories",
 }
 
+const HIDDEN_HEADER = { headerShown: false }
+
 export const ROUTES_OPTIONS = {
-    [NAVIGATORS.BOTTOM]: {
-        // ...screenOptionsWithTitle(undefined, "secondary"),
-        // headerLeft: HEADER_LEFT.none,
-        // headerRight: HEADER_RIGHT.notifications,
-        headerShown: false,
-    },
+    [NAVIGATORS.BOTTOM]: HIDDEN_HEADER,
+    [NAVIGATORS.APP_STACK]: HIDDEN_HEADER,
 
-    [NAVIGATORS.APP_STACK]: {
-        headerShown: false,
-    },
+    [ROUTES.ONBOARDING]: HIDDEN_HEADER,
+    [ROUTES.LOGIN]: HIDDEN_HEADER,
+    [ROUTES.SIGNUP]: HIDDEN_HEADER,
+    [ROUTES.FORGET_PASSWORD]: HIDDEN_HEADER,
+    [ROUTES.VERIFY_CODE]: HIDDEN_HEADER,
+    [ROUTES.SET_PASSWORD]: HIDDEN_HEADER,
 
-    [ROUTES.ONBOARDING]: {
-        headerShown: false,
-    },
+    // Bottom tabs
+    [ROUTES.HOME]: { ...withLogo(), ...TAB_HEADER },
+    [ROUTES.BUSINESSES]: tabScreen("Businesses"),
+    [ROUTES.JOBS]: tabScreen("Jobs"),
+    [ROUTES.MARKETPLACE]: tabScreen("Marketplace"),
+    [ROUTES.MY_PROFILE]: tabScreen("More Options"),
 
-    [ROUTES.LOGIN]: {
-        headerShown: false,
-    },
-
-    [ROUTES.SIGNUP]: {
-        headerShown: false,
-    },
-
-    [ROUTES.FORGET_PASSWORD]: {
-        headerShown: false,
-    },
-
-    [ROUTES.VERIFY_CODE]: {
-        headerShown: false,
-    },
-
-    [ROUTES.SET_PASSWORD]: {
-        headerShown: false,
-    },
-
-    [ROUTES.HOME]: {
-        headerShown: false,
-    },
-
-    [ROUTES.BUSINESSES]: {
-        ...screenOptionsWithTitle("Businesses"),
-        headerRight: HEADER_RIGHT.notifications,
-    },
-
-    [ROUTES.JOBS]: {
-        ...screenOptionsWithTitle("Jobs"),
-        headerRight: HEADER_RIGHT.notifications,
-    },
-
-    [ROUTES.MARKETPLACE]: {
-        ...screenOptionsWithTitle("Marketplace"),
-        headerRight: HEADER_RIGHT.notifications,
-    },
-
-    [ROUTES.MARKETPLACE_DETAILS]: {
-        ...screenOptionsWithTitle("Listing Details"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.MY_PROFILE]: {
-        ...screenOptionsWithTitle("More Options"),
-        headerRight: HEADER_RIGHT.notifications,
-    },
-
-    [ROUTES.EDIT_PROFILE]: {
-        ...screenOptionsWithTitle("Edit Profile"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.CHANGE_PASSWORD]: {
-        ...screenOptionsWithTitle("Change Password"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.NOTIFICATIONS]: {
-        ...screenOptionsWithTitle("Notifications"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.ABOUT_US]: {
-        ...screenOptionsWithTitle("About Us"),
-        headerLeft: HEADER_LEFT.back,
-        headerRight: HEADER_RIGHT.notifications,
-    },
-
-    [ROUTES.TERMS_AND_CONDITIONS]: {
-        ...screenOptionsWithTitle("Terms & Conditions"),
-        headerLeft: HEADER_LEFT.back,
-        headerRight: HEADER_RIGHT.notifications,
-    },
-
-    [ROUTES.PRIVACY_POLICY]: {
-        ...screenOptionsWithTitle("Privacy Policy"),
-        headerLeft: HEADER_LEFT.back,
-        headerRight: HEADER_RIGHT.notifications,
-    },
-
-    [ROUTES.CONTACT_US]: {
-        ...screenOptionsWithTitle("Contact Us"),
-        headerLeft: HEADER_LEFT.back,
-        headerRight: HEADER_RIGHT.notifications,
-    },
-
-    [ROUTES.REFERRALS]: {
-        ...screenOptionsWithTitle("Referrals"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.REFERRAL_USERS]: {
-        ...screenOptionsWithTitle("Referred Users"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.MY_BUSINESSES]: {
-        ...screenOptionsWithTitle("My Businesses"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.CREATE_BUSINESS]: {
-        ...screenOptionsWithTitle("Add Business"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.MY_BUSINESS_DETAILS]: {
-        ...screenOptionsWithTitle("My Business"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.MY_LISTINGS]: {
-        ...screenOptionsWithTitle("My Listings"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.CREATE_LISTING]: {
-        ...screenOptionsWithTitle("Add Listing"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.CREATE_JOB]: {
-        ...screenOptionsWithTitle("Post a Job"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.JOB_DETAILS]: {
-        ...screenOptionsWithTitle("Job Details"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.BUSINESS_DETAILS]: {
-        ...screenOptionsWithTitle("Business Details"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.BUSINESS_REVIEWS]: {
-        ...screenOptionsWithTitle("Reviews"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.BUSINESS_JOBS]: {
-        ...screenOptionsWithTitle("Business Jobs"),
-        headerLeft: HEADER_LEFT.back,
-    },
-
-    [ROUTES.CATEGORIES]: {
-        ...screenOptionsWithTitle("Categories"),
-        headerLeft: HEADER_LEFT.back,
-    },
+    // Stack screens with back
+    [ROUTES.MARKETPLACE_DETAILS]: backScreen("Listing Details"),
+    [ROUTES.EDIT_PROFILE]: backScreen("Edit Profile"),
+    [ROUTES.CHANGE_PASSWORD]: backScreen("Change Password"),
+    [ROUTES.NOTIFICATIONS]: backScreen("Notifications"),
+    [ROUTES.ABOUT_US]: backScreen("About Us", { notifications: true }),
+    [ROUTES.TERMS_AND_CONDITIONS]: backScreen("Terms & Conditions", { notifications: true }),
+    [ROUTES.PRIVACY_POLICY]: backScreen("Privacy Policy", { notifications: true }),
+    [ROUTES.CONTACT_US]: backScreen("Contact Us", { notifications: true }),
+    [ROUTES.REFERRALS]: backScreen("Referrals"),
+    [ROUTES.REFERRAL_USERS]: backScreen("Referred Users"),
+    [ROUTES.MY_BUSINESSES]: backScreen("My Businesses"),
+    [ROUTES.CREATE_BUSINESS]: backScreen("Add Business"),
+    [ROUTES.MY_BUSINESS_DETAILS]: backScreen("My Business"),
+    [ROUTES.MY_LISTINGS]: backScreen("My Listings"),
+    [ROUTES.CREATE_LISTING]: backScreen("Add Listing"),
+    [ROUTES.CREATE_JOB]: backScreen("Post a Job"),
+    [ROUTES.JOB_DETAILS]: backScreen("Job Details"),
+    [ROUTES.BUSINESS_DETAILS]: backScreen("Business Details"),
+    [ROUTES.BUSINESS_REVIEWS]: backScreen("Reviews"),
+    [ROUTES.BUSINESS_JOBS]: backScreen("Business Jobs"),
+    [ROUTES.CATEGORIES]: backScreen("Categories"),
 }
 
 export const GLOBAL_HEADER_OPTIONS = {
