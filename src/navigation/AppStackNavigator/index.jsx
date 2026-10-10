@@ -13,6 +13,7 @@ import MyBusinessDetails from "../../screens/MyBusinessDetails"
 import MyBusinesses from "../../screens/MyBusinesses"
 import MyListings from "../../screens/MyListings"
 import Referrals from "../../screens/Referrals"
+import SavedBusinesses from "../../screens/SavedBusinesses"
 import ReferralUsers from "../../screens/ReferralUsers"
 import AboutUs from "../../screens/AboutUs"
 import ChangePassword from "../../screens/ChangePassword"
@@ -40,6 +41,7 @@ const AppStackNavigator = () => {
             <Stack.Screen name={ROUTES.CREATE_BUSINESS} component={CreateBusiness} options={ROUTES_OPTIONS[ROUTES.CREATE_BUSINESS]} />
             <Stack.Screen name={ROUTES.MY_BUSINESS_DETAILS} component={MyBusinessDetails} options={ROUTES_OPTIONS[ROUTES.MY_BUSINESS_DETAILS]} />
             <Stack.Screen name={ROUTES.MY_LISTINGS} component={MyListings} options={ROUTES_OPTIONS[ROUTES.MY_LISTINGS]} />
+            <Stack.Screen name={ROUTES.SAVED_BUSINESSES} component={SavedBusinesses} options={ROUTES_OPTIONS[ROUTES.SAVED_BUSINESSES]} />
             <Stack.Screen name={ROUTES.CREATE_LISTING} component={CreateListing} options={ROUTES_OPTIONS[ROUTES.CREATE_LISTING]} />
             <Stack.Screen name={ROUTES.CREATE_JOB} component={CreateJob} options={ROUTES_OPTIONS[ROUTES.CREATE_JOB]} />
             <Stack.Screen name={ROUTES.JOB_DETAILS} component={JobDetails} options={ROUTES_OPTIONS[ROUTES.JOB_DETAILS]} />

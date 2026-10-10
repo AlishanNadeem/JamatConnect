@@ -21,6 +21,10 @@ const useMyProfileController = () => {
         navigate(ROUTES.MY_LISTINGS)
     }, [])
 
+    const onSavedBusinesses = useCallback(() => {
+        navigate(ROUTES.SAVED_BUSINESSES)
+    }, [])
+
     const onReferrals = useCallback(() => {
         navigate(ROUTES.REFERRALS)
     }, [])
@@ -68,6 +72,7 @@ const useMyProfileController = () => {
         functions: {
             onMyBusiness,
             onMyListings,
+            onSavedBusinesses,
             onReferrals,
             onChangePassword,
             onAboutUs,

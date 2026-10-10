@@ -1,5 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { authApi } from "../apis/Auth"
 import { generalApi } from "../apis/General"
+import { userApi } from "../apis/User"
+
+const toIdList = (items = []) => items.map((item) => String(item?._id ?? item))
 
 const initial = {
     first_launch: true,
@@ -50,6 +54,30 @@ const generalSlice = createSlice({
                     const data = action.payload?.data ?? {}
                     state.employment_types = data.employment_types ?? []
                     state.workplace_types = data.workplace_types ?? []
+                }
+            )
+            .addMatcher(
+                userApi.endpoints.getSavedBusinesses.matchFulfilled,
+                (state, action) => {
+                    state.saved_business_ids = toIdList(action.payload?.data ?? [])
+                }
+            )
+            .addMatcher(
+                userApi.endpoints.toggleSavedBusiness.matchFulfilled,
+                (state, action) => {
+                    state.saved_business_ids = toIdList(action.payload?.data?.saved_businesses ?? [])
+                }
+            )
+            .addMatcher(
+                authApi.endpoints.login.matchFulfilled,
+                (state, action) => {
+                    state.saved_business_ids = toIdList(action.payload?.data?.user?.saved_businesses ?? [])
+                }
+            )
+            .addMatcher(
+                authApi.endpoints.signup.matchFulfilled,
+                (state, action) => {
+                    state.saved_business_ids = toIdList(action.payload?.data?.user?.saved_businesses ?? [])
                 }
             )
     }

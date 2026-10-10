@@ -7,6 +7,7 @@ import useSearch from "../../hooks/useSearch"
 import useToggle from "../../hooks/useToggle"
 import { useGetBusinessesQuery } from "../../redux/apis/Business"
 import { useGetBusinessCategoriesQuery } from "../../redux/apis/BusinessCategory"
+import { useToggleSavedBusinessMutation } from "../../redux/apis/User"
 import { selectSavedBusinessIds } from "../../redux/selectors"
 import { toggleSavedBusiness } from "../../redux/slices/general.slice"
 
@@ -23,6 +24,7 @@ const useBusinessesController = () => {
 
     const dispatch = useDispatch()
     const saved_business_ids = useSelector(selectSavedBusinessIds)
+    const [toggleSaved] = useToggleSavedBusinessMutation()
 
     const { data: categories_response, isLoading: categories_loading } = useGetBusinessCategoriesQuery()
 
@@ -88,8 +90,12 @@ const useBusinessesController = () => {
     }, [])
 
     const onToggleSave = useCallback((business) => {
-        dispatch(toggleSavedBusiness(business._id))
-    }, [dispatch])
+        const id = String(business._id)
+        dispatch(toggleSavedBusiness(id))
+        toggleSaved(id).unwrap().catch(() => {
+            dispatch(toggleSavedBusiness(id))
+        })
+    }, [dispatch, toggleSaved])
 
     return {
         values: {

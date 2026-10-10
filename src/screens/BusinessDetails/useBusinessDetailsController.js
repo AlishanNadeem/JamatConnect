@@ -9,6 +9,7 @@ import { formatPhone, formatWebsite, getLocationLabel } from "../../helpers/gene
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
 import { useGetBusinessByIdQuery } from "../../redux/apis/Business"
+import { useToggleSavedBusinessMutation } from "../../redux/apis/User"
 import { selectSavedBusinessIds } from "../../redux/selectors"
 import { toggleSavedBusiness } from "../../redux/slices/general.slice"
 
@@ -20,6 +21,7 @@ const useBusinessDetailsController = () => {
     const id = params?._id
     const dispatch = useDispatch()
     const saved_business_ids = useSelector(selectSavedBusinessIds)
+    const [toggleSaved] = useToggleSavedBusinessMutation()
 
     const {
         data,
@@ -125,8 +127,12 @@ const useBusinessDetailsController = () => {
 
     const onToggleSave = useCallback(() => {
         if (!id) return
-        dispatch(toggleSavedBusiness(id))
-    }, [dispatch, id])
+        const business_id = String(id)
+        dispatch(toggleSavedBusiness(business_id))
+        toggleSaved(business_id).unwrap().catch(() => {
+            dispatch(toggleSavedBusiness(business_id))
+        })
+    }, [dispatch, id, toggleSaved])
 
     return {
         values: {
