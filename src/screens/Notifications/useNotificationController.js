@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback } from "react"
 import {
     useGetNotificationsQuery,
     useMarkNotificationAsReadMutation,
@@ -6,24 +6,18 @@ import {
 
 const useNotificationController = () => {
 
-    const [refreshing, setRefreshing] = useState(false)
-
     const {
         data,
         isLoading,
+        isFetching,
         isError,
         refetch,
     } = useGetNotificationsQuery()
 
     const [markAsRead] = useMarkNotificationAsReadMutation()
 
-    const onRefresh = useCallback(async () => {
-        setRefreshing(true)
-        try {
-            await refetch()
-        } finally {
-            setRefreshing(false)
-        }
+    const onRefresh = useCallback(() => {
+        refetch()
     }, [refetch])
 
     const onPressNotification = useCallback(async (item) => {
@@ -38,7 +32,7 @@ const useNotificationController = () => {
         values: {
             data: data?.data ?? [],
             is_loading: isLoading,
-            refreshing,
+            refreshing: isFetching,
             loading_more: false,
             empty: isError
                 ? {
