@@ -12,6 +12,8 @@ import { useToggleSavedBusinessMutation } from "../../redux/apis/User"
 import { selectSavedBusinessIds } from "../../redux/selectors"
 import { toggleSavedBusiness } from "../../redux/slices/general.slice"
 
+const PREVIEW_COUNT = 2
+
 const useBusinessDetailsController = () => {
 
     const { params } = useRoute()
@@ -50,6 +52,9 @@ const useBusinessDetailsController = () => {
         logo_url,
         verified,
         hours = [],
+        review_count = 0,
+        average_rating = 0,
+        reviews = [],
     } = business
 
     const phone_label = formatPhone(dialing_code, phone)
@@ -118,9 +123,8 @@ const useBusinessDetailsController = () => {
         Linking.openURL(url)
     }, [])
 
-    const review_count = 0
-    const rating_average = "0.0"
-    const preview_reviews = []
+    const rating_average = Number(average_rating || 0).toFixed(1)
+    const preview_reviews = (Array.isArray(reviews) ? reviews : []).slice(0, PREVIEW_COUNT)
 
     const onViewAllReviews = useCallback(() => {
         navigate(ROUTES.BUSINESS_REVIEWS, { _id: id })
@@ -150,7 +154,7 @@ const useBusinessDetailsController = () => {
             today_status,
             contact_items,
             preview_reviews,
-            review_count,
+            review_count: Number(review_count || 0),
             rating_average,
             saved,
             is_loading: isLoading,

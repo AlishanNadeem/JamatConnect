@@ -86,6 +86,8 @@ export const ROUTES = {
     JOB_DETAILS: "JobDetails",
     BUSINESS_DETAILS: "BusinessDetails",
     BUSINESS_REVIEWS: "BusinessReviews",
+    BUSINESS_REVIEW_QR: "BusinessReviewQr",
+    WRITE_REVIEW: "WriteReview",
     BUSINESS_JOBS: "BusinessJobs",
     CATEGORIES: "Categories",
 }
@@ -131,6 +133,8 @@ export const ROUTES_OPTIONS = {
     [ROUTES.JOB_DETAILS]: backScreen("Job Details"),
     [ROUTES.BUSINESS_DETAILS]: backScreen("Business Details"),
     [ROUTES.BUSINESS_REVIEWS]: backScreen("Reviews"),
+    [ROUTES.BUSINESS_REVIEW_QR]: backScreen("Review QR"),
+    [ROUTES.WRITE_REVIEW]: backScreen("Write Review"),
     [ROUTES.BUSINESS_JOBS]: backScreen("Business Jobs"),
     [ROUTES.CATEGORIES]: backScreen("Categories"),
 }

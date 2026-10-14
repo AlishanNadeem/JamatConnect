@@ -167,13 +167,13 @@ const useMyBusinessDetailsController = () => {
             onPress: "onEditListing",
         },
         {
-            key: "special",
-            icon: "megaphone",
-            title: "Add Special",
-            subtitle: "Promote offers",
+            key: "review_qr",
+            icon: "qr-code",
+            title: "Review QR",
+            subtitle: "In-person reviews",
             background: colors.light_danger,
             color: colors.danger,
-            onPress: "onAddSpecial",
+            onPress: "onReviewQr",
         },
         {
             key: "job",
@@ -217,12 +217,10 @@ const useMyBusinessDetailsController = () => {
         navigate(ROUTES.BUSINESS_DETAILS, { _id: id })
     }, [id])
 
-    const onAddSpecial = useCallback(() => {
-        showInfoModal({
-            title: "Coming Soon",
-            message: "Adding specials will be available soon.",
-        })
-    }, [showInfoModal])
+    const onReviewQr = useCallback(() => {
+        if (!id) return
+        navigate(ROUTES.BUSINESS_REVIEW_QR, { _id: id })
+    }, [id])
 
     const onPostJob = useCallback(() => {
         navigate(ROUTES.CREATE_JOB, { business_id: id })
@@ -259,7 +257,7 @@ const useMyBusinessDetailsController = () => {
 
     const action_handlers = {
         onEditListing,
-        onAddSpecial,
+        onReviewQr,
         onPostJob,
         onViewPublic,
     }
@@ -294,7 +292,7 @@ const useMyBusinessDetailsController = () => {
             onViewAllReviews,
             onViewAllJobs,
             onEditListing,
-            onAddSpecial,
+            onReviewQr,
             onPostJob,
             onViewPublic,
             onJobPress,

@@ -12,7 +12,12 @@ import { DEV_MODE } from './src/config/env'
 import { ModalProvider, useModal } from './src/contexts/ModalContext'
 import colors from './src/helpers/colors'
 import { GLOBAL_HORIZONTAL_PADDING, heightPixel, SCREEN_WIDTH, widthPixel } from './src/helpers/metrics'
-import { navigation_ref } from './src/helpers/navigation'
+import { navigateToWriteReview, navigation_ref } from './src/helpers/navigation'
+import {
+  consumePendingReviewToken,
+  extractReviewTokenFromUrl,
+  setPendingReviewToken,
+} from './src/helpers/pendingReview'
 import { NAVIGATORS, ROUTES } from './src/helpers/routes'
 import usePushNotifications from './src/hooks/usePushNotifications'
 import useToggle from './src/hooks/useToggle'
@@ -32,12 +37,17 @@ const toast_config = {
 }
 
 const linking = {
-  prefixes: ['https://jamatconnect.com'],
+  prefixes: ['https://jamatconnect.com', 'jamatconnect://'],
   config: {
     screens: {
       [NAVIGATORS.AUTH_STACK]: {
         screens: {
           [ROUTES.SIGNUP]: 'invite/:code',
+        },
+      },
+      [NAVIGATORS.APP_STACK]: {
+        screens: {
+          [ROUTES.WRITE_REVIEW]: 'review/:token',
         },
       },
     },
@@ -62,6 +72,39 @@ const AppContent = () => {
       // checkVersion()
     }
   }, [navigation_ready, isSuccess])
+
+  useEffect(() => {
+    const handleReviewUrl = (url) => {
+      const token = extractReviewTokenFromUrl(url)
+      if (!token) return
+
+      if (is_authenticated && navigation_ref.isReady()) {
+        navigateToWriteReview(token)
+        return
+      }
+
+      setPendingReviewToken(token)
+    }
+
+    Linking.getInitialURL().then((url) => {
+      if (url) handleReviewUrl(url)
+    })
+
+    const subscription = Linking.addEventListener('url', ({ url }) => {
+      handleReviewUrl(url)
+    })
+
+    return () => subscription.remove()
+  }, [is_authenticated])
+
+  useEffect(() => {
+    if (!is_authenticated || !navigation_ready) return
+
+    const token = consumePendingReviewToken()
+    if (!token) return
+
+    navigateToWriteReview(token)
+  }, [is_authenticated, navigation_ready])
 
   useEffect(() => {
 

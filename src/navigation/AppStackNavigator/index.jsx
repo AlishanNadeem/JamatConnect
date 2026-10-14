@@ -1,7 +1,11 @@
 import { createStackNavigator } from "@react-navigation/stack"
+import { useEffect } from "react"
 import { GLOBAL_HEADER_OPTIONS, NAVIGATORS, ROUTES, ROUTES_OPTIONS } from "../../helpers/routes"
+import { consumePendingReviewToken } from "../../helpers/pendingReview"
+import { navigateToWriteReview } from "../../helpers/navigation"
 import BusinessDetails from "../../screens/BusinessDetails"
 import BusinessJobs from "../../screens/BusinessJobs"
+import BusinessReviewQr from "../../screens/BusinessReviewQr"
 import BusinessReviews from "../../screens/BusinessReviews"
 import Categories from "../../screens/Categories"
 import CreateBusiness from "../../screens/CreateBusiness"
@@ -15,6 +19,7 @@ import MyListings from "../../screens/MyListings"
 import Referrals from "../../screens/Referrals"
 import SavedBusinesses from "../../screens/SavedBusinesses"
 import ReferralUsers from "../../screens/ReferralUsers"
+import WriteReview from "../../screens/WriteReview"
 import AboutUs from "../../screens/AboutUs"
 import ChangePassword from "../../screens/ChangePassword"
 import ContactUs from "../../screens/ContactUs"
@@ -27,6 +32,13 @@ import BottomNavigator from "../BottomNavigator"
 const Stack = createStackNavigator()
 
 const AppStackNavigator = () => {
+
+    useEffect(() => {
+        const token = consumePendingReviewToken()
+        if (!token) return
+        navigateToWriteReview(token)
+    }, [])
+
     return (
         <Stack.Navigator screenOptions={GLOBAL_HEADER_OPTIONS}>
             <Stack.Screen name={NAVIGATORS.BOTTOM} component={BottomNavigator} options={ROUTES_OPTIONS[NAVIGATORS.BOTTOM]} />
@@ -47,6 +59,8 @@ const AppStackNavigator = () => {
             <Stack.Screen name={ROUTES.JOB_DETAILS} component={JobDetails} options={ROUTES_OPTIONS[ROUTES.JOB_DETAILS]} />
             <Stack.Screen name={ROUTES.BUSINESS_DETAILS} component={BusinessDetails} options={ROUTES_OPTIONS[ROUTES.BUSINESS_DETAILS]} />
             <Stack.Screen name={ROUTES.BUSINESS_REVIEWS} component={BusinessReviews} options={ROUTES_OPTIONS[ROUTES.BUSINESS_REVIEWS]} />
+            <Stack.Screen name={ROUTES.BUSINESS_REVIEW_QR} component={BusinessReviewQr} options={ROUTES_OPTIONS[ROUTES.BUSINESS_REVIEW_QR]} />
+            <Stack.Screen name={ROUTES.WRITE_REVIEW} component={WriteReview} options={ROUTES_OPTIONS[ROUTES.WRITE_REVIEW]} />
             <Stack.Screen name={ROUTES.BUSINESS_JOBS} component={BusinessJobs} options={ROUTES_OPTIONS[ROUTES.BUSINESS_JOBS]} />
             <Stack.Screen name={ROUTES.MARKETPLACE_DETAILS} component={MarketplaceDetails} options={ROUTES_OPTIONS[ROUTES.MARKETPLACE_DETAILS]} />
             <Stack.Screen name={ROUTES.CATEGORIES} component={Categories} options={ROUTES_OPTIONS[ROUTES.CATEGORIES]} />

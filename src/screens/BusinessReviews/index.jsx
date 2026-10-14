@@ -9,7 +9,7 @@ import useBusinessReviewsController from "./useBusinessReviewsController"
 
 const BusinessReviews = () => {
 
-    const { values } = useBusinessReviewsController()
+    const { values, functions } = useBusinessReviewsController()
 
     return (
         <PrimaryLayout header>
@@ -27,6 +27,9 @@ const BusinessReviews = () => {
                     data={values.data}
                     renderItem={({ item }) => <ReviewCard data={item} />}
                     empty={values.empty}
+                    loading={values.is_loading}
+                    refreshing={values.refreshing}
+                    onRefresh={functions.refetch}
                     style={styles.list}
                 />
             </View>
