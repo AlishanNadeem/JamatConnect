@@ -4,7 +4,6 @@ import { useCallback, useMemo } from "react"
 import { Linking } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import colors from "../../helpers/colors"
-import { BUSINESS_REVIEWS } from "../../helpers/data"
 import { formatPhone, formatWebsite, getLocationLabel } from "../../helpers/general"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
@@ -12,8 +11,6 @@ import { useGetBusinessByIdQuery } from "../../redux/apis/Business"
 import { useToggleSavedBusinessMutation } from "../../redux/apis/User"
 import { selectSavedBusinessIds } from "../../redux/selectors"
 import { toggleSavedBusiness } from "../../redux/slices/general.slice"
-
-const PREVIEW_COUNT = 2
 
 const useBusinessDetailsController = () => {
 
@@ -112,12 +109,9 @@ const useBusinessDetailsController = () => {
         Linking.openURL(url)
     }, [])
 
-    const reviews = BUSINESS_REVIEWS
-    const review_count = reviews.length
-    const rating_average = review_count
-        ? (reviews.reduce((sum, review) => sum + review.rating, 0) / review_count).toFixed(1)
-        : "0.0"
-    const preview_reviews = reviews.slice(0, PREVIEW_COUNT)
+    const review_count = 0
+    const rating_average = "0.0"
+    const preview_reviews = []
 
     const onViewAllReviews = useCallback(() => {
         navigate(ROUTES.BUSINESS_REVIEWS, { _id: id })
