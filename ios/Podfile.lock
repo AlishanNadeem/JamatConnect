@@ -1420,7 +1420,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - react-native-safe-area-context (5.7.0):
+  - react-native-safe-area-context (5.10.1):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1432,8 +1432,8 @@ PODS:
     - React-graphics
     - React-ImageManager
     - React-jsi
-    - react-native-safe-area-context/common (= 5.7.0)
-    - react-native-safe-area-context/fabric (= 5.7.0)
+    - react-native-safe-area-context/common (= 5.10.1)
+    - react-native-safe-area-context/fabric (= 5.10.1)
     - React-NativeModulesApple
     - React-RCTFabric
     - React-renderercss
@@ -1444,7 +1444,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - react-native-safe-area-context/common (5.7.0):
+  - react-native-safe-area-context/common (5.10.1):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1466,7 +1466,7 @@ PODS:
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
     - Yoga
-  - react-native-safe-area-context/fabric (5.7.0):
+  - react-native-safe-area-context/fabric (5.10.1):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -1921,7 +1921,7 @@ PODS:
     - Yoga
   - RNDeviceInfo (15.0.2):
     - React-Core
-  - RNFastImage (8.30.1):
+  - RNFastImage (8.31.2):
     - React-Core
     - SDWebImage (< 6.0, >= 5.11.1)
     - SDWebImagePhotosPlugin (< 2.0, >= 1.2.0)
@@ -2117,7 +2117,7 @@ PODS:
     - ReactNativeDependencies
     - RNWorklets
     - Yoga
-  - RNScreens (4.28.0):
+  - RNScreens (4.29.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2139,9 +2139,9 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - ReactNativeDependencies
-    - RNScreens/common (= 4.28.0)
+    - RNScreens/common (= 4.29.0)
     - Yoga
-  - RNScreens/common (4.28.0):
+  - RNScreens/common (4.29.0):
     - hermes-engine
     - RCTRequired
     - RCTTypeSafety
@@ -2622,7 +2622,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: 0cc71912cb90175c9186e1a033008bc830f68fe2
   react-native-date-picker: 906b5bc157f9c2b1bba2a841470581b9f73cb452
   react-native-image-picker: 09cea417bef3ee25008ad21d4426f9a1fc54ad84
-  react-native-safe-area-context: ba7283e541a5f57c6b27a7e33f2c40b8977888c0
+  react-native-safe-area-context: 7a07ea6aba7be03a32428b14b334ff9afe3773cf
   react-native-vector-icons-lucide: 6f2d1d92edfd1dbd0d5da34905732bd7e735fe19
   React-NativeModulesApple: 647d3ab78e02b3a40fedffd856744215219ff0a6
   React-networking: cf32c508f83a898b4683be1e3ca53973ec798c1d
@@ -2661,7 +2661,7 @@ SPEC CHECKSUMS:
   RNBootSplash: 768ba7c7983ab8415dce47ac54815acd4f5ae843
   RNCAsyncStorage: d90e523830fa7705f8c61632479abde871bc792f
   RNDeviceInfo: 4c852998208b60dc192ae3529e5867817719ad1e
-  RNFastImage: e036bc5deabb8c37eef02320bf7c216d5e815997
+  RNFastImage: 4bbf05dbc6c7d3b67f228da909421dc3ddfd3cd3
   RNFBApp: 3834da0e2c1d4b7d0f2a1db6e1e7c66cedf240ce
   RNFBMessaging: 47935ff0edb94243d77df8df41bc8a5356f8a90a
   RNGestureHandler: a75fec9fcef282c848fc0f3082c98895b1cfa0ff
@@ -2669,7 +2669,7 @@ SPEC CHECKSUMS:
   RNNotifee: 5e3b271e8ea7456a36eec994085543c9adca9168
   RNPermissions: 96a78fa1b603992a00d7464a7d42704df55f6869
   RNReanimated: 121c52535a4276e09b9235e067811b222a681760
-  RNScreens: 8708989f700bdc3dc5abc3c77aa3b5f3e73ce2b2
+  RNScreens: aa6c7036d9651c6242f2585b3efdc106a2662bda
   RNSVG: 8efa5ad14ceb98fe56c03793bd55bc4bd30ad84b
   RNWorklets: dd3b2cb0750090d78d85cd3b3ec0fdbeab5ce118
   SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
