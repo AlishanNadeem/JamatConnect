@@ -1,7 +1,10 @@
-import { StyleSheet, View } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { useLayoutEffect } from "react"
+import { ActivityIndicator, StyleSheet, View } from "react-native"
 import Button from "../../components/Button"
 import ImagePickerModal from "../../components/ImagePickerModal"
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper"
+import HeaderTitle from "../../components/Navigation/HeaderTitle"
 import Row from "../../components/Row"
 import StepIndicator from "../../components/StepIndicator"
 import colors from "../../helpers/colors"
@@ -17,8 +20,26 @@ const STEP_COMPONENTS = [StepOne, StepTwo, StepThree, StepFour]
 
 const CreateBusiness = () => {
 
+    const navigation = useNavigation()
     const { values, functions } = useCreateBusinessController()
     const StepComponent = STEP_COMPONENTS[values.current_step]
+
+    useLayoutEffect(() => {
+        if (!values.is_edit) return
+        navigation.setOptions({
+            headerTitle: () => <HeaderTitle title="Edit Business" has_back_button />,
+        })
+    }, [navigation, values.is_edit])
+
+    if (values.business_loading) {
+        return (
+            <PrimaryLayout header>
+                <View style={styles.loader}>
+                    <ActivityIndicator color={colors.primary} size="large" />
+                </View>
+            </PrimaryLayout>
+        )
+    }
 
     return (
         <PrimaryLayout header>
@@ -63,7 +84,9 @@ const CreateBusiness = () => {
                                     : functions.onNext}
                                 loading={values.is_loading}
                             >
-                                {values.is_last_step ? "Submit" : "Continue"}
+                                {values.is_last_step
+                                    ? (values.is_edit ? "Update" : "Submit")
+                                    : "Continue"}
                             </Button>
                         </View>
                     </Row>
@@ -101,5 +124,10 @@ const styles = StyleSheet.create({
     },
     footer_button: {
         flex: 1,
+    },
+    loader: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
     },
 })

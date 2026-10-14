@@ -1,14 +1,20 @@
+import { useRoute } from "@react-navigation/native"
 import { setIn, useFormik } from "formik"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useSelector } from "react-redux"
 import * as Yup from "yup"
 import { useModal } from "../../contexts/ModalContext"
 import { BUSINESS_DAYS } from "../../helpers/data"
 import { convertToFormData } from "../../helpers/general"
+import { getCountryCodeByName, getStateCodeByName } from "../../helpers/location"
 import { goBack } from "../../helpers/navigation"
 import useImagePicker from "../../hooks/useImagePicker"
 import useToggle from "../../hooks/useToggle"
-import { useCreateBusinessMutation } from "../../redux/apis/Business"
+import {
+    useCreateBusinessMutation,
+    useGetBusinessByIdQuery,
+    useUpdateBusinessMutation,
+} from "../../redux/apis/Business"
 import { useGetBusinessCategoriesQuery } from "../../redux/apis/BusinessCategory"
 import { selectUser } from "../../redux/selectors"
 
@@ -37,7 +43,7 @@ export const FORM_STEPS = [
 
 const file_schema = Yup.mixed()
     .required("Image is required")
-    .test("file", "Please upload an image", (value) => Boolean(value?.uri))
+    .test("file", "Please upload an image", (value) => Boolean(value?.uri || (typeof value === "string" && value)))
 
 const step_schemas = [
     Yup.object({
@@ -98,6 +104,48 @@ const createDefaultHours = () => BUSINESS_DAYS.map((day) => ({
     closed: false,
 }))
 
+const parseTime = (value) => {
+    if (value instanceof Date && !Number.isNaN(value.getTime())) return value
+
+    if (!value || typeof value !== "string") {
+        return new Date(2024, 0, 1, 9, 0)
+    }
+
+    const [hours, minutes] = value.split(":").map(Number)
+
+    if (Number.isNaN(hours) || Number.isNaN(minutes)) {
+        return new Date(2024, 0, 1, 9, 0)
+    }
+
+    return new Date(2024, 0, 1, hours, minutes)
+}
+
+const mapHoursFromBusiness = (hours = []) => {
+    const by_day = Object.fromEntries(
+        (Array.isArray(hours) ? hours : []).map((hour) => [hour.day, hour]),
+    )
+
+    return BUSINESS_DAYS.map((day) => {
+        const existing = by_day[day]
+
+        if (!existing) {
+            return {
+                day,
+                open: new Date(2024, 0, 1, 9, 0),
+                close: new Date(2024, 0, 1, 21, 0),
+                closed: false,
+            }
+        }
+
+        return {
+            day,
+            open: parseTime(existing.open),
+            close: parseTime(existing.close),
+            closed: Boolean(existing.closed),
+        }
+    })
+}
+
 const formatTime = (value) => {
     if (!value) return ""
     const date = new Date(value)
@@ -123,6 +171,10 @@ const applyValidationErrors = (formik, error) => {
 
 const useCreateBusinessController = () => {
 
+    const { params } = useRoute()
+    const business_id = params?._id
+    const is_edit = Boolean(business_id)
+
     const user = useSelector(selectUser)
     const { showInfoModal } = useModal()
 
@@ -131,7 +183,15 @@ const useCreateBusinessController = () => {
     const image_field_ref = useRef(null)
     const [current_step, setCurrentStep] = useState(0)
 
-    const [submit, { isSuccess, isLoading }] = useCreateBusinessMutation()
+    const [create, { isSuccess: is_created, isLoading: is_creating }] = useCreateBusinessMutation()
+    const [update, { isSuccess: is_updated, isLoading: is_updating }] = useUpdateBusinessMutation()
+
+    const {
+        data: business_response,
+        isLoading: business_loading,
+    } = useGetBusinessByIdQuery(business_id, { skip: !is_edit })
+
+    const business = business_response?.data
 
     const {
         data: categories_response,
@@ -140,7 +200,7 @@ const useCreateBusinessController = () => {
 
     const categories = categories_response?.data ?? []
 
-    const initial = {
+    const empty_initial = useMemo(() => ({
         name: "",
         description: "",
         category: null,
@@ -156,18 +216,64 @@ const useCreateBusinessController = () => {
             state: "",
             state_code: "",
             city: "",
+            latitude: 0,
+            longitude: 0,
         },
         logo: null,
         image: null,
         hours: createDefaultHours(),
-    }
+    }), [user])
+
+    const initial = useMemo(() => {
+
+        if (!business) return empty_initial
+
+        const country_name = business.address?.country || ""
+        const state_name = business.address?.state || ""
+        const country_code = getCountryCodeByName(country_name)
+        const state_code = getStateCodeByName(country_code, state_name)
+
+        const logo_url = business.logo_url || business.logo
+        const image_url = business.image_url || business.image
+
+        return {
+            name: business.name || "",
+            description: business.description || "",
+            category: business.category?._id
+                ? {
+                    id: String(business.category._id),
+                    name: business.category.name || "",
+                }
+                : null,
+            email: business.email || "",
+            country_code: business.country_code || "US",
+            dialing_code: business.dialing_code || "+1",
+            phone: business.phone || "",
+            website: business.website || "",
+            address: {
+                formatted: business.address?.formatted || "",
+                country: country_name,
+                country_code,
+                state: state_name,
+                state_code,
+                city: business.address?.city || "",
+                latitude: business.address?.latitude ?? 0,
+                longitude: business.address?.longitude ?? 0,
+            },
+            logo: logo_url ? { uri: logo_url } : null,
+            image: image_url ? { uri: image_url } : null,
+            hours: mapHoursFromBusiness(business.hours),
+        }
+
+    }, [business, empty_initial])
 
     const formik = useFormik({
         initialValues: initial,
+        enableReinitialize: true,
         validationSchema: create_business_schema,
         onSubmit: async (values) => {
 
-            const payload = convertToFormData({
+            const payload_values = {
                 name: values.name,
                 description: values.description,
                 category: values.category?.id,
@@ -181,8 +287,8 @@ const useCreateBusinessController = () => {
                     country: values.address.country,
                     state: values.address.state,
                     city: values.address.city,
-                    latitude: 0,
-                    longitude: 0,
+                    latitude: values.address.latitude ?? 0,
+                    longitude: values.address.longitude ?? 0,
                 },
                 hours: values.hours.map(({ day, open, close, closed }) => ({
                     day,
@@ -190,24 +296,35 @@ const useCreateBusinessController = () => {
                     close: closed ? "" : formatTime(close),
                     closed,
                 })),
-                logo: values.logo,
-                image: values.image,
-            })
+            }
 
-            submit(payload)
+            if (!is_edit || values.logo?.type) {
+                payload_values.logo = values.logo
+            }
+
+            if (!is_edit || values.image?.type) {
+                payload_values.image = values.image
+            }
+
+            const payload = convertToFormData(payload_values)
+
+            if (is_edit) update({ id: business_id, body: payload })
+            else create(payload)
 
         },
     })
 
     useEffect(() => {
-        if (isSuccess) {
-            showInfoModal({
-                title: "Thank You!",
-                message: "Your business has been submitted successfully",
-                onConfirm: goBack,
-            })
-        }
-    }, [isSuccess])
+        if (!is_created && !is_updated) return
+
+        showInfoModal({
+            title: "Thank You!",
+            message: is_edit
+                ? "Your business has been updated successfully"
+                : "Your business has been submitted successfully",
+            onConfirm: goBack,
+        })
+    }, [is_created, is_edit, is_updated])
 
     const { openCamera, openGallery } = useImagePicker({
         onImageSelected: (selected) => {
@@ -253,7 +370,9 @@ const useCreateBusinessController = () => {
     return {
         values: {
             formik,
-            is_loading: isLoading,
+            is_edit,
+            is_loading: is_creating || is_updating,
+            business_loading: is_edit && business_loading,
             image_modal,
             categories,
             categories_loading,

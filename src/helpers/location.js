@@ -31,3 +31,13 @@ export const getCountryName = (country_code) =>
 
 export const getStateName = (country_code, state_code) =>
     State.getStateByCodeAndCountry(state_code, country_code)?.name ?? ""
+
+export const getCountryCodeByName = (name) => {
+    if (!name) return ""
+    return Country.getAllCountries().find((country) => country.name === name)?.isoCode ?? ""
+}
+
+export const getStateCodeByName = (country_code, name) => {
+    if (!country_code || !name) return ""
+    return State.getStatesOfCountry(country_code).find((state) => state.name === name)?.isoCode ?? ""
+}
