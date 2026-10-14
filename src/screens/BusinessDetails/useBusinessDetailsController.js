@@ -1,13 +1,13 @@
 import { useRoute } from "@react-navigation/native"
 import dayjs from "dayjs"
-import { useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import { Linking } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import colors from "../../helpers/colors"
 import { formatPhone, formatWebsite, getLocationLabel } from "../../helpers/general"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
-import { useGetBusinessByIdQuery } from "../../redux/apis/Business"
+import { useGetBusinessByIdQuery, useRecordBusinessViewMutation } from "../../redux/apis/Business"
 import { useToggleSavedBusinessMutation } from "../../redux/apis/User"
 import { selectSavedBusinessIds } from "../../redux/selectors"
 import { toggleSavedBusiness } from "../../redux/slices/general.slice"
@@ -18,15 +18,24 @@ const useBusinessDetailsController = () => {
     const id = params?._id
     const dispatch = useDispatch()
     const saved_business_ids = useSelector(selectSavedBusinessIds)
+    const viewed_id_ref = useRef(null)
     const [toggleSaved] = useToggleSavedBusinessMutation()
+    const [recordView] = useRecordBusinessViewMutation()
 
     const {
         data,
         isLoading,
         isError,
+        isSuccess,
     } = useGetBusinessByIdQuery(id, { skip: !id })
 
     const business = data?.data ?? {}
+
+    useEffect(() => {
+        if (!id || !isSuccess || viewed_id_ref.current === String(id)) return
+        viewed_id_ref.current = String(id)
+        recordView(id)
+    }, [id, isSuccess, recordView])
 
     const {
         name,

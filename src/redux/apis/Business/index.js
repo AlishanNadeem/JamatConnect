@@ -62,6 +62,12 @@ export const businessApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["MyBusinesses", "Businesses"],
         }),
+        recordBusinessView: builder.mutation({
+            query: (id) => ({
+                url: `/business/view/${id}`,
+                method: "POST",
+            }),
+        }),
     }),
 })
 
@@ -69,6 +75,7 @@ export const {
     useCreateBusinessMutation,
     useUpdateBusinessMutation,
     useToggleBusinessActiveMutation,
+    useRecordBusinessViewMutation,
     useGetMyBusinessesQuery,
     useGetBusinessesQuery,
     useGetBusinessByIdQuery,
