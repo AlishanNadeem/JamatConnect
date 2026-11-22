@@ -8,6 +8,7 @@ import { formatPhone, formatWebsite, getLocationLabel } from "../../helpers/gene
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
 import { useGetBusinessByIdQuery, useRecordBusinessViewMutation } from "../../redux/apis/Business"
+import { useGetBusinessSpecialsQuery } from "../../redux/apis/Special"
 import { useToggleSavedBusinessMutation } from "../../redux/apis/User"
 import { selectSavedBusinessIds } from "../../redux/selectors"
 import { toggleSavedBusiness } from "../../redux/slices/general.slice"
@@ -30,6 +31,11 @@ const useBusinessDetailsController = () => {
         isError,
         isSuccess,
     } = useGetBusinessByIdQuery(id, { skip: !id })
+
+    const { data: specials_response } = useGetBusinessSpecialsQuery(
+        { id, page_size: PREVIEW_COUNT },
+        { skip: !id },
+    )
 
     const business = data?.data ?? {}
 
@@ -125,10 +131,22 @@ const useBusinessDetailsController = () => {
 
     const rating_average = Number(average_rating || 0).toFixed(1)
     const preview_reviews = (Array.isArray(reviews) ? reviews : []).slice(0, PREVIEW_COUNT)
+    const preview_specials = Array.isArray(specials_response?.data)
+        ? specials_response.data.slice(0, PREVIEW_COUNT)
+        : []
 
     const onViewAllReviews = useCallback(() => {
         navigate(ROUTES.BUSINESS_REVIEWS, { _id: id })
     }, [id])
+
+    const onSpecialPress = useCallback((special) => {
+        if (!special?._id) return
+        navigate(ROUTES.SPECIAL_DETAILS, { _id: String(special._id) })
+    }, [])
+
+    const onViewAllSpecials = useCallback(() => {
+        navigate(ROUTES.SPECIALS)
+    }, [])
 
     const saved = saved_business_ids.includes(String(id))
 
@@ -154,6 +172,7 @@ const useBusinessDetailsController = () => {
             today_status,
             contact_items,
             preview_reviews,
+            preview_specials,
             review_count: Number(review_count || 0),
             rating_average,
             saved,
@@ -163,6 +182,8 @@ const useBusinessDetailsController = () => {
         functions: {
             onOpenLink,
             onViewAllReviews,
+            onSpecialPress,
+            onViewAllSpecials,
             onToggleSave,
         },
     }

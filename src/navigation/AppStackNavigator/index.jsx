@@ -7,18 +7,23 @@ import BusinessDetails from "../../screens/BusinessDetails"
 import BusinessJobs from "../../screens/BusinessJobs"
 import BusinessReviewQr from "../../screens/BusinessReviewQr"
 import BusinessReviews from "../../screens/BusinessReviews"
+import BusinessSpecials from "../../screens/BusinessSpecials"
 import Categories from "../../screens/Categories"
 import CreateBusiness from "../../screens/CreateBusiness"
 import CreateJob from "../../screens/CreateJob"
 import CreateListing from "../../screens/CreateListing"
+import CreateSpecial from "../../screens/CreateSpecial"
 import JobDetails from "../../screens/JobDetails"
 import MarketplaceDetails from "../../screens/MarketplaceDetails"
 import MyBusinessDetails from "../../screens/MyBusinessDetails"
 import MyBusinesses from "../../screens/MyBusinesses"
 import MyListings from "../../screens/MyListings"
+import RedeemSuccess from "../../screens/RedeemSuccess"
 import Referrals from "../../screens/Referrals"
 import SavedBusinesses from "../../screens/SavedBusinesses"
 import ReferralUsers from "../../screens/ReferralUsers"
+import SpecialDetails from "../../screens/SpecialDetails"
+import VerifyRedemption from "../../screens/VerifyRedemption"
 import WriteReview from "../../screens/WriteReview"
 import AboutUs from "../../screens/AboutUs"
 import ChangePassword from "../../screens/ChangePassword"
@@ -62,6 +67,11 @@ const AppStackNavigator = () => {
             <Stack.Screen name={ROUTES.BUSINESS_REVIEW_QR} component={BusinessReviewQr} options={ROUTES_OPTIONS[ROUTES.BUSINESS_REVIEW_QR]} />
             <Stack.Screen name={ROUTES.WRITE_REVIEW} component={WriteReview} options={ROUTES_OPTIONS[ROUTES.WRITE_REVIEW]} />
             <Stack.Screen name={ROUTES.BUSINESS_JOBS} component={BusinessJobs} options={ROUTES_OPTIONS[ROUTES.BUSINESS_JOBS]} />
+            <Stack.Screen name={ROUTES.BUSINESS_SPECIALS} component={BusinessSpecials} options={ROUTES_OPTIONS[ROUTES.BUSINESS_SPECIALS]} />
+            <Stack.Screen name={ROUTES.SPECIAL_DETAILS} component={SpecialDetails} options={ROUTES_OPTIONS[ROUTES.SPECIAL_DETAILS]} />
+            <Stack.Screen name={ROUTES.CREATE_SPECIAL} component={CreateSpecial} options={ROUTES_OPTIONS[ROUTES.CREATE_SPECIAL]} />
+            <Stack.Screen name={ROUTES.REDEEM_SUCCESS} component={RedeemSuccess} options={ROUTES_OPTIONS[ROUTES.REDEEM_SUCCESS]} />
+            <Stack.Screen name={ROUTES.VERIFY_REDEMPTION} component={VerifyRedemption} options={ROUTES_OPTIONS[ROUTES.VERIFY_REDEMPTION]} />
             <Stack.Screen name={ROUTES.MARKETPLACE_DETAILS} component={MarketplaceDetails} options={ROUTES_OPTIONS[ROUTES.MARKETPLACE_DETAILS]} />
             <Stack.Screen name={ROUTES.CATEGORIES} component={Categories} options={ROUTES_OPTIONS[ROUTES.CATEGORIES]} />
             <Stack.Screen name={ROUTES.ABOUT_US} component={AboutUs} options={ROUTES_OPTIONS[ROUTES.ABOUT_US]} />

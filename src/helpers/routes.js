@@ -62,6 +62,12 @@ export const ROUTES = {
 
     // App
     HOME: "Home",
+    SPECIALS: "Specials",
+    SPECIAL_DETAILS: "SpecialDetails",
+    CREATE_SPECIAL: "CreateSpecial",
+    REDEEM_SUCCESS: "RedeemSuccess",
+    BUSINESS_SPECIALS: "BusinessSpecials",
+    VERIFY_REDEMPTION: "VerifyRedemption",
     BUSINESSES: "Businesses",
     JOBS: "Jobs",
     MARKETPLACE: "Marketplace",
@@ -107,12 +113,18 @@ export const ROUTES_OPTIONS = {
 
     // Bottom tabs
     [ROUTES.HOME]: { ...withLogo(), ...TAB_HEADER },
+    [ROUTES.SPECIALS]: tabScreen("Specials"),
     [ROUTES.BUSINESSES]: tabScreen("Businesses"),
     [ROUTES.JOBS]: tabScreen("Jobs"),
     [ROUTES.MARKETPLACE]: tabScreen("Marketplace"),
     [ROUTES.MY_PROFILE]: tabScreen("More Options"),
 
     // Stack screens with back
+    [ROUTES.SPECIAL_DETAILS]: backScreen("Special Details"),
+    [ROUTES.CREATE_SPECIAL]: backScreen("Post a Special"),
+    [ROUTES.REDEEM_SUCCESS]: backScreen("Your Deal"),
+    [ROUTES.BUSINESS_SPECIALS]: backScreen("Manage Specials"),
+    [ROUTES.VERIFY_REDEMPTION]: backScreen("Verify Code"),
     [ROUTES.MARKETPLACE_DETAILS]: backScreen("Listing Details"),
     [ROUTES.EDIT_PROFILE]: backScreen("Edit Profile"),
     [ROUTES.CHANGE_PASSWORD]: backScreen("Change Password"),

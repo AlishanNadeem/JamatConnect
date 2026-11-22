@@ -4,6 +4,7 @@ import Icon from "../../components/Icon"
 import Image from "../../components/Image"
 import ReviewCard, { Stars } from "../../components/ReviewCard"
 import Row from "../../components/Row"
+import SpecialCard from "../../components/SpecialCard"
 import Text from "../../components/Text"
 import colors from "../../helpers/colors"
 import { GLOBAL_HORIZONTAL_PADDING, heightPixel, widthPixel } from "../../helpers/metrics"
@@ -206,6 +207,33 @@ const BusinessDetails = () => {
                                     </Row>
                                 )
                             })}
+                        </View>
+                    </View>
+                ) : null}
+
+                {values.preview_specials.length ? (
+                    <View style={styles.block}>
+                        <Row align="center" justify="space-between">
+                            <Text size={13} weight="bold">
+                                Deals
+                            </Text>
+                            <Text
+                                size={13}
+                                weight="semibold"
+                                color={colors.primary}
+                                onPress={functions.onViewAllSpecials}
+                            >
+                                View All
+                            </Text>
+                        </Row>
+                        <View style={styles.reviews_list}>
+                            {values.preview_specials.map((special) => (
+                                <SpecialCard
+                                    key={String(special._id)}
+                                    data={special}
+                                    onPress={() => functions.onSpecialPress(special)}
+                                />
+                            ))}
                         </View>
                     </View>
                 ) : null}

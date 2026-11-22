@@ -10,6 +10,7 @@ import Home from "../../screens/Home"
 import Jobs from "../../screens/Jobs"
 import Marketplace from "../../screens/Marketplace"
 import MyProfile from "../../screens/MyProfile"
+import Specials from "../../screens/Specials"
 
 const Tab = createBottomTabNavigator()
 
@@ -49,6 +50,16 @@ const BottomNavigator = () => {
                         <TabIcon name="house" label="Home" focused={focused} />
                     ),
                     ...ROUTES_OPTIONS[ROUTES.HOME]
+                }}
+            />
+            <Tab.Screen
+                name={ROUTES.SPECIALS}
+                component={Specials}
+                options={{
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="tag" label="Specials" focused={focused} />
+                    ),
+                    ...ROUTES_OPTIONS[ROUTES.SPECIALS]
                 }}
             />
             <Tab.Screen

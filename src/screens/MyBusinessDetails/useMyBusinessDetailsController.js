@@ -185,6 +185,15 @@ const useMyBusinessDetailsController = () => {
             onPress: "onPostJob",
         },
         {
+            key: "special",
+            icon: "tag",
+            title: "Specials",
+            subtitle: "Post & verify",
+            background: colors.light_danger,
+            color: colors.danger,
+            onPress: "onManageSpecials",
+        },
+        {
             key: "public",
             icon: "eye",
             title: "View Public",
@@ -226,6 +235,11 @@ const useMyBusinessDetailsController = () => {
         navigate(ROUTES.CREATE_JOB, { business_id: id })
     }, [id])
 
+    const onManageSpecials = useCallback(() => {
+        if (!id) return
+        navigate(ROUTES.BUSINESS_SPECIALS, { _id: id })
+    }, [id])
+
     const onJobPress = useCallback((job) => {
         if (!job?._id) return
         navigate(ROUTES.JOB_DETAILS, { _id: String(job._id) })
@@ -259,6 +273,7 @@ const useMyBusinessDetailsController = () => {
         onEditListing,
         onReviewQr,
         onPostJob,
+        onManageSpecials,
         onViewPublic,
     }
 
@@ -294,6 +309,7 @@ const useMyBusinessDetailsController = () => {
             onEditListing,
             onReviewQr,
             onPostJob,
+            onManageSpecials,
             onViewPublic,
             onJobPress,
             onToggleActive,
