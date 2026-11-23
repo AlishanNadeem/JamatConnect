@@ -2,6 +2,7 @@ import { useCallback } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { navigate } from "../../helpers/navigation"
 import { NAVIGATORS, ROUTES } from "../../helpers/routes"
+import { useGetActiveBillboardQuery } from "../../redux/apis/Billboard"
 import { useGetBusinessesQuery } from "../../redux/apis/Business"
 import { useGetBusinessCategoriesQuery } from "../../redux/apis/BusinessCategory"
 import { useGetJobsQuery } from "../../redux/apis/Job"
@@ -40,10 +41,15 @@ const useHomeController = () => {
         data: businesses_response,
     } = useGetBusinessesQuery(HOME_PREVIEW_PARAMS)
 
+    const {
+        data: billboard_response,
+    } = useGetActiveBillboardQuery()
+
     const categories = categories_response?.data ?? []
     const jobs = jobs_response?.data ?? []
     const listings = listings_response?.data ?? []
     const businesses = businesses_response?.data ?? []
+    const billboard = billboard_response?.data ?? null
 
     const onGrowCommunity = useCallback(() => {
         navigate(ROUTES.REFERRALS)
@@ -92,6 +98,12 @@ const useHomeController = () => {
         navigate(ROUTES.BUSINESS_DETAILS, { _id: business._id })
     }, [])
 
+    const onBillboardPress = useCallback(() => {
+        const special_id = billboard?.special?._id
+        if (!special_id) return
+        navigate(ROUTES.SPECIAL_DETAILS, { _id: String(special_id) })
+    }, [billboard])
+
     const onToggleSave = useCallback((business) => {
         const id = String(business._id)
         dispatch(toggleSavedBusiness(id))
@@ -115,6 +127,7 @@ const useHomeController = () => {
             jobs,
             listings,
             businesses,
+            billboard,
             saved_business_ids,
             saved_job_ids,
         },
@@ -128,6 +141,7 @@ const useHomeController = () => {
             onJobPress,
             onListingPress,
             onBusinessPress,
+            onBillboardPress,
             onToggleSave,
             onToggleSaveJob,
         },

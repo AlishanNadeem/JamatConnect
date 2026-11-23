@@ -67,6 +67,46 @@ const GreetingCard = ({ user }) => {
     )
 }
 
+const SponsoredHero = ({ billboard, onPress }) => {
+    if (!billboard?.special) return null
+
+    const special = billboard.special
+    const business = special?.business || billboard.business
+    const category_name = business?.category?.name
+
+    return (
+        <Row onPress={onPress} style={styles.sponsored}>
+            <LinearGradient
+                colors={[colors.dark_primary, colors.primary]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={StyleSheet.absoluteFill}
+                pointerEvents="none"
+            />
+            <View style={styles.sponsored_orb} />
+            <View style={styles.sponsored_tag}>
+                <Text size={10} weight="bold" color={colors.white}>
+                    SPONSORED
+                </Text>
+            </View>
+            <Text size={12} color={colors.lightest_primary} lines={1}>
+                {business?.name || "Community business"}
+                {category_name ? ` · ${category_name}` : ""}
+            </Text>
+            <Text size={18} weight="bold" color={colors.white} lines={2}>
+                {special.title}
+            </Text>
+            {special.discount ? (
+                <View style={styles.sponsored_discount}>
+                    <Text size={12} weight="bold" color={colors.white}>
+                        {special.discount}
+                    </Text>
+                </View>
+            ) : null}
+        </Row>
+    )
+}
+
 const CommunityCard = ({ onPress }) => (
     <View style={styles.community_card}>
         <LinearGradient
@@ -257,6 +297,10 @@ const Home = () => {
         <PrimaryLayout bottom_tab header scrollable>
             <View style={styles.container}>
                 <GreetingCard user={user} />
+                <SponsoredHero
+                    billboard={values.billboard}
+                    onPress={functions.onBillboardPress}
+                />
                 <CategoriesSection
                     categories={values.categories}
                     onCategoryPress={functions.onCategoryPress}
@@ -293,6 +337,40 @@ const styles = StyleSheet.create({
     container: {
         gap: heightPixel(16),
         paddingTop: heightPixel(8),
+    },
+    sponsored: {
+        minHeight: heightPixel(120),
+        borderRadius: widthPixel(16),
+        overflow: "hidden",
+        paddingHorizontal: widthPixel(16),
+        paddingVertical: heightPixel(16),
+        gap: heightPixel(6),
+        flexDirection: "column",
+        alignItems: "flex-start",
+        width: "100%",
+    },
+    sponsored_orb: {
+        position: "absolute",
+        width: widthPixel(120),
+        height: widthPixel(120),
+        borderRadius: widthPixel(60),
+        backgroundColor: "rgba(255,255,255,0.08)",
+        top: -heightPixel(30),
+        right: -widthPixel(20),
+    },
+    sponsored_tag: {
+        backgroundColor: "rgba(255,255,255,0.2)",
+        borderRadius: widthPixel(6),
+        paddingHorizontal: widthPixel(8),
+        paddingVertical: heightPixel(3),
+        marginBottom: heightPixel(2),
+    },
+    sponsored_discount: {
+        marginTop: heightPixel(4),
+        backgroundColor: colors.danger,
+        borderRadius: widthPixel(8),
+        paddingHorizontal: widthPixel(10),
+        paddingVertical: heightPixel(5),
     },
     card: {
         position: "relative",

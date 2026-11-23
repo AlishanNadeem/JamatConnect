@@ -29,6 +29,26 @@ const BusinessSpecials = () => {
                     </View>
                 </Row>
 
+                <View style={styles.sponsored_box}>
+                    <Text size={13} weight="bold">
+                        Sponsored (Home)
+                    </Text>
+                    <Text size={12} color={colors.dark_gray}>
+                        {values.billboard_status_label
+                            || "Claim a Home Sponsored slot with a live special. If 5 are taken, you join the waitlist."}
+                    </Text>
+                    {!values.billboard ? (
+                        <Button
+                            size="sm"
+                            loading={values.is_claiming}
+                            disabled={!values.can_claim}
+                            onPress={functions.onClaimBillboard}
+                        >
+                            Get Sponsored
+                        </Button>
+                    ) : null}
+                </View>
+
                 <FlatList
                     data={values.data}
                     refreshing={values.refreshing}
@@ -42,7 +62,7 @@ const BusinessSpecials = () => {
                                 data={item}
                                 onPress={() => functions.onSpecialPress(item)}
                             />
-                            <Row gap={12} style={styles.item_actions}>
+                            <View style={styles.item_actions}>
                                 <Touchable onPress={() => functions.onEdit(item)}>
                                     <Text size={12} weight="semibold" color={colors.primary}>
                                         Edit
@@ -58,7 +78,7 @@ const BusinessSpecials = () => {
                                         Delete
                                     </Text>
                                 </Touchable>
-                            </Row>
+                            </View>
                         </View>
                     )}
                     empty={values.empty}
@@ -79,6 +99,14 @@ const styles = StyleSheet.create({
     flex: {
         flex: 1,
     },
+    sponsored_box: {
+        backgroundColor: colors.white,
+        borderWidth: 1,
+        borderColor: colors.light_gray,
+        borderRadius: widthPixel(14),
+        padding: widthPixel(12),
+        gap: heightPixel(8),
+    },
     list: {
         flex: 1,
     },
@@ -88,5 +116,8 @@ const styles = StyleSheet.create({
     },
     item_actions: {
         paddingHorizontal: widthPixel(4),
+        flexDirection: "row",
+        alignItems: "center",
+        gap: widthPixel(12),
     },
 })

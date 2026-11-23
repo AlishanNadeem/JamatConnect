@@ -2,8 +2,13 @@ import { useRoute } from "@react-navigation/native"
 import { useCallback, useMemo } from "react"
 import { useSelector } from "react-redux"
 import { useModal } from "../../contexts/ModalContext"
+import { formatDate } from "../../helpers/date"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
+import {
+    useClaimBillboardMutation,
+    useGetMyBillboardQuery,
+} from "../../redux/apis/Billboard"
 import {
     useDeleteSpecialMutation,
     useGetMySpecialsQuery,
@@ -29,12 +34,50 @@ const useBusinessSpecialsController = () => {
         refetch,
     } = useGetMySpecialsQuery(query_params, { skip: !business_id })
 
+    const {
+        data: billboard_response,
+        refetch: refetch_billboard,
+    } = useGetMyBillboardQuery(
+        { business: business_id },
+        { skip: !business_id },
+    )
+
     const [toggleActive, { isLoading: is_toggling }] = useToggleSpecialActiveMutation()
     const [deleteSpecial, { isLoading: is_deleting }] = useDeleteSpecialMutation()
+    const [claimBillboard, { isLoading: is_claiming }] = useClaimBillboardMutation()
+
+    const specials = data?.data ?? []
+    const billboard = billboard_response?.data ?? null
+
+    const live_special = useMemo(() => {
+        const now = Date.now()
+        return specials.find((item) => (
+            item.is_active
+            && !item.is_expired
+            && (!item.expires_at || new Date(item.expires_at).getTime() > now)
+        )) || null
+    }, [specials])
+
+    const billboard_status_label = useMemo(() => {
+        if (!billboard) return null
+        if (billboard.status === "active") {
+            return billboard.ends_at
+                ? `Sponsored active · ends ${formatDate(billboard.ends_at)}`
+                : "Sponsored active"
+        }
+        if (billboard.status === "waitlisted") {
+            const pos = billboard.waitlist_position
+            return pos
+                ? `Waitlisted · position #${pos}`
+                : "Waitlisted for Sponsored"
+        }
+        return null
+    }, [billboard])
 
     const onRefresh = useCallback(() => {
         refetch()
-    }, [refetch])
+        refetch_billboard()
+    }, [refetch, refetch_billboard])
 
     const onCreate = useCallback(() => {
         navigate(ROUTES.CREATE_SPECIAL, { business_id })
@@ -51,6 +94,57 @@ const useBusinessSpecialsController = () => {
     const onEdit = useCallback((item) => {
         navigate(ROUTES.CREATE_SPECIAL, { _id: String(item._id), business_id })
     }, [business_id])
+
+    const onClaimBillboard = useCallback(async () => {
+        if (!business_id) return
+
+        if (billboard) {
+            showInfoModal({
+                title: "Already Queued",
+                message: billboard_status_label || "This business already has a Sponsored slot.",
+            })
+            return
+        }
+
+        if (!live_special) {
+            showInfoModal({
+                title: "No Live Special",
+                message: "Post an active special first, then claim Sponsored.",
+            })
+            return
+        }
+
+        const confirmed = await showConfirmModal({
+            title: "Get Sponsored",
+            message: `Promote "${live_special.title}" on the Home Sponsored slot? If all 5 slots are taken, you will join the waitlist.`,
+        })
+        if (!confirmed) return
+
+        try {
+            const result = await claimBillboard({
+                business: business_id,
+                special: live_special._id,
+            }).unwrap()
+
+            showInfoModal({
+                title: result?.data?.status === "active" ? "Sponsored Active" : "Waitlisted",
+                message: result?.message || "Billboard request submitted.",
+            })
+        } catch (error) {
+            showInfoModal({
+                title: "Unable to Claim",
+                message: error?.data?.message || "Please try again.",
+            })
+        }
+    }, [
+        business_id,
+        billboard,
+        billboard_status_label,
+        live_special,
+        showConfirmModal,
+        showInfoModal,
+        claimBillboard,
+    ])
 
     const onToggleActive = useCallback(async (item) => {
         const confirmed = await showConfirmModal({
@@ -94,13 +188,17 @@ const useBusinessSpecialsController = () => {
 
     return {
         values: {
-            data: data?.data ?? [],
+            data: specials,
             business_id,
+            billboard,
+            billboard_status_label,
+            can_claim: !billboard && Boolean(live_special),
             is_owner: Boolean(current_user?._id),
             is_loading: isLoading,
             refreshing: isFetching,
             loading_more: false,
-            is_busy: is_toggling || is_deleting,
+            is_busy: is_toggling || is_deleting || is_claiming,
+            is_claiming,
             empty: isError
                 ? {
                     title: "Something Went Wrong",
@@ -115,6 +213,7 @@ const useBusinessSpecialsController = () => {
             onRefresh,
             onCreate,
             onVerifyCode,
+            onClaimBillboard,
             onSpecialPress,
             onEdit,
             onToggleActive,
