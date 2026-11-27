@@ -9,6 +9,13 @@ export const billboardApi = baseApi.injectEndpoints({
             }),
             providesTags: ["BillboardActive"],
         }),
+        getActiveBillboards: builder.query({
+            query: () => ({
+                url: "/billboard/active-all",
+                method: "GET",
+            }),
+            providesTags: ["BillboardActive"],
+        }),
         getMyBillboard: builder.query({
             query: (params) => ({
                 url: "/billboard/my",
@@ -30,6 +37,7 @@ export const billboardApi = baseApi.injectEndpoints({
 
 export const {
     useGetActiveBillboardQuery,
+    useGetActiveBillboardsQuery,
     useGetMyBillboardQuery,
     useClaimBillboardMutation,
 } = billboardApi

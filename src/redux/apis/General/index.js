@@ -15,10 +15,18 @@ export const generalApi = baseApi.injectEndpoints({
                 method: "GET"
             }),
         }),
+        getHomeCounts: builder.query({
+            query: () => ({
+                url: "/general/home-counts",
+                method: "GET"
+            }),
+            providesTags: ["HomeCounts"],
+        }),
     }),
 })
 
 export const {
     useGetDataQuery,
     useGetVersionQuery,
+    useGetHomeCountsQuery,
 } = generalApi

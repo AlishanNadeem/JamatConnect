@@ -1,5 +1,5 @@
 import { memo } from "react"
-import { StyleSheet } from "react-native"
+import { StyleSheet, View } from "react-native"
 import colors from "../../helpers/colors"
 import { heightPixel, widthPixel } from "../../helpers/metrics"
 import Icon from "../Icon"
@@ -19,7 +19,7 @@ const THEME = {
     },
 }
 
-const ProfileMenuItem = ({ icon, label, onPress, arrow = true, color = "default" }) => {
+const ProfileMenuItem = ({ icon, label, badge, onPress, arrow = true, color = "default" }) => {
 
     const theme = THEME[color] ?? THEME.default
 
@@ -33,14 +33,24 @@ const ProfileMenuItem = ({ icon, label, onPress, arrow = true, color = "default"
                 rounded="half"
                 color={theme.color}
             />
-            <Text
-                size={16}
-                weight="semibold"
-                color={theme.text_color}
-                style={styles.label}
-            >
-                {label}
-            </Text>
+            <View style={styles.label}>
+                <Text
+                    size={16}
+                    weight="semibold"
+                    color={theme.text_color}
+                    lines={1}
+                    style={styles.label_text}
+                >
+                    {label}
+                </Text>
+                {badge ? (
+                    <View style={styles.badge}>
+                        <Text size={10} weight="bold" color={colors.white}>
+                            {badge}
+                        </Text>
+                    </View>
+                ) : null}
+            </View>
             {arrow ? (
                 <Icon name="chevron-right" size={20} color={colors.gray} />
             ) : null}
@@ -57,5 +67,17 @@ const styles = StyleSheet.create({
     },
     label: {
         flex: 1,
+        flexDirection: "row",
+        alignItems: "center",
+        gap: widthPixel(8),
+    },
+    label_text: {
+        flexShrink: 1,
+    },
+    badge: {
+        backgroundColor: colors.danger,
+        borderRadius: heightPixel(4),
+        paddingHorizontal: widthPixel(6),
+        paddingVertical: heightPixel(2),
     },
 })

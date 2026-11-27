@@ -11,7 +11,7 @@ import { clearUserData } from "../../redux/slices/general.slice"
 const useMyProfileController = () => {
 
     const dispatch = useDispatch()
-    const { showConfirmModal } = useModal()
+    const { showConfirmModal, showInfoModal } = useModal()
 
     const onMyBusiness = useCallback(() => {
         navigate(ROUTES.MY_BUSINESSES)
@@ -28,6 +28,13 @@ const useMyProfileController = () => {
     const onReferrals = useCallback(() => {
         navigate(ROUTES.REFERRALS)
     }, [])
+
+    const onConnect = useCallback(() => {
+        showInfoModal({
+            title: "Coming Soon",
+            message: "Connect is coming soon. Stay tuned!",
+        })
+    }, [showInfoModal])
 
     const onChangePassword = useCallback(() => {
         navigate(ROUTES.CHANGE_PASSWORD)
@@ -74,6 +81,7 @@ const useMyProfileController = () => {
             onMyListings,
             onSavedBusinesses,
             onReferrals,
+            onConnect,
             onChangePassword,
             onAboutUs,
             onContactUs,

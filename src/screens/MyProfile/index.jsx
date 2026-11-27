@@ -51,6 +51,13 @@ const MyProfile = () => {
 
                 <MenuCard>
                     <ProfileMenuItem
+                        icon="users"
+                        label="Connect"
+                        badge="SOON"
+                        onPress={functions.onConnect}
+                    />
+                    <MenuDivider />
+                    <ProfileMenuItem
                         icon="lock-keyhole"
                         label="Change Password"
                         onPress={functions.onChangePassword}

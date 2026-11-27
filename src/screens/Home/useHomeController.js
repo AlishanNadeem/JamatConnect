@@ -1,28 +1,14 @@
+import { useFocusEffect } from "@react-navigation/native"
 import { useCallback } from "react"
-import { useDispatch, useSelector } from "react-redux"
 import { navigate } from "../../helpers/navigation"
 import { NAVIGATORS, ROUTES } from "../../helpers/routes"
-import { useGetActiveBillboardQuery } from "../../redux/apis/Billboard"
-import { useGetBusinessesQuery } from "../../redux/apis/Business"
+import { useGetActiveBillboardsQuery } from "../../redux/apis/Billboard"
 import { useGetBusinessCategoriesQuery } from "../../redux/apis/BusinessCategory"
-import { useGetJobsQuery } from "../../redux/apis/Job"
-import { useGetListingsQuery } from "../../redux/apis/Marketplace"
-import { useToggleSavedBusinessMutation, useToggleSavedJobMutation } from "../../redux/apis/User"
-import { selectSavedBusinessIds, selectSavedJobIds } from "../../redux/selectors"
-import { toggleSavedBusiness, toggleSavedJob } from "../../redux/slices/general.slice"
+import { useGetHomeCountsQuery } from "../../redux/apis/General"
 
-const HOME_PREVIEW_PARAMS = {
-    page: 1,
-    page_size: 5,
-}
+const toCount = (value) => (typeof value === "number" ? value : null)
 
 const useHomeController = () => {
-
-    const dispatch = useDispatch()
-    const saved_business_ids = useSelector(selectSavedBusinessIds)
-    const saved_job_ids = useSelector(selectSavedJobIds)
-    const [toggleSaved] = useToggleSavedBusinessMutation()
-    const [toggleSavedJobApi] = useToggleSavedJobMutation()
 
     const {
         data: categories_response,
@@ -30,42 +16,44 @@ const useHomeController = () => {
     } = useGetBusinessCategoriesQuery()
 
     const {
-        data: jobs_response,
-    } = useGetJobsQuery(HOME_PREVIEW_PARAMS)
+        data: counts_response,
+        refetch: refetch_counts,
+    } = useGetHomeCountsQuery()
 
     const {
-        data: listings_response,
-    } = useGetListingsQuery(HOME_PREVIEW_PARAMS)
+        data: billboards_response,
+    } = useGetActiveBillboardsQuery()
 
-    const {
-        data: businesses_response,
-    } = useGetBusinessesQuery(HOME_PREVIEW_PARAMS)
-
-    const {
-        data: billboard_response,
-    } = useGetActiveBillboardQuery()
+    // Home stays mounted as a tab, so refresh the counts each time it comes into view.
+    useFocusEffect(
+        useCallback(() => {
+            refetch_counts()
+        }, [refetch_counts])
+    )
 
     const categories = categories_response?.data ?? []
-    const jobs = jobs_response?.data ?? []
-    const listings = listings_response?.data ?? []
-    const businesses = businesses_response?.data ?? []
-    const billboard = billboard_response?.data ?? null
+    const billboards = (billboards_response?.data ?? []).filter((slot) => slot?.special)
+    const counts_data = counts_response?.data
+
+    const counts = {
+        specials: toCount(counts_data?.specials),
+        businesses: toCount(counts_data?.businesses),
+        jobs: toCount(counts_data?.jobs),
+        listings: toCount(counts_data?.listings),
+    }
 
     const onGrowCommunity = useCallback(() => {
         navigate(ROUTES.REFERRALS)
     }, [])
 
-    const onCategoryPress = useCallback((category) => {
-        navigate(NAVIGATORS.BOTTOM, {
-            screen: ROUTES.BUSINESSES,
-            params: {
-                category_id: category?.id ?? category?._id,
-            },
-        })
-    }, [])
-
     const onViewAllCategories = useCallback(() => {
         navigate(ROUTES.CATEGORIES)
+    }, [])
+
+    const onViewAllSpecials = useCallback(() => {
+        navigate(NAVIGATORS.BOTTOM, {
+            screen: ROUTES.SPECIALS,
+        })
     }, [])
 
     const onViewAllJobs = useCallback(() => {
@@ -86,64 +74,27 @@ const useHomeController = () => {
         })
     }, [])
 
-    const onJobPress = useCallback((item) => {
-        navigate(ROUTES.JOB_DETAILS, { _id: String(item._id) })
-    }, [])
-
-    const onListingPress = useCallback((item) => {
-        navigate(ROUTES.MARKETPLACE_DETAILS, { _id: item._id })
-    }, [])
-
-    const onBusinessPress = useCallback((business) => {
-        navigate(ROUTES.BUSINESS_DETAILS, { _id: business._id })
-    }, [])
-
-    const onBillboardPress = useCallback(() => {
-        const special_id = billboard?.special?._id
+    const onBillboardPress = useCallback((slot) => {
+        const special_id = slot?.special?._id
         if (!special_id) return
         navigate(ROUTES.SPECIAL_DETAILS, { _id: String(special_id) })
-    }, [billboard])
-
-    const onToggleSave = useCallback((business) => {
-        const id = String(business._id)
-        dispatch(toggleSavedBusiness(id))
-        toggleSaved(id).unwrap().catch(() => {
-            dispatch(toggleSavedBusiness(id))
-        })
-    }, [dispatch, toggleSaved])
-
-    const onToggleSaveJob = useCallback((job) => {
-        const id = String(job._id)
-        dispatch(toggleSavedJob(id))
-        toggleSavedJobApi(id).unwrap().catch(() => {
-            dispatch(toggleSavedJob(id))
-        })
-    }, [dispatch, toggleSavedJobApi])
+    }, [])
 
     return {
         values: {
             categories,
             categories_loading,
-            jobs,
-            listings,
-            businesses,
-            billboard,
-            saved_business_ids,
-            saved_job_ids,
+            billboards,
+            counts,
         },
         functions: {
             onGrowCommunity,
-            onCategoryPress,
             onViewAllCategories,
+            onViewAllSpecials,
             onViewAllJobs,
             onViewAllListings,
             onViewAllBusinesses,
-            onJobPress,
-            onListingPress,
-            onBusinessPress,
             onBillboardPress,
-            onToggleSave,
-            onToggleSaveJob,
         },
     }
 }
