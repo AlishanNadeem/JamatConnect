@@ -6,10 +6,216 @@ import ReviewCard, { Stars } from "../../components/ReviewCard"
 import Row from "../../components/Row"
 import SpecialCard from "../../components/SpecialCard"
 import Text from "../../components/Text"
+import Touchable from "../../components/Touchable"
 import colors from "../../helpers/colors"
 import { GLOBAL_HORIZONTAL_PADDING, heightPixel, widthPixel } from "../../helpers/metrics"
 import PrimaryLayout from "../../layouts/PrimaryLayout"
 import useBusinessDetailsController from "./useBusinessDetailsController"
+
+const TABS = [
+    { key: "info", label: "Info" },
+    { key: "deals", label: "Deals" },
+    { key: "reviews", label: "Reviews" },
+]
+
+// Prototype-style tabs: equal widths, green underline on the active one.
+const TabBar = ({ tab, onChange, deals_count, review_count }) => (
+    <View style={styles.tabs}>
+        {TABS.map((item) => {
+            const active = item.key === tab
+            const count = item.key === "deals"
+                ? deals_count
+                : item.key === "reviews" ? review_count : 0
+            return (
+                <Touchable
+                    key={item.key}
+                    onPress={() => onChange(item.key)}
+                    style={[styles.tab, active && styles.tab_active]}
+                >
+                    <Text
+                        size={13}
+                        weight={active ? "semibold" : "regular"}
+                        color={active ? colors.primary : colors.dark_gray}
+                        align="center"
+                    >
+                        {item.label}{count ? ` (${count})` : ""}
+                    </Text>
+                </Touchable>
+            )
+        })}
+    </View>
+)
+
+const TabLoader = () => (
+    <View style={styles.tab_loader}>
+        <ActivityIndicator color={colors.primary} />
+    </View>
+)
+
+const InfoTab = ({ values, functions }) => {
+
+    const has_content = values.description || values.contact_items.length || values.hours.length
+
+    if (!has_content) {
+        return (
+            <Empty
+                title="No Details Yet"
+                description="This business hasn't added its details yet."
+            />
+        )
+    }
+
+    return (
+        <>
+            {values.description ? (
+                <View style={styles.block}>
+                    <Text size={13} weight="bold">
+                        About
+                    </Text>
+                    <Text size={14} color={colors.dark_gray} style={styles.about_text}>
+                        {values.description}
+                    </Text>
+                </View>
+            ) : null}
+
+            {values.contact_items.length ? (
+                <View style={styles.block}>
+                    <Text size={13} weight="bold">
+                        Contact
+                    </Text>
+                    <View style={styles.contact_list}>
+                        {values.contact_items.map((item) => (
+                            <Row
+                                key={item.icon}
+                                align="center"
+                                gap={12}
+                                onPress={item.url ? () => functions.onOpenLink(item.url) : undefined}
+                                style={styles.contact_row}
+                            >
+                                <Icon
+                                    name={item.icon}
+                                    size={40}
+                                    space
+                                    rounded="half"
+                                    background={colors.lightest_primary}
+                                    color={colors.primary}
+                                />
+                                <View style={styles.contact_content}>
+                                    <Text size={12} color={colors.gray}>
+                                        {item.title}
+                                    </Text>
+                                    <Text size={14} weight="semibold" lines={2}>
+                                        {item.label}
+                                    </Text>
+                                </View>
+                                {item.url ? (
+                                    <Icon name="chevron-right" size={16} color={colors.gray} />
+                                ) : null}
+                            </Row>
+                        ))}
+                    </View>
+                </View>
+            ) : null}
+
+            {values.hours.length ? (
+                <View style={styles.block}>
+                    <Text size={13} weight="bold">
+                        Hours
+                    </Text>
+                    <View style={styles.hours_list}>
+                        {values.hours.map((hour) => {
+                            const is_today = hour.day === values.today
+
+                            return (
+                                <Row
+                                    key={hour.day}
+                                    align="center"
+                                    justify="space-between"
+                                    style={[styles.hour_row, is_today && styles.hour_row_today]}
+                                >
+                                    <Text
+                                        size={13}
+                                        weight="semibold"
+                                        capitalize
+                                        color={is_today ? colors.primary : colors.black}
+                                    >
+                                        {hour.day}
+                                    </Text>
+                                    <Text
+                                        size={13}
+                                        weight={is_today ? "semibold" : "regular"}
+                                        color={hour.closed ? colors.danger : colors.dark_gray}
+                                    >
+                                        {hour.closed ? "Closed" : `${hour.open} - ${hour.close}`}
+                                    </Text>
+                                </Row>
+                            )
+                        })}
+                    </View>
+                </View>
+            ) : null}
+        </>
+    )
+}
+
+const DealsTab = ({ values, functions }) => {
+
+    if (values.specials_loading) return <TabLoader />
+
+    if (!values.specials.length) {
+        return (
+            <Empty
+                title="No Live Specials"
+                description="This business has no live specials right now."
+            />
+        )
+    }
+
+    return (
+        <View style={styles.list}>
+            {values.specials.map((special) => (
+                <SpecialCard
+                    key={String(special._id)}
+                    data={special}
+                    onPress={() => functions.onSpecialPress(special)}
+                />
+            ))}
+        </View>
+    )
+}
+
+const ReviewsTab = ({ values }) => {
+
+    if (values.reviews_loading) return <TabLoader />
+
+    if (!values.reviews.length) {
+        return (
+            <Empty
+                title="No Reviews Yet"
+                description="Reviews will appear here after customers scan the business's review QR."
+            />
+        )
+    }
+
+    return (
+        <>
+            <Row align="center" gap={8} style={styles.review_summary}>
+                <Text size={22} weight="bold">
+                    {values.rating_average}
+                </Text>
+                <Stars rating={Math.round(Number(values.rating_average))} size={16} />
+                <Text size={13} color={colors.gray}>
+                    {values.review_count} {values.review_count === 1 ? "review" : "reviews"}
+                </Text>
+            </Row>
+            <View style={styles.list}>
+                {values.reviews.map((review, index) => (
+                    <ReviewCard key={review.id ?? review._id ?? index} data={review} />
+                ))}
+            </View>
+        </>
+    )
+}
 
 const BusinessDetails = () => {
 
@@ -122,146 +328,19 @@ const BusinessDetails = () => {
                         </Text>
                     </Row>
                 </View>
+            </View>
 
-                {values.description ? (
-                    <View style={styles.block}>
-                        <Text size={13} weight="bold">
-                            About
-                        </Text>
-                        <Text size={14} color={colors.dark_gray} style={styles.about_text}>
-                            {values.description}
-                        </Text>
-                    </View>
-                ) : null}
+            <TabBar
+                tab={values.tab}
+                onChange={functions.onTabChange}
+                deals_count={values.specials.length}
+                review_count={values.review_count}
+            />
 
-                {values.contact_items.length ? (
-                    <View style={styles.block}>
-                        <Text size={13} weight="bold">
-                            Contact
-                        </Text>
-                        <View style={styles.contact_list}>
-                            {values.contact_items.map((item) => (
-                                <Row
-                                    key={item.icon}
-                                    align="center"
-                                    gap={12}
-                                    onPress={item.url ? () => functions.onOpenLink(item.url) : undefined}
-                                    style={styles.contact_row}
-                                >
-                                    <Icon
-                                        name={item.icon}
-                                        size={40}
-                                        space
-                                        rounded="half"
-                                        background={colors.lightest_primary}
-                                        color={colors.primary}
-                                    />
-                                    <View style={styles.contact_content}>
-                                        <Text size={12} color={colors.gray}>
-                                            {item.title}
-                                        </Text>
-                                        <Text size={14} weight="semibold" lines={2}>
-                                            {item.label}
-                                        </Text>
-                                    </View>
-                                    {item.url ? (
-                                        <Icon name="chevron-right" size={16} color={colors.gray} />
-                                    ) : null}
-                                </Row>
-                            ))}
-                        </View>
-                    </View>
-                ) : null}
-
-                {values.hours.length ? (
-                    <View style={styles.block}>
-                        <Text size={13} weight="bold">
-                            Hours
-                        </Text>
-                        <View style={styles.hours_list}>
-                            {values.hours.map((hour) => {
-                                const is_today = hour.day === values.today
-
-                                return (
-                                    <Row
-                                        key={hour.day}
-                                        align="center"
-                                        justify="space-between"
-                                        style={[styles.hour_row, is_today && styles.hour_row_today]}
-                                    >
-                                        <Text
-                                            size={13}
-                                            weight="semibold"
-                                            capitalize
-                                            color={is_today ? colors.primary : colors.black}
-                                        >
-                                            {hour.day}
-                                        </Text>
-                                        <Text
-                                            size={13}
-                                            weight={is_today ? "semibold" : "regular"}
-                                            color={hour.closed ? colors.danger : colors.dark_gray}
-                                        >
-                                            {hour.closed ? "Closed" : `${hour.open} - ${hour.close}`}
-                                        </Text>
-                                    </Row>
-                                )
-                            })}
-                        </View>
-                    </View>
-                ) : null}
-
-                {values.preview_specials.length ? (
-                    <View style={styles.block}>
-                        <Row align="center" justify="space-between">
-                            <Text size={13} weight="bold">
-                                Deals
-                            </Text>
-                            <Text
-                                size={13}
-                                weight="semibold"
-                                color={colors.primary}
-                                onPress={functions.onViewAllSpecials}
-                            >
-                                View All
-                            </Text>
-                        </Row>
-                        <View style={styles.reviews_list}>
-                            {values.preview_specials.map((special) => (
-                                <SpecialCard
-                                    key={String(special._id)}
-                                    data={special}
-                                    onPress={() => functions.onSpecialPress(special)}
-                                />
-                            ))}
-                        </View>
-                    </View>
-                ) : null}
-
-                {values.review_count ? (
-                    <View style={styles.block}>
-                        <Row align="center" justify="space-between">
-                            <Text size={13} weight="bold">
-                                Reviews
-                            </Text>
-                            {values.review_count > values.preview_reviews.length ? (
-                                <Text
-                                    size={13}
-                                    weight="semibold"
-                                    color={colors.primary}
-                                    onPress={functions.onViewAllReviews}
-                                >
-                                    View All
-                                </Text>
-                            ) : null}
-                        </Row>
-                        <View style={styles.reviews_list}>
-                            {values.preview_reviews.map((review) => (
-                                <ReviewCard key={review.id} data={review} background={colors.background} />
-                            ))}
-                        </View>
-                    </View>
-                ) : null}
+            <View style={styles.tab_body}>
+                {values.tab === "info" ? <InfoTab values={values} functions={functions} /> : null}
+                {values.tab === "deals" ? <DealsTab values={values} functions={functions} /> : null}
+                {values.tab === "reviews" ? <ReviewsTab values={values} /> : null}
             </View>
         </PrimaryLayout>
     )
@@ -293,7 +372,7 @@ const styles = StyleSheet.create({
     card: {
         marginTop: heightPixel(-36),
         marginHorizontal: GLOBAL_HORIZONTAL_PADDING,
-        marginBottom: heightPixel(24),
+        marginBottom: heightPixel(4),
         gap: heightPixel(20),
         paddingHorizontal: widthPixel(18),
         paddingBottom: heightPixel(20),
@@ -375,7 +454,36 @@ const styles = StyleSheet.create({
     hour_row_today: {
         backgroundColor: colors.lightest_primary,
     },
-    reviews_list: {
+    tabs: {
+        flexDirection: "row",
+        marginHorizontal: GLOBAL_HORIZONTAL_PADDING,
+        borderBottomWidth: heightPixel(1),
+        borderBottomColor: colors.light_gray,
+    },
+    tab: {
+        flex: 1,
+        paddingVertical: heightPixel(11),
+        borderBottomWidth: heightPixel(2),
+        borderBottomColor: colors.transparent,
+        marginBottom: -heightPixel(1),
+    },
+    tab_active: {
+        borderBottomColor: colors.primary,
+    },
+    tab_body: {
+        gap: heightPixel(20),
+        paddingHorizontal: GLOBAL_HORIZONTAL_PADDING,
+        paddingTop: heightPixel(16),
+        paddingBottom: heightPixel(24),
+    },
+    tab_loader: {
+        paddingVertical: heightPixel(40),
+        alignItems: "center",
+    },
+    list: {
         gap: heightPixel(10),
+    },
+    review_summary: {
+        width: "100%",
     },
 })

@@ -1,19 +1,20 @@
 import { useRoute } from "@react-navigation/native"
 import dayjs from "dayjs"
-import { useCallback, useEffect, useMemo, useRef } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Linking } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import colors from "../../helpers/colors"
 import { formatPhone, formatWebsite, getLocationLabel } from "../../helpers/general"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
-import { useGetBusinessByIdQuery, useRecordBusinessViewMutation } from "../../redux/apis/Business"
+import { useGetBusinessByIdQuery, useGetBusinessReviewsQuery, useRecordBusinessViewMutation } from "../../redux/apis/Business"
 import { useGetBusinessSpecialsQuery } from "../../redux/apis/Special"
 import { useToggleSavedBusinessMutation } from "../../redux/apis/User"
 import { selectSavedBusinessIds } from "../../redux/selectors"
 import { toggleSavedBusiness } from "../../redux/slices/general.slice"
 
-const PREVIEW_COUNT = 2
+export const BUSINESS_TABS = ["info", "deals", "reviews"]
+const REVIEWS_PAGE_SIZE = 50
 
 const useBusinessDetailsController = () => {
 
@@ -32,8 +33,24 @@ const useBusinessDetailsController = () => {
         isSuccess,
     } = useGetBusinessByIdQuery(id, { skip: !id })
 
-    const { data: specials_response } = useGetBusinessSpecialsQuery(
-        { id, page_size: PREVIEW_COUNT },
+    // `tab` param lets other screens open a tab directly (e.g. the owner's "View all reviews").
+    const [tab, setTab] = useState(BUSINESS_TABS.includes(params?.tab) ? params.tab : "info")
+
+    useEffect(() => {
+        if (BUSINESS_TABS.includes(params?.tab)) setTab(params.tab)
+    }, [params?.tab])
+
+    // The endpoint returns only live specials; no page_size returns them all.
+    const {
+        data: specials_response,
+        isLoading: specials_loading,
+    } = useGetBusinessSpecialsQuery({ id }, { skip: !id })
+
+    const {
+        data: reviews_response,
+        isLoading: reviews_loading,
+    } = useGetBusinessReviewsQuery(
+        { id, page: 1, page_size: REVIEWS_PAGE_SIZE },
         { skip: !id },
     )
 
@@ -60,7 +77,6 @@ const useBusinessDetailsController = () => {
         hours = [],
         review_count = 0,
         average_rating = 0,
-        reviews = [],
     } = business
 
     const phone_label = formatPhone(dialing_code, phone)
@@ -130,22 +146,12 @@ const useBusinessDetailsController = () => {
     }, [])
 
     const rating_average = Number(average_rating || 0).toFixed(1)
-    const preview_reviews = (Array.isArray(reviews) ? reviews : []).slice(0, PREVIEW_COUNT)
-    const preview_specials = Array.isArray(specials_response?.data)
-        ? specials_response.data.slice(0, PREVIEW_COUNT)
-        : []
-
-    const onViewAllReviews = useCallback(() => {
-        navigate(ROUTES.BUSINESS_REVIEWS, { _id: id })
-    }, [id])
+    const specials = Array.isArray(specials_response?.data) ? specials_response.data : []
+    const reviews = Array.isArray(reviews_response?.data) ? reviews_response.data : []
 
     const onSpecialPress = useCallback((special) => {
         if (!special?._id) return
         navigate(ROUTES.SPECIAL_DETAILS, { _id: String(special._id) })
-    }, [])
-
-    const onViewAllSpecials = useCallback(() => {
-        navigate(ROUTES.SPECIALS)
     }, [])
 
     const saved = saved_business_ids.includes(String(id))
@@ -171,8 +177,11 @@ const useBusinessDetailsController = () => {
             today,
             today_status,
             contact_items,
-            preview_reviews,
-            preview_specials,
+            tab,
+            specials,
+            specials_loading,
+            reviews,
+            reviews_loading,
             review_count: Number(review_count || 0),
             rating_average,
             saved,
@@ -181,9 +190,8 @@ const useBusinessDetailsController = () => {
         },
         functions: {
             onOpenLink,
-            onViewAllReviews,
+            onTabChange: setTab,
             onSpecialPress,
-            onViewAllSpecials,
             onToggleSave,
         },
     }

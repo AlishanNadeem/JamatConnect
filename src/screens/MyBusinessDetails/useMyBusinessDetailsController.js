@@ -209,8 +209,9 @@ const useMyBusinessDetailsController = () => {
         Linking.openURL(url)
     }, [])
 
+    // Opens the public business page on its Reviews tab.
     const onViewAllReviews = useCallback(() => {
-        navigate(ROUTES.BUSINESS_REVIEWS, { _id: id })
+        navigate(ROUTES.BUSINESS_DETAILS, { _id: id, tab: "reviews" })
     }, [id])
 
     const onViewAllJobs = useCallback(() => {
