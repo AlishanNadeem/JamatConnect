@@ -3,7 +3,7 @@ import Badge from "../../components/Badge"
 import Button from "../../components/Button"
 import Empty from "../../components/Empty"
 import Icon from "../../components/Icon"
-import Image from "../../components/Image"
+import ImageGallery from "../../components/ImageGallery"
 import Row from "../../components/Row"
 import Text from "../../components/Text"
 import colors from "../../helpers/colors"
@@ -43,7 +43,11 @@ const MarketplaceDetails = () => {
 
     return (
         <PrimaryLayout scrollable header padding_horizontal={false}>
-            <Image source={{ uri: values.data.image_url }} style={styles.cover} />
+            <ImageGallery
+                images={values.data.image_urls?.length
+                    ? values.data.image_urls
+                    : [values.data.image_url].filter(Boolean)}
+            />
             <View style={styles.content}>
                 <Row align="center" justify="space-between" gap={8}>
                     {values.data.category?.name ? (
@@ -230,11 +234,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-    },
-    cover: {
-        width: "100%",
-        height: heightPixel(240),
-        backgroundColor: colors.white,
     },
     content: {
         gap: heightPixel(10),

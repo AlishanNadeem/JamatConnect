@@ -63,9 +63,7 @@ const useHomeController = () => {
     }, [])
 
     const onViewAllListings = useCallback(() => {
-        navigate(NAVIGATORS.BOTTOM, {
-            screen: ROUTES.MARKETPLACE,
-        })
+        navigate(ROUTES.MARKETPLACE)
     }, [])
 
     const onViewAllBusinesses = useCallback(() => {

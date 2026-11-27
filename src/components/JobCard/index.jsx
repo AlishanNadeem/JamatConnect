@@ -36,61 +36,69 @@ const JobCard = ({ data, saved = false, onPress, onSave }) => {
 
     return (
         <Touchable onPress={onPress} style={styles.container}>
-            <Icon
-                rounded="half"
-                source={{ uri: business?.logo_url }}
-                size={56}
-                resize="cover"
-                background={colors.background}
-            />
-            <View style={styles.content}>
-                <Row align="center" justify="space-between" gap={8} style={styles.title_row}>
-                    <Text size={15} weight="bold" lines={1} style={styles.title}>
-                        {title}
-                    </Text>
-                    {closed ? (
-                        <Badge type="dot" label="Closed" mode="danger" />
-                    ) : applied ? (
-                        <Badge type="dot" label="Applied" mode="muted" />
-                    ) : null}
-                    {onSave ? (
-                        <Icon
-                            name="bookmark"
-                            size={22}
-                            color={saved ? colors.primary : colors.gray}
-                            onPress={onSave}
-                        />
-                    ) : null}
-                </Row>
-                {
-                    business?.name ? (
-                        <Text size={12} weight="semibold" color={colors.primary} lines={1}>
-                            {business?.name}
+            <View style={styles.top}>
+                <Icon
+                    rounded="half"
+                    source={{ uri: business?.logo_url }}
+                    size={56}
+                    resize="cover"
+                    background={colors.background}
+                />
+                <View style={styles.content}>
+                    <Row align="center" justify="space-between" gap={8} style={styles.title_row}>
+                        <Text size={15} weight="bold" lines={1} style={styles.title}>
+                            {title}
                         </Text>
-                    ) : null
-                }
-                {location ? (
-                    <Row align="center" gap={4} style={styles.location_row}>
-                        <Icon name="map-pin" size={13} color={colors.gray} />
-                        <Text size={12} color={colors.gray} lines={1} style={styles.location}>
-                            {location}
-                        </Text>
+                        {closed ? (
+                            <Badge type="dot" label="Closed" mode="danger" />
+                        ) : applied ? (
+                            <Badge type="dot" label="Applied" mode="muted" />
+                        ) : null}
                     </Row>
-                ) : null}
-                <Row align="center" gap={10} style={styles.meta_row}>
-                    {employment_type_label ? (
-                        <Badge label={employment_type_label} mode="light_primary" />
+                    {
+                        business?.name ? (
+                            <Text size={12} weight="semibold" color={colors.primary} lines={1}>
+                                {business?.name}
+                            </Text>
+                        ) : null
+                    }
+                    {location ? (
+                        <Row align="center" gap={4} style={styles.location_row}>
+                            <Icon name="map-pin" size={13} color={colors.gray} />
+                            <Text size={12} color={colors.gray} lines={1} style={styles.location}>
+                                {location}
+                            </Text>
+                        </Row>
                     ) : null}
-                    {workplace_type_label ? (
-                        <Badge label={workplace_type_label} mode="light_primary" />
-                    ) : null}
-                </Row>
-                {posted_at ? (
-                    <Text size={11} color={colors.gray} align="right">
-                        Posted {posted_at}
-                    </Text>
-                ) : null}
+                    <Row align="center" gap={10} style={styles.meta_row}>
+                        {employment_type_label ? (
+                            <Badge label={employment_type_label} mode="light_primary" />
+                        ) : null}
+                        {workplace_type_label ? (
+                            <Badge label={workplace_type_label} mode="light_primary" />
+                        ) : null}
+                    </Row>
+                </View>
             </View>
+            {posted_at || onSave ? (
+                <View style={styles.footer}>
+                    <Text size={11} color={colors.gray}>
+                        {posted_at ? `Posted ${posted_at}` : ""}
+                    </Text>
+                    {onSave ? (
+                        <Touchable onPress={onSave} style={styles.save}>
+                            <Icon
+                                name={saved ? "bookmark-check" : "bookmark"}
+                                size={14}
+                                color={colors.primary}
+                            />
+                            <Text size={12} weight="semibold" color={colors.primary}>
+                                {saved ? "Saved" : "Save"}
+                            </Text>
+                        </Touchable>
+                    ) : null}
+                </View>
+            ) : null}
         </Touchable>
     )
 }
@@ -99,17 +107,36 @@ export default memo(JobCard)
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: "row",
-        gap: widthPixel(12),
         padding: widthPixel(12),
         borderRadius: heightPixel(16),
         backgroundColor: colors.white,
         borderWidth: heightPixel(1),
         borderColor: colors.light_gray,
     },
+    top: {
+        flexDirection: "row",
+        gap: widthPixel(12),
+    },
     content: {
         flex: 1,
         gap: heightPixel(6),
+    },
+    // Prototype footer: time on the left, Save on the right, under a divider.
+    footer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        marginTop: heightPixel(10),
+        paddingTop: heightPixel(8),
+        borderTopWidth: heightPixel(1),
+        borderTopColor: colors.light_gray,
+    },
+    save: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: widthPixel(4),
+        paddingVertical: heightPixel(2),
+        paddingLeft: widthPixel(8),
     },
     title_row: {
         width: "100%",

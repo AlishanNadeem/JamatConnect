@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { navigate } from "../../helpers/navigation"
 import { ROUTES } from "../../helpers/routes"
 import useSearch from "../../hooks/useSearch"
-import useToggle from "../../hooks/useToggle"
 import { useGetBusinessesQuery } from "../../redux/apis/Business"
 import { useGetBusinessCategoriesQuery } from "../../redux/apis/BusinessCategory"
 import { useToggleSavedBusinessMutation } from "../../redux/apis/User"
@@ -19,7 +18,6 @@ const useBusinessesController = () => {
 
     const { params } = useRoute()
     const { search, debounced, onChange } = useSearch()
-    const { value: filters_visible, set: setFiltersVisible } = useToggle()
     const [filters, setFilters] = useState(EMPTY_FILTERS)
 
     const dispatch = useDispatch()
@@ -28,14 +26,12 @@ const useBusinessesController = () => {
 
     const { data: categories_response, isLoading: categories_loading } = useGetBusinessCategoriesQuery()
 
-    const categories = categories_response?.data ?? []
-
     const category_options = useMemo(() =>
-        categories.map((category) => ({
+        (categories_response?.data ?? []).map((category) => ({
             label: category.name,
             value: String(category._id),
         })),
-        [categories])
+        [categories_response])
 
     const query_params = useMemo(() => {
         const query = {}
@@ -60,29 +56,18 @@ const useBusinessesController = () => {
         }))
     }, [params?.category_id])
 
-    const has_active_filters = Boolean(filters.category)
-    const has_filters = Boolean(debounced || has_active_filters)
+    const has_filters = Boolean(debounced || filters.category)
 
     const onRefresh = useCallback(() => {
         refetch()
     }, [refetch])
 
-    const onOpenFilters = useCallback(() => {
-        setFiltersVisible(true)
-    }, [setFiltersVisible])
-
-    const onCloseFilters = useCallback(() => {
-        setFiltersVisible(false)
-    }, [setFiltersVisible])
-
-    const onApplyFilters = useCallback((next_filters) => {
-        setFilters({
-            category: next_filters?.category ? String(next_filters.category) : "",
-        })
-    }, [])
-
-    const onResetFilters = useCallback(() => {
-        setFilters(EMPTY_FILTERS)
+    // Category pills under the search bar; "" means All.
+    const onSelectCategory = useCallback((value) => {
+        setFilters((current) => ({
+            ...current,
+            category: value ? String(value) : "",
+        }))
     }, [])
 
     const onBusinessPress = useCallback((business) => {
@@ -102,8 +87,6 @@ const useBusinessesController = () => {
             data: data?.data ?? [],
             search,
             filters,
-            filters_visible,
-            has_active_filters,
             category_options,
             categories_loading,
             saved_business_ids,
@@ -128,10 +111,7 @@ const useBusinessesController = () => {
         functions: {
             onRefresh,
             onSearchChange: onChange,
-            onOpenFilters,
-            onCloseFilters,
-            onApplyFilters,
-            onResetFilters,
+            onSelectCategory,
             onBusinessPress,
             onToggleSave,
         },

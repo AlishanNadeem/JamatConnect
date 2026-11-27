@@ -3,7 +3,10 @@ import { Alert, Platform } from "react-native"
 import { launchCamera, launchImageLibrary } from "react-native-image-picker"
 import { check, openSettings, request, PERMISSIONS, RESULTS } from "react-native-permissions"
 
-const useImagePicker = ({ onImageSelected } = {}) => {
+// selection_limit > 1 lets the gallery pick several photos; onImageSelected then gets an array.
+const useImagePicker = ({ onImageSelected, selection_limit = 1 } = {}) => {
+
+    const multiple = selection_limit > 1
 
     const [image, setImage] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -67,16 +70,19 @@ const useImagePicker = ({ onImageSelected } = {}) => {
             Alert.alert("Error", response.errorMessage || "Something went wrong.")
             return
         }
-        const asset = response.assets?.[0]
-        if (!asset) return
-        const selected = {
+        const assets = (response.assets ?? []).map((asset) => ({
             uri: asset.uri,
             name: asset.fileName,
             type: asset.type,
             size: asset.fileSize,
+        }))
+        if (!assets.length) return
+        if (multiple) {
+            onImageSelected?.(assets.slice(0, selection_limit))
+            return
         }
-        setImage(selected)
-        onImageSelected?.(selected)
+        setImage(assets[0])
+        onImageSelected?.(assets[0])
     }
 
     const openCamera = async () => {
@@ -106,7 +112,9 @@ const useImagePicker = ({ onImageSelected } = {}) => {
                 )
                 return
             }
-            const response = await launchImageLibrary(options)
+            const response = await launchImageLibrary(
+                multiple ? { ...options, selectionLimit: selection_limit } : options,
+            )
             handleResponse(response)
         } finally {
             setLoading(false)

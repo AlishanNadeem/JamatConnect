@@ -187,7 +187,7 @@ const useJobDetailsController = () => {
             employment_type_label: getOptionLabel(employment_types, job?.employment_type),
             workplace_type_label: getOptionLabel(workplace_types, job?.workplace_type),
             location_label: getLocationLabel({ location: job?.location, address: business?.address }),
-            apply_label: job?.applied ? "Applied" : job?.closed ? "Closed" : "Apply for job",
+            apply_label: job?.applied ? "Applied" : job?.closed ? "Job closed" : "Apply now",
             saved: saved_job_ids.includes(String(id)),
             saved_job_ids,
         },

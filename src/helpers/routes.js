@@ -1,6 +1,8 @@
 import HeaderLeft from "../components/Navigation/HeaderLeft"
 import HeaderTitle from "../components/Navigation/HeaderTitle"
 import NotificationsBell from "../components/Navigation/NotificationsBell"
+import SellButton from "../components/Navigation/SellButton"
+import { StyleSheet, View } from "react-native"
 import colors from "./colors"
 import { GLOBAL_HORIZONTAL_PADDING, HEADER_HEIGHT } from "./metrics"
 import { goBack } from "./navigation"
@@ -10,6 +12,21 @@ const headerBack = () => (
 )
 
 const headerNotifications = () => <NotificationsBell />
+
+const header_styles = StyleSheet.create({
+    right_group: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+    },
+})
+
+const headerSellAndNotifications = () => (
+    <View style={header_styles.right_group}>
+        <SellButton />
+        <NotificationsBell />
+    </View>
+)
 
 const withTitle = (title, { has_back_button = false } = {}) => ({
     headerTitle: ({ children }) => (
@@ -116,7 +133,7 @@ export const ROUTES_OPTIONS = {
     [ROUTES.SPECIALS]: tabScreen("Specials"),
     [ROUTES.BUSINESSES]: tabScreen("Businesses"),
     [ROUTES.JOBS]: tabScreen("Jobs"),
-    [ROUTES.MARKETPLACE]: tabScreen("Marketplace"),
+    [ROUTES.MARKETPLACE]: { ...backScreen("Marketplace"), headerRight: headerSellAndNotifications },
     [ROUTES.MY_PROFILE]: tabScreen("More Options"),
 
     // Stack screens with back

@@ -30,7 +30,7 @@ export const getLocationLabel = ({ location, address } = {}) =>
     || [address?.city, address?.state, address?.country].filter(Boolean).join(", ")
     || null
 
-const appendFormDataValue = (form_data, key, value) => {
+export const appendFormDataValue = (form_data, key, value) => {
 
     if (value === undefined || value === null) return
 

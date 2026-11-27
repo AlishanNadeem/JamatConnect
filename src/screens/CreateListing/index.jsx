@@ -4,9 +4,9 @@ import { ActivityIndicator, StyleSheet, View } from "react-native"
 import Button from "../../components/Button"
 import Dropdown from "../../components/Dropdown"
 import ImagePickerModal from "../../components/ImagePickerModal"
-import ImageUploader from "../../components/ImageUploader"
 import Input from "../../components/Input"
 import KeyboardAvoidingWrapper from "../../components/KeyboardAvoidingWrapper"
+import MultiImageUploader from "../../components/MultiImageUploader"
 import HeaderTitle from "../../components/Navigation/HeaderTitle"
 import colors from "../../helpers/colors"
 import { heightPixel } from "../../helpers/metrics"
@@ -41,15 +41,17 @@ const CreateListing = () => {
             <KeyboardAvoidingWrapper>
                 <View style={styles.container}>
                     <View style={styles.fields}>
-                        <ImageUploader
-                            title="Upload Listing Image"
-                            subtitle="PNG, JPG, Or JPEG — Max 5MB"
-                            label="Image"
+                        <MultiImageUploader
+                            label="Photos"
                             required
-                            onPress={functions.toggleImageModal}
-                            image={formik.values.image}
-                            onRemove={() => formik.setFieldValue("image", null)}
-                            error={formik.touched.image && formik.errors.image}
+                            images={formik.values.images}
+                            max={values.max_images}
+                            onAdd={functions.toggleImageModal}
+                            onRemove={functions.onRemoveImage}
+                            hint="The first photo is the cover. PNG, JPG or JPEG, max 5MB each."
+                            error={formik.touched.images && typeof formik.errors.images === "string"
+                                ? formik.errors.images
+                                : undefined}
                         />
                         <Input
                             required

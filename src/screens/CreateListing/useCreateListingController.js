@@ -3,7 +3,7 @@ import { useFormik } from "formik"
 import { useEffect, useMemo } from "react"
 import * as Yup from "yup"
 import { useModal } from "../../contexts/ModalContext"
-import { convertToFormData } from "../../helpers/general"
+import { appendFormDataValue, convertToFormData } from "../../helpers/general"
 import { goBack } from "../../helpers/navigation"
 import useImagePicker from "../../hooks/useImagePicker"
 import useToggle from "../../hooks/useToggle"
@@ -14,12 +14,16 @@ import {
 } from "../../redux/apis/Marketplace"
 import { useGetProductCategoriesQuery } from "../../redux/apis/ProductCategory"
 
-const file_schema = Yup.mixed()
-    .required("Image is required")
-    .test("file", "Please upload an image", (value) => Boolean(value?.uri || (typeof value === "string" && value)))
+export const MAX_LISTING_IMAGES = 10
+
+// Each photo is either a new pick ({ uri, type, name }) or one already saved ({ uri, path }).
+const images_schema = Yup.array()
+    .of(Yup.object({ uri: Yup.string().required() }))
+    .min(1, "Add at least one photo")
+    .max(MAX_LISTING_IMAGES, `You can add up to ${MAX_LISTING_IMAGES} photos`)
 
 const create_listing_schema = Yup.object({
-    image: file_schema,
+    images: images_schema,
     name: Yup.string()
         .min(2, "Name must be at least 2 characters")
         .max(100, "Name must not exceed 100 characters")
@@ -43,7 +47,7 @@ const empty_initial = {
     description: "",
     category: null,
     price: "",
-    image: null,
+    images: [],
 }
 
 const useCreateListingController = () => {
@@ -75,7 +79,12 @@ const useCreateListingController = () => {
 
         if (!listing) return empty_initial
 
-        const image_url = listing.image_url || listing.image
+        // Older listings have only `image`; newer ones have `images` with matching `image_urls`.
+        const paths = listing.images?.length ? listing.images : [listing.image].filter(Boolean)
+        const urls = listing.image_urls?.length ? listing.image_urls : [listing.image_url].filter(Boolean)
+        const images = paths
+            .map((path, index) => ({ path, uri: urls[index] }))
+            .filter((image) => image.uri)
 
         return {
             name: listing.name || "",
@@ -86,7 +95,7 @@ const useCreateListingController = () => {
                     ? listing.category
                     : null,
             price: listing.price != null ? String(listing.price) : "",
-            image: image_url ? { uri: image_url } : null,
+            images,
         }
 
     }, [listing])
@@ -104,11 +113,17 @@ const useCreateListingController = () => {
                 price: Number(values.price),
             }
 
-            if (!is_edit || values.image?.type) {
-                payload_values.image = values.image
-            }
-
             const payload = convertToFormData(payload_values)
+
+            // New photos are uploaded as `images`; on edit, `kept_images` lists the saved ones to keep.
+            values.images
+                .filter((image) => !image.path)
+                .forEach((image) => appendFormDataValue(payload, "images", image))
+
+            if (is_edit) {
+                const kept = values.images.filter((image) => image.path).map((image) => image.path)
+                payload.append("kept_images", JSON.stringify(kept))
+            }
 
             if (is_edit) update({ id: listing_id, body: payload })
             else create(payload)
@@ -116,9 +131,22 @@ const useCreateListingController = () => {
         },
     })
 
+    const remaining_slots = Math.max(0, MAX_LISTING_IMAGES - formik.values.images.length)
+
     const { openCamera, openGallery } = useImagePicker({
-        onImageSelected: (selected) => formik.setFieldValue("image", selected),
+        selection_limit: Math.max(remaining_slots, 2),
+        onImageSelected: (selected) => {
+            const picked = (Array.isArray(selected) ? selected : [selected]).filter(Boolean)
+            const next = [...formik.values.images, ...picked].slice(0, MAX_LISTING_IMAGES)
+            formik.setFieldValue("images", next)
+            formik.setFieldTouched("images", true, false)
+        },
     })
+
+    const onRemoveImage = (index) => {
+        formik.setFieldValue("images", formik.values.images.filter((_, i) => i !== index))
+        formik.setFieldTouched("images", true, false)
+    }
 
     useEffect(() => {
         if (is_created || is_updated) {
@@ -141,8 +169,10 @@ const useCreateListingController = () => {
             image_modal,
             category_options,
             categories_loading,
+            max_images: MAX_LISTING_IMAGES,
         },
         functions: {
+            onRemoveImage,
             toggleImageModal,
             openCamera,
             openGallery,

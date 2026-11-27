@@ -25,6 +25,12 @@ const MyProfile = () => {
 
                 <MenuCard>
                     <ProfileMenuItem
+                        icon="shopping-cart"
+                        label="Marketplace"
+                        onPress={functions.onMarketplace}
+                    />
+                    <MenuDivider />
+                    <ProfileMenuItem
                         icon="store"
                         label="My Businesses"
                         onPress={functions.onMyBusiness}

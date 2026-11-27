@@ -51,13 +51,10 @@ const useMarketplaceController = () => {
         refetch,
     } = useGetListingsQuery(query_params)
 
-    const has_active_filters = Boolean(
-        filters.category ||
-        filters.min_price ||
-        filters.max_price,
-    )
+    // The sheet now holds only price, so the filter icon reflects price alone.
+    const has_active_filters = Boolean(filters.min_price || filters.max_price)
 
-    const has_filters = Boolean(debounced || has_active_filters)
+    const has_filters = Boolean(debounced || filters.category || has_active_filters)
 
     const onRefresh = useCallback(() => {
         refetch()
@@ -72,15 +69,27 @@ const useMarketplaceController = () => {
     }, [setFiltersVisible])
 
     const onApplyFilters = useCallback((next_filters) => {
-        setFilters({
-            category: next_filters?.category ? String(next_filters.category) : "",
+        setFilters((current) => ({
+            ...current,
             min_price: next_filters?.min_price ?? "",
             max_price: next_filters?.max_price ?? "",
-        })
+        }))
     }, [])
 
     const onResetFilters = useCallback(() => {
-        setFilters(EMPTY_FILTERS)
+        setFilters((current) => ({
+            ...current,
+            min_price: EMPTY_FILTERS.min_price,
+            max_price: EMPTY_FILTERS.max_price,
+        }))
+    }, [])
+
+    // Category pills under the search bar; "" means All.
+    const onSelectCategory = useCallback((value) => {
+        setFilters((current) => ({
+            ...current,
+            category: value ? String(value) : "",
+        }))
     }, [])
 
     const onListingPress = useCallback((item) => {
@@ -121,6 +130,7 @@ const useMarketplaceController = () => {
             onCloseFilters,
             onApplyFilters,
             onResetFilters,
+            onSelectCategory,
             onListingPress,
         },
     }

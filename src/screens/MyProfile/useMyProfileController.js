@@ -13,6 +13,10 @@ const useMyProfileController = () => {
     const dispatch = useDispatch()
     const { showConfirmModal, showInfoModal } = useModal()
 
+    const onMarketplace = useCallback(() => {
+        navigate(ROUTES.MARKETPLACE)
+    }, [])
+
     const onMyBusiness = useCallback(() => {
         navigate(ROUTES.MY_BUSINESSES)
     }, [])
@@ -78,6 +82,7 @@ const useMyProfileController = () => {
     return {
         functions: {
             onMyBusiness,
+            onMarketplace,
             onMyListings,
             onSavedBusinesses,
             onReferrals,

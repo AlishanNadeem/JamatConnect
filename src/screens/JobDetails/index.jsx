@@ -4,7 +4,7 @@ import Button from "../../components/Button"
 import Empty from "../../components/Empty"
 import FlatList from "../../components/FlatList"
 import Icon from "../../components/Icon"
-import JobCard from "../../components/JobCard"
+// import JobCard from "../../components/JobCard" // used by the hidden "More Jobs Like This" section
 import Row from "../../components/Row"
 import Text from "../../components/Text"
 import Touchable from "../../components/Touchable"
@@ -42,52 +42,69 @@ const JobDetails = () => {
         )
     }
 
-    const { data: job, business, is_mine, applicants, similar_jobs } = values
+    const { data: job, business, is_mine, applicants } = values
+
+    // Prototype apply bar: save toggle beside a full-width Apply button, fixed to the bottom.
+    const apply_bar = !is_mine ? (
+        <Row align="center" gap={10}>
+            <Touchable
+                onPress={() => functions.onToggleSave()}
+                style={[styles.save_button, values.saved && styles.save_button_on]}
+            >
+                <Icon
+                    name={values.saved ? "bookmark-check" : "bookmark"}
+                    size={20}
+                    color={colors.primary}
+                />
+            </Touchable>
+            <View style={styles.apply_button}>
+                <Button
+                    type={job.applied || job.closed ? "muted" : "primary"}
+                    disabled={job.applied || job.closed}
+                    loading={values.is_applying}
+                    onPress={functions.onApply}
+                >
+                    {values.apply_label}
+                </Button>
+            </View>
+        </Row>
+    ) : null
 
     return (
-        <PrimaryLayout scrollable header>
+        <PrimaryLayout scrollable header footer={apply_bar}>
             <View style={styles.content}>
                 <View style={styles.card}>
                     {business ? (
-                        <Touchable onPress={functions.onViewBusiness} style={styles.company_row}>
-                            <Icon
-                                rounded="half"
-                                source={{ uri: business.logo_url }}
-                                size={56}
-                                resize="cover"
-                                background={colors.background}
-                            />
-                            <View style={styles.company_text}>
-                                <Text size={15} weight="semibold" color={colors.primary} lines={1}>
-                                    {business.name}
-                                </Text>
-                                {business.category?.name ? (
-                                    <Text size={12} color={colors.gray} lines={1}>
-                                        {business.category.name}
-                                    </Text>
-                                ) : null}
-                            </View>
-                        </Touchable>
+                        <Icon
+                            rounded="half"
+                            source={{ uri: business.logo_url }}
+                            size={56}
+                            resize="cover"
+                            background={colors.background}
+                            onPress={functions.onViewBusiness}
+                        />
                     ) : null}
 
-                    <Row align="center" gap={12} style={styles.title_row}>
-                        <Text size={24} weight="bold" style={styles.title}>
+                    <View style={styles.title_block}>
+                        <Text size={24} weight="bold">
                             {job.title}
                         </Text>
-                        {!is_mine ? (
-                            <Icon
-                                name="bookmark"
-                                size={26}
-                                color={values.saved ? colors.primary : colors.gray}
-                                onPress={() => functions.onToggleSave()}
-                            />
+                        {business ? (
+                            <Touchable onPress={functions.onViewBusiness} style={styles.business_link}>
+                                <Text size={15} weight="semibold" color={colors.primary} lines={1} style={styles.business_name}>
+                                    {business.name}
+                                </Text>
+                            </Touchable>
                         ) : null}
-                    </Row>
+                    </View>
 
                     {values.location_label ? (
-                        <Text size={14} color={colors.dark_gray}>
-                            {values.location_label}
-                        </Text>
+                        <View style={styles.location_row}>
+                            <Icon name="map-pin" size={16} color={colors.dark_gray} />
+                            <Text size={14} color={colors.dark_gray} style={styles.location_text}>
+                                {values.location_label}
+                            </Text>
+                        </View>
                     ) : null}
 
                     {job.createdAt ? (
@@ -108,20 +125,6 @@ const JobDetails = () => {
                         ) : null}
                     </View>
 
-                    {!is_mine ? (
-                        <View style={styles.button_wrap}>
-                            <Button
-                                size="sm"
-                                style={styles.compact_button}
-                                type={job.applied ? "muted" : "primary"}
-                                disabled={job.applied || job.closed}
-                                loading={values.is_applying}
-                                onPress={functions.onApply}
-                            >
-                                {values.apply_label}
-                            </Button>
-                        </View>
-                    ) : null}
                 </View>
 
                 {is_mine ? (
@@ -158,7 +161,7 @@ const JobDetails = () => {
                 ) : null}
 
                 {job.description ? (
-                    <View style={styles.card}>
+                    <View style={[styles.card, styles.card_divided]}>
                         <Text weight="bold">About the job</Text>
                         <Text size={14} color={colors.dark_gray} style={styles.body_text}>
                             {job.description}
@@ -166,6 +169,7 @@ const JobDetails = () => {
                     </View>
                 ) : null}
 
+                {/* About the business (hidden for now)
                 {business ? (
                     <View style={styles.card}>
                         <Text weight="bold">About the business</Text>
@@ -186,6 +190,7 @@ const JobDetails = () => {
                         </View>
                     </View>
                 ) : null}
+                */}
 
                 {is_mine && applicants.length ? (
                     <View style={styles.section}>
@@ -213,6 +218,7 @@ const JobDetails = () => {
                     </View>
                 ) : null}
 
+                {/* More Jobs Like This (hidden for now)
                 {similar_jobs.length ? (
                     <View style={styles.section}>
                         <Text size={18} weight="semibold">
@@ -233,6 +239,7 @@ const JobDetails = () => {
                         />
                     </View>
                 ) : null}
+                */}
             </View>
         </PrimaryLayout>
     )
@@ -251,28 +258,36 @@ const styles = StyleSheet.create({
         paddingVertical: heightPixel(8),
         paddingBottom: heightPixel(24),
     },
+    // Flat sections on the page background, as in the prototype.
     card: {
         gap: heightPixel(10),
-        padding: widthPixel(14),
-        borderRadius: heightPixel(16),
-        backgroundColor: colors.white,
-        borderWidth: heightPixel(1),
-        borderColor: colors.light_gray,
+        paddingVertical: heightPixel(4),
     },
-    title_row: {
-        width: "100%",
+    card_divided: {
+        paddingTop: heightPixel(16),
+        borderTopWidth: heightPixel(1),
+        borderTopColor: colors.light_gray,
     },
-    title: {
-        flex: 1,
+    title_block: {
+        gap: heightPixel(4),
     },
-    company_row: {
+    business_link: {
         flexDirection: "row",
         alignItems: "center",
-        gap: widthPixel(12),
+        alignSelf: "flex-start",
+        maxWidth: "100%",
+        paddingVertical: heightPixel(2),
     },
-    company_text: {
+    business_name: {
+        flexShrink: 1,
+    },
+    location_row: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: widthPixel(6),
+    },
+    location_text: {
         flex: 1,
-        gap: heightPixel(2),
     },
     chips: {
         flexDirection: "row",
@@ -287,6 +302,23 @@ const styles = StyleSheet.create({
         minWidth: widthPixel(120),
     },
     action_button: {
+        flex: 1,
+    },
+    save_button: {
+        width: heightPixel(52),
+        height: heightPixel(52),
+        borderRadius: heightPixel(8),
+        borderWidth: 1,
+        borderColor: colors.light_gray,
+        backgroundColor: colors.white,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    save_button_on: {
+        borderColor: colors.primary,
+        backgroundColor: colors.lightest_primary,
+    },
+    apply_button: {
         flex: 1,
     },
     owner_actions: {

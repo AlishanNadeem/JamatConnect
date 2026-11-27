@@ -1,4 +1,5 @@
 import { StyleSheet, View } from "react-native"
+import CategoryPills from "../../components/CategoryPills"
 import FlatList from "../../components/FlatList"
 import Icon from "../../components/Icon"
 import Input from "../../components/Input"
@@ -14,7 +15,7 @@ const Marketplace = () => {
     const { values, functions } = useMarketplaceController()
 
     return (
-        <PrimaryLayout header bottom_tab>
+        <PrimaryLayout header>
             <View style={styles.container}>
                 <View style={styles.search_row}>
                     <View style={styles.search_input}>
@@ -41,6 +42,11 @@ const Marketplace = () => {
                         ) : null}
                     </View>
                 </View>
+                <CategoryPills
+                    options={values.category_options}
+                    selected={values.filters.category}
+                    onSelect={functions.onSelectCategory}
+                />
                 <FlatList
                     data={values.data}
                     numColumns={2}
@@ -66,8 +72,6 @@ const Marketplace = () => {
                 onApply={functions.onApplyFilters}
                 onReset={functions.onResetFilters}
                 filters={values.filters}
-                category_options={values.category_options}
-                categories_loading={values.categories_loading}
             />
         </PrimaryLayout>
     )
